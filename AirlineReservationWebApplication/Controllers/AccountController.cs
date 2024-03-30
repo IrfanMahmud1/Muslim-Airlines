@@ -28,12 +28,13 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterViewModel obj)
         {
-            if (obj.Email== obj.Password )
-            {
-                ModelState.AddModelError("password", "The password cannot match the Email");
-            }
             if (ModelState.IsValid)
             {
+                if (obj.Email == obj.Password)
+                {
+                    ModelState.AddModelError("password", "The password cannot match the Email");
+                    return View();
+                }
                 bool IsRegistered = _db.Users.Any(x => x.Email == obj.Email);
                 if (IsRegistered)
                 {
