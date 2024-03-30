@@ -1,0 +1,40 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+<partial name="_Notifications" />
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div class="border p-3 mt-4">
+                <div class="row pb-2">
+                    <h2>Log In</h2>
+                    <hr />
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control mt-1" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="mb-4">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control mt-1" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%">Log In</button>
+                <br /><br />
+                <div class="row text-center">
+                    <a asp-controller="Account" asp-action="Register" class="link-primary inline-block" style="text-decoration:none">Create new accouont</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+@section scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
