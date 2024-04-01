@@ -9,14 +9,15 @@ namespace AirlineReservationWebApplication.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress]
-
-        public string Email { get; set; }
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name ="User Name")]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress]
+        public string Email { get; set; }
+
 
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
@@ -27,6 +28,7 @@ namespace AirlineReservationWebApplication.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [NotMapped]
         public string ConfirmPassword { get; set; }
     }
 }
