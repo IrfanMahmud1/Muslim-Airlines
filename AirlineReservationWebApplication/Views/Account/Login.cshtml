@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "Login";
 }
-<partial name="_Notifications" />
 <div class="row">
     <div class="col-md-12">
         <form method="post">
@@ -21,7 +20,7 @@
                     <input asp-for="Password" class="form-control mt-1" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width:100%">Log In</button>
+                 <button type="submit" class="btn btn-primary" style="width:100%">Log In</button>
                 <br /><br />
                 <div class="row text-center">
                     <a asp-controller="Account" asp-action="Register" class="link-primary inline-block" style="text-decoration:none">Create new accouont</a>

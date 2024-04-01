@@ -43,12 +43,26 @@
                     </ul>
                     <div class="d-flex">
                         <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
-                            </li>
+                            @if (ViewBag.DisableRegisterButton!=true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
+                                </li>
+                            }
+                            else
+                            {
+                                ViewBag.DisableRegisterButton = false;
+                            }
+                            @if (ViewBag.DisableLoginButton != true)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                                </li>
+                            }
+                            else
+                            {
+                                ViewBag.DisableLoginButton = false;
+                            }
                         </ul>
                     </div>
                 </div>
