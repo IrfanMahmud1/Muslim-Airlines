@@ -44,8 +44,9 @@ namespace AirlineReservationWebApplication.Controllers
                 }
                 _db.Users.Add(obj);
                 _db.SaveChanges();
+                ViewBag.DisableRegisterButton = true;
                 TempData["success"] = "Successfully Registered";
-                return RedirectToAction("Index","Home");
+                return View();
             }
             return View();
         }
@@ -69,16 +70,17 @@ namespace AirlineReservationWebApplication.Controllers
                 bool PassExists= _db.Users.Any(x=> x.Password == obj.Password);
                 if (!PassExists && !EmailExists)
                 {
-                    ModelState.AddModelError("EmailPass", "Invalid");
+                    ModelState.AddModelError("EmailPass", "Invalid email or password");
+                    return View();
                 }
                 if (EmailExists && PassExists)
                 {
-                    ViewBag.DisableLoginButton = true;
-                    ViewBag.DisableRegisterButton = true;
+                    //PassingDataModel passingDataModel = new PassingDataModel();
+                    ViewData["Login"] = "true";
                     TempData["success"] = "Successfully Logged in";
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new {IsLogged = "True"});
                 }
-                if(EmailExists || PassExists)
+                else
                 {
                     if (!EmailExists)
                     {
@@ -91,6 +93,13 @@ namespace AirlineReservationWebApplication.Controllers
                 }
             }
             return View();
+        }
+
+        //Log out
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            return RedirectToAction("Index", "Home", new{ IsLogged = "false" });
         }
     }
 }
