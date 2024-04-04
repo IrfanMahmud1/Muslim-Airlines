@@ -10,7 +10,6 @@ namespace AirlineReservationWebApplication.Models
 
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
     }
 }

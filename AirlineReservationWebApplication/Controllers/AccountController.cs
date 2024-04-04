@@ -11,7 +11,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             _db = db;
         }
-        
+
         public IActionResult Index()
         {
             return View();
@@ -43,8 +43,8 @@ namespace AirlineReservationWebApplication.Controllers
                     return View();
                 }
                 _db.Users.Add(obj);
-                _db.SaveChanges();
                 ViewBag.DisableRegisterButton = true;
+                _db.SaveChanges();
                 TempData["success"] = "Successfully Registered";
                 return View();
             }
@@ -75,10 +75,13 @@ namespace AirlineReservationWebApplication.Controllers
                 }
                 if (EmailExists && PassExists)
                 {
-                    //PassingDataModel passingDataModel = new PassingDataModel();
-                    ViewData["Login"] = "true";
+                    string userEmail = obj.Email;
+                    var user = _db.Users.ToList().Find(x => x.Email == obj.Email);
+                    TempData["LoginFlag"] = "true";
+                    TempData["UserName"] = user.Name;
+                    TempData["UserEmail"] = userEmail;
                     TempData["success"] = "Successfully Logged in";
-                    return RedirectToAction("Index", "Home", new {IsLogged = "True"});
+                    return RedirectToAction("Index", "HomePage");
                 }
                 else
                 {
@@ -95,12 +98,6 @@ namespace AirlineReservationWebApplication.Controllers
             return View();
         }
 
-        //Log out
-        [HttpGet]
-        public IActionResult Logout()
-        {
-            return RedirectToAction("Index", "Home", new{ IsLogged = "false" });
-        }
     }
 }
 

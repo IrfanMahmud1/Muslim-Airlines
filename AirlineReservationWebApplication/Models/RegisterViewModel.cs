@@ -12,7 +12,7 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "User Name")]
-        public string UserName { get; set; }
+        public string Name { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress]

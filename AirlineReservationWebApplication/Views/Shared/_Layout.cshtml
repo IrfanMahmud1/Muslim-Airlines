@@ -14,6 +14,10 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-lg navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
+                @if(TempData["UserEmail"]!=null)
+                {
+                    <a class="navbar-brand" asp-area="" asp-controller="HomePage" asp-action="Index">Muslim Airlines</a>
+                }
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Muslim Airlines</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -46,8 +50,31 @@
                             @{
                                 bool DisablLogin = ViewBag.DisableLoginButton != null && (bool)ViewBag.DisableLoginButton;
                                 bool DisablReg = ViewBag.DisableRegisterButton != null && (bool)ViewBag.DisableRegisterButton;
+                                bool DisablLogout = ViewBag.DisableLogoutButton != null && (bool)ViewBag.DisableLogoutButton;
                             }
-                            @if (!DisablReg)
+                            @if (DisablLogin && DisablReg)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="HomePage" asp-action="Logout">Log out</a>
+                                </li>
+                            }
+                            else
+                            {
+                                @if (!DisablReg)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
+                                    </li>
+                                }
+
+                                @if (!DisablLogin)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                                    </li>
+                                }
+                            }
+                            @* @if (!DisablReg)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
@@ -62,10 +89,19 @@
                             }
                             @if(DisablLogin && DisablReg)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Log out</a>
-                                </li>
+                               
                             }
+                            @if(!DisablLogin && !DisablReg)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                                </li>
+
+                            } *@
                         </ul>
                     </div>
                 </div>
