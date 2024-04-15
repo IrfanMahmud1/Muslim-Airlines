@@ -1,6 +1,7 @@
 ﻿@model LoginViewModel
 @{
     ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout-Login.cshtml";
 }
 <div class="row">
     <div class="col-md-12">
@@ -23,7 +24,7 @@
                  <button type="submit" class="btn btn-primary" style="width:100%">Log In</button>
                 <br /><br />
                 <div class="row text-center">
-                    <a asp-controller="Account" asp-action="Register" class="link-primary inline-block" style="text-decoration:none">Create new accouont</a>
+                    <a asp-controller="Account" asp-action="Login" class="link-primary inline-block" style="text-decoration:none">Create new accouont</a>
                 </div>
             </div>
 

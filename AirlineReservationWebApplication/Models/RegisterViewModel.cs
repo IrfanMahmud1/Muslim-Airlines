@@ -7,16 +7,17 @@ namespace AirlineReservationWebApplication.Models
     public class RegisterViewModel
     {
         [Key]
-        public int Id { get; set; }
+        public int User_Id { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "User Name")]
-        public string Name { get; set; }
+        public string User_Name { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Email")]
+        public string User_Email { get; set; }
 
 
         [Required(ErrorMessage = "Password is required.")]

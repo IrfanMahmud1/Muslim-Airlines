@@ -1,5 +1,4 @@
 using AirlineReservationWebApplication.Data;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirlineReservationWebApplication

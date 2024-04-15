@@ -12,22 +12,26 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 userEmail = TempData["UserEmail"].ToString();
                 //userName = TempData["UserName"].ToString();
-                ViewBag.DisableLoginButton = true;
-                ViewBag.DisableRegisterButton = true;
                 ViewBag.UserEmail = userEmail;
                 TempData.Keep("UserEmail");
             }
-           
+            else
+            {
+                return RedirectToAction("Index","Home");
+            }
             return View();
         }
 
         //Log out
-        [HttpGet]
         public IActionResult Logout()
         {
-            TempData["LogoutFlag"] = "true";
-            TempData["success"] = "Successfully Logged out";
-            TempData.Remove("UserEmail");
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                TempData["LogoutFlag"] = "false";
+                TempData["success"] = "Successfully Logged out";
+                TempData.Remove("UserEmail");
+                //return RedirectToAction("Index", "Home");
+            }
             return RedirectToAction("Index", "Home");
         }
     }

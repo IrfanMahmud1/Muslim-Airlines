@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout-AdminDashboard.cshtml";
+}
+
+<partial name="_Notifications" />
+
+<div class="row mt-3 justify-content-between">
+    <div class="col-2 border border-primary rounded">
+        <div class="pt-3">
+            <h2>Admin Panel</h2>
+            <hr />
+        </div>
+        <div class="my-4">
+            <div class="list-group">
+                <a asp-controller="Account" asp-action="User" class="list-group-item list-group-item-action list-group-item-primary">User</a>
+                <br />
+                <a asp-controller="Account" asp-action="Passenger" class="list-group-item list-group-item-action list-group-item-secondary">Passenger</a>
+                <br />
+                <a asp-controller="Account" asp-action="Flight" class="list-group-item list-group-item-action list-group-item-success">Flight</a>
+                <br />
+                <a asp-controller="Account" asp-action="Reservation" class="list-group-item list-group-item-action list-group-item-danger">Reservation</a>
+                <br />
+                <a asp-controller="Account" asp-action="Offer" class="list-group-item list-group-item-action list-group-item-warning">Offer</a>
+                <br />
+                <a asp-controller="Account" asp-action="Hotel" class="list-group-item list-group-item-action list-group-item-info">Hotel</a>
+                <br />
+                <a asp-controller="Account" asp-action="Aircraft" class="list-group-item list-group-item-action list-group-item-danger">Aircraft</a>
+                <br />
+                <a asp-controller="Account" asp-action="PrivateService" class="list-group-item list-group-item-action list-group-item-dark">Private Service</a>
+                <br />
+                <a asp-controller="Account" asp-action="Transport" class="list-group-item list-group-item-action list-group-item-success">Transport</a>
+                <br />
+                @*  <button asp-controller="d" type="button" class="list-group-item list-group-item-action active" aria-current="true">
+                The current button
+                </button> *@
+            </div>
+        </div>
+    </div>
+    <div class="col-9 border border-secondary rounded">
+        <div class="pt-3">
+            <h2>Dashboard</h2>
+            <hr />
+        </div>
+    </div>
+</div>

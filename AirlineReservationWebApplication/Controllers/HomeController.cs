@@ -15,12 +15,7 @@ namespace AirlineReservationWebApplication.Controllers
 
         public IActionResult Index()
         {
-            if (TempData["success"]!=null && TempData["success"] == "Successfully Logged out")
-            {
-                ViewBag.DisableLoginButton = true;
-                ViewBag.DisableRegisterButton = true;
-            }
-            if (TempData["UserEmail"]!=null)
+            if (TempData.ContainsKey("UserEmail"))
             {
                 return RedirectToAction("Index", "HomePage");
             }
