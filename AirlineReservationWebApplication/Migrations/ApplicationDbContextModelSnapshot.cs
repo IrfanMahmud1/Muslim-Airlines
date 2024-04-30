@@ -55,8 +55,10 @@ namespace AirlineReservationWebApplication.Migrations
                     b.Property<int>("Nid")
                         .HasColumnType("int");
 
-                    b.Property<int>("Passport")
-                        .HasColumnType("int");
+                    b.Property<string>("Passport")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<int>("User_Id")
                         .HasColumnType("int");

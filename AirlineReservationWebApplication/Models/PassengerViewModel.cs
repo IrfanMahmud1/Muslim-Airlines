@@ -7,15 +7,21 @@ namespace AirlineReservationWebApplication.Models
     {
         [Key]
         public int Passenger_ID {  get; set; }
+
         [Required]
         public string First_Name { get; set; }
+
         [Required]
         public string Last_Name { get; set;}
+
         [Required]
 
         public string Gender { get; set; }
+
         [Required]
-        public int Passport {  get; set; }
+        [MinLength(9)]
+        [MaxLength(9)]
+        public string Passport {  get; set; }
 
         [DataType(DataType.PhoneNumber)]
         [Required]

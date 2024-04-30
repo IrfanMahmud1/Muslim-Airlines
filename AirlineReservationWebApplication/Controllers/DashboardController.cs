@@ -12,6 +12,11 @@ namespace AirlineReservationWebApplication.Controllers
         {
             _db = db;
         }
+        public static int CountDigits(int number)
+        {
+            return (int)Math.Floor(Math.Log10(Math.Abs(number))) + 1;
+        }
+
         public IActionResult Users()
         {
             if(TempData.ContainsKey("AdminEmail"))
@@ -52,7 +57,6 @@ namespace AirlineReservationWebApplication.Controllers
                     }
                     return View();
                 }
-                var ObjEmail = obj.User_Email;
                 _db.Users.Add(obj);
                 _db.SaveChanges();
                 TempData["success"] = "User successfully Created";
@@ -94,7 +98,6 @@ namespace AirlineReservationWebApplication.Controllers
                     }
                     return View();
                 }
-                var ObjEmail = obj.User_Email;
                 _db.Users.Update(obj);
                 _db.SaveChanges();
                 TempData["success"] = "User successfully Updated";
@@ -123,7 +126,6 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var ObjEmail = obj.User_Email;
                 _db.Users.Remove(obj);
                 _db.SaveChanges();
                 TempData["success"] = "User successfully Deleted";
@@ -133,6 +135,87 @@ namespace AirlineReservationWebApplication.Controllers
         }
         public IActionResult Passenger()
         {
+            if (TempData.ContainsKey("AdminEmail"))
+            {
+                IEnumerable<PassengerViewModel> objPassengerList = _db.Passenger;
+                Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                return View(objPassengerList);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult CreatePassenger()
+        {
+            if (TempData.ContainsKey("AdminEmail"))
+            {
+                return View();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreatePassenger(PassengerViewModel obj)
+        {
+            ModelState.Clear();
+            if (ModelState.IsValid)
+            {
+                bool isPassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
+                int mobile = obj.Mobile;
+                int nid = obj.Nid;
+                if (isPassportExist)
+                {
+                    ModelState.AddModelError("Passport", "Already registered with this passport number");
+                    return View();
+                }
+                int checkMobile = CountDigits(mobile);
+                if (checkMobile<10 || checkMobile > 10)
+                {
+                    ModelState.AddModelError("mobile", "Invalid Mobile number");
+                    return View();
+                }
+                int checkNid = CountDigits(nid);
+                if (checkNid < 10 || checkNid > 10)
+                {
+                    ModelState.AddModelError("nid", "Invalid NID number");
+                    return View();
+                }
+                obj.User_Id = 1;
+                _db.Passenger.Add(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Passenger successfully Created";
+                return RedirectToAction("Passenger");
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult UpdatePassenger(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            var passengerFromDb = _db.Users.Find(id);
+            if (passengerFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(passengerFromDb);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdatePassenger(PassengerViewModel obj)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Passenger.Update(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Passenger successfully Updated";
+                return RedirectToAction("Users");
+            }
             return View();
         }
         public IActionResult Flight()

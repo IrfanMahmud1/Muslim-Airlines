@@ -5,7 +5,7 @@
 namespace AirlineReservationWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class AddPassengerAndUserTableToDb : Migration
+    public partial class NewMigMinLengthMaxLengthInPassengerModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -34,7 +34,7 @@ namespace AirlineReservationWebApplication.Migrations
                     First_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Last_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Passport = table.Column<int>(type: "int", nullable: false),
+                    Passport = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
                     Mobile = table.Column<int>(type: "int", nullable: false),
                     Nid = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),

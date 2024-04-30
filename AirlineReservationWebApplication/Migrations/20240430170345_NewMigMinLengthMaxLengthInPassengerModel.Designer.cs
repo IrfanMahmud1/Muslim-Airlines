@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirlineReservationWebApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240414174529_AddPassengerAndUserTableToDb")]
-    partial class AddPassengerAndUserTableToDb
+    [Migration("20240430170345_NewMigMinLengthMaxLengthInPassengerModel")]
+    partial class NewMigMinLengthMaxLengthInPassengerModel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,8 +58,10 @@ namespace AirlineReservationWebApplication.Migrations
                     b.Property<int>("Nid")
                         .HasColumnType("int");
 
-                    b.Property<int>("Passport")
-                        .HasColumnType("int");
+                    b.Property<string>("Passport")
+                        .IsRequired()
+                        .HasMaxLength(9)
+                        .HasColumnType("nvarchar(9)");
 
                     b.Property<int>("User_Id")
                         .HasColumnType("int");
