@@ -13,10 +13,6 @@ namespace AirlineReservationWebApplication.Controllers
             _db = db;
         }
 
-       /* public IActionResult Index()
-        {
-            return View();
-        }*/
         //Register GET
         [HttpGet]
         public IActionResult Register()
@@ -33,6 +29,7 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterViewModel obj)
         {
+            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 if (obj.User_Email == obj.Password)
@@ -40,10 +37,16 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.AddModelError("password", "The password cannot match the Email");
                     return View();
                 }
-                bool IsRegistered = _db.Users.Any(x => x.User_Email == obj.User_Email);
-                if (IsRegistered)
+                bool IsRegisteredEmail = _db.Users.Any(x => x.User_Email == obj.User_Email);
+                bool IsRegisteredUser = _db.Users.Any(x => x.User_Name == obj.User_Name);
+                if (IsRegisteredEmail)
                 {
                     ModelState.AddModelError("User_Email", "Already registered with this email");
+                    return View();
+                }
+                if(IsRegisteredUser)
+                {
+                    ModelState.AddModelError("User_Name", "Already registered with this name");
                     return View();
                 }
                 _db.Users.Add(obj);
@@ -59,14 +62,14 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                string IsAdmin = TempData["UserEmail"].ToString();
-                if(IsAdmin.ToLower().Contains("admin") && IsAdmin.Substring(IsAdmin.Length - 11) == "@sample.com")
-                {
-                    return RedirectToAction("Dashboard", "Admin");
-                }
                 return RedirectToAction("Index", "HomePage");
+            }
+            if(TempData.ContainsKey("AdminEmail"))
+            {
+                return RedirectToAction("Dashboard", "Admin");
             }
             return View();
         }
@@ -95,14 +98,17 @@ namespace AirlineReservationWebApplication.Controllers
                     string AdminEmail = userEmail.Substring(userEmail.Length - 11);
                     
                     var user = _db.Users.ToList().Find(x => x.User_Email == obj.Email);
-                    TempData["UserName"] = user.User_Name;
-                    TempData["UserEmail"] = userEmail;
+                    
                     TempData["success"] = "Successfully Logged in";
 
                     if (userEmail.ToLower().Contains("admin") && AdminEmail == "@sample.com")
                     {
+                        TempData["AdminName"] = user.User_Name;
+                        TempData["AdminEmail"] = userEmail;
                         return RedirectToAction("Dashboard", "Admin");
                     }
+                    TempData["UserName"] = user.User_Name;
+                    TempData["UserEmail"] = userEmail;
                     return RedirectToAction("Index", "HomePage");
                 }
             }

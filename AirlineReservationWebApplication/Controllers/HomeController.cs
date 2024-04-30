@@ -19,6 +19,12 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return RedirectToAction("Index", "HomePage");
             }
+            if (TempData.ContainsKey("AdminEmail"))
+            {
+                return RedirectToAction("Dashboard", "Admin");
+            }
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            // ...
             return View();
         }
 
