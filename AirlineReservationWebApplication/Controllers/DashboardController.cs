@@ -42,7 +42,6 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateUser(RegisterViewModel obj)
         {
-            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 bool isRegisteredEmail = _db.Users.Any(x => x.User_Email == obj.User_Email);
@@ -101,6 +100,7 @@ namespace AirlineReservationWebApplication.Controllers
                 }
                 _db.Users.Update(obj);
                 _db.SaveChanges();
+                ModelState.Clear();
                 TempData["success"] = "User successfully Updated";
                 return RedirectToAction("Users");
             }
@@ -125,11 +125,12 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteUser(RegisterViewModel obj)
         {
-            ModelState.Clear();
-            if (ModelState.IsValid)
+            bool isValid = _db.Users.Any(x => x.User_Id == obj.User_Id);
+            if (isValid)
             {
                 _db.Users.Remove(obj);
                 _db.SaveChanges();
+                ModelState.Clear();
                 TempData["success"] = "User successfully Deleted";
                 return RedirectToAction("Users");
             }
@@ -160,7 +161,12 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreatePassenger(PassengerViewModel obj)
         {
-            ModelState.Clear();
+            if (obj.registerViewModel == null)
+            {
+                var registermodel = _db.Users.Find(obj.User_Id);
+                registermodel.ConfirmPassword = registermodel.Password;
+                obj.registerViewModel = registermodel;
+            }
             if (ModelState.IsValid)
             {
                 bool isPassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
@@ -183,6 +189,7 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.AddModelError("nid", "Invalid NID number");
                     return View();
                 }
+     
                 _db.Passenger.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
@@ -192,7 +199,7 @@ namespace AirlineReservationWebApplication.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("id")]
         public IActionResult UpdatePassenger(int? id)
          {
             if (id == null || id == 0)
