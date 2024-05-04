@@ -29,7 +29,6 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Register(RegisterViewModel obj)
         {
-            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 if (obj.User_Email == obj.Password)
@@ -52,6 +51,7 @@ namespace AirlineReservationWebApplication.Controllers
                 _db.Users.Add(obj);
                 ModelState.Clear();
                 _db.SaveChanges();
+                ModelState.Clear();
                 TempData["success"] = "Successfully Registered";      
                 return View(obj);
             }

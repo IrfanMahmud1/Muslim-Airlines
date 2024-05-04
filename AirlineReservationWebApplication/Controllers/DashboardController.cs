@@ -59,6 +59,7 @@ namespace AirlineReservationWebApplication.Controllers
                 }
                 _db.Users.Add(obj);
                 _db.SaveChanges();
+                ModelState.Clear();
                 TempData["success"] = "User successfully Created";
                 return RedirectToAction("Users");
             }
@@ -124,6 +125,7 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteUser(RegisterViewModel obj)
         {
+            ModelState.Clear();
             if (ModelState.IsValid)
             {
                 _db.Users.Remove(obj);
@@ -181,9 +183,9 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.AddModelError("nid", "Invalid NID number");
                     return View();
                 }
-                obj.User_Id = 1;
                 _db.Passenger.Add(obj);
                 _db.SaveChanges();
+                ModelState.Clear();
                 TempData["success"] = "Passenger successfully Created";
                 return RedirectToAction("Passenger");
             }
@@ -192,12 +194,12 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpGet]
         public IActionResult UpdatePassenger(int? id)
-        {
+         {
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Users.Find(id);
+            var passengerFromDb = _db.Passenger.Find(id);
             if (passengerFromDb == null)
             {
                 return NotFound();
