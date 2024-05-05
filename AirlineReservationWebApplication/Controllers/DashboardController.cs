@@ -1,6 +1,7 @@
 ﻿using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace AirlineReservationWebApplication.Controllers
 {
@@ -80,28 +81,37 @@ namespace AirlineReservationWebApplication.Controllers
              return View(userFromDb);
         }
 
+        public string getEmail(int id)
+        {
+            var model = _db.Users.Find(id);
+            return model.User_Email;
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateUser(RegisterViewModel obj)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                bool isRegisteredEmail = _db.Users.Any(x=> x.User_Email == obj.User_Email); 
-                bool isRegisteredName = _db.Users.Any(x=> x.User_Name == obj.User_Name);
-                if (isRegisteredEmail)
+                var user = _db.Users.Find(obj.User_Id);
+                if (user != null)
                 {
-                    ModelState.AddModelError("User_Email", "Already registered with this email");
-                    if (isRegisteredName)
+                    if (user.User_Email != obj.User_Email)
                     {
-                        ModelState.AddModelError("User_Name", "Already registered with this name");
-                        return View();
+                        bool duplicate = _db.Users.Any(x => x.User_Email == obj.User_Email);
+                        if (duplicate)
+                        {
+                            ModelState.AddModelError("User_Email", "Already         registered with this email");
+                            return View();
+                        }
+                        user.User_Email = obj.User_Email;
                     }
-                    return View();
+
+                    _db.Users.Update(user);
+                    _db.SaveChanges();
+                    ModelState.Clear();
+                    TempData["success"] = "User successfully Updated";
                 }
-                _db.Users.Update(obj);
-                _db.SaveChanges();
-                ModelState.Clear();
-                TempData["success"] = "User successfully Updated";
                 return RedirectToAction("Users");
             }
             return View();
