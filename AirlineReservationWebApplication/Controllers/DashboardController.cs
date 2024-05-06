@@ -18,7 +18,7 @@ namespace AirlineReservationWebApplication.Controllers
             return (int)Math.Floor(Math.Log10(Math.Abs(number))) + 1;
         }
 
-        public IActionResult Users()
+/*        public IActionResult Users()
         {
             if(TempData.ContainsKey("AdminEmail"))
             {
@@ -81,12 +81,6 @@ namespace AirlineReservationWebApplication.Controllers
              return View(userFromDb);
         }
 
-        public string getEmail(int id)
-        {
-            var model = _db.Users.Find(id);
-            return model.User_Email;
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdateUser(RegisterViewModel obj)
@@ -145,98 +139,98 @@ namespace AirlineReservationWebApplication.Controllers
                 return RedirectToAction("Users");
             }
             return View();
-        }
-        public IActionResult Passenger()
-        {
-            if (TempData.ContainsKey("AdminEmail"))
-            {
-                IEnumerable<PassengerViewModel> objPassengerList = _db.Passenger;
-                Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                return View(objPassengerList);
-            }
-            return RedirectToAction("Index", "Home");
-        }
+        }*/
+        //public IActionResult Passenger()
+        //{
+        //    if (TempData.ContainsKey("AdminEmail"))
+        //    {
+        //        IEnumerable<PassengerViewModel> objPassengerList = _db.Passenger;
+        //        Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+        //        return View(objPassengerList);
+        //    }
+        //    return RedirectToAction("Index", "Home");
+        //}
 
-        [HttpGet]
-        public IActionResult CreatePassenger()
-        {
-            if (TempData.ContainsKey("AdminEmail"))
-            {
-                return View();
-            }
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult CreatePassenger()
+        //{
+        //    if (TempData.ContainsKey("AdminEmail"))
+        //    {
+        //        return View();
+        //    }
+        //    return View();
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult CreatePassenger(PassengerViewModel obj)
-        {
-            if (obj.registerViewModel == null)
-            {
-                var registermodel = _db.Users.Find(obj.User_Id);
-                registermodel.ConfirmPassword = registermodel.Password;
-                obj.registerViewModel = registermodel;
-            }
-            if (ModelState.IsValid)
-            {
-                bool isPassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
-                int mobile = obj.Mobile;
-                int nid = obj.Nid;
-                if (isPassportExist)
-                {
-                    ModelState.AddModelError("Passport", "Already registered with this passport number");
-                    return View();
-                }
-                int checkMobile = CountDigits(mobile);
-                if (checkMobile<10 || checkMobile > 10)
-                {
-                    ModelState.AddModelError("mobile", "Invalid Mobile number");
-                    return View();
-                }
-                int checkNid = CountDigits(nid);
-                if (checkNid < 10 || checkNid > 10)
-                {
-                    ModelState.AddModelError("nid", "Invalid NID number");
-                    return View();
-                }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult CreatePassenger(PassengerViewModel obj)
+        //{
+        //    if (obj.registerViewModel == null)
+        //    {
+        //        var registermodel = _db.Users.Find(obj.User_Id);
+        //        registermodel.ConfirmPassword = registermodel.Password;
+        //        obj.registerViewModel = registermodel;
+        //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        bool isPassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
+        //        int mobile = obj.Mobile;
+        //        int nid = obj.Nid;
+        //        if (isPassportExist)
+        //        {
+        //            ModelState.AddModelError("Passport", "Already registered with this passport number");
+        //            return View();
+        //        }
+        //        int checkMobile = CountDigits(mobile);
+        //        if (checkMobile<10 || checkMobile > 10)
+        //        {
+        //            ModelState.AddModelError("mobile", "Invalid Mobile number");
+        //            return View();
+        //        }
+        //        int checkNid = CountDigits(nid);
+        //        if (checkNid < 10 || checkNid > 10)
+        //        {
+        //            ModelState.AddModelError("nid", "Invalid NID number");
+        //            return View();
+        //        }
      
-                _db.Passenger.Add(obj);
-                _db.SaveChanges();
-                ModelState.Clear();
-                TempData["success"] = "Passenger successfully Created";
-                return RedirectToAction("Passenger");
-            }
-            return View();
-        }
+        //        _db.Passenger.Add(obj);
+        //        _db.SaveChanges();
+        //        ModelState.Clear();
+        //        TempData["success"] = "Passenger successfully Created";
+        //        return RedirectToAction("Passenger");
+        //    }
+        //    return View();
+        //}
 
-        [HttpGet("id")]
-        public IActionResult UpdatePassenger(int? id)
-         {
-            if (id == null || id == 0)
-            {
-                return NotFound();
-            }
-            var passengerFromDb = _db.Passenger.Find(id);
-            if (passengerFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(passengerFromDb);
-        }
+        //[HttpGet("id")]
+        //public IActionResult UpdatePassenger(int? id)
+        // {
+        //    if (id == null || id == 0)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var passengerFromDb = _db.Passenger.Find(id);
+        //    if (passengerFromDb == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(passengerFromDb);
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult UpdatePassenger(PassengerViewModel obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.Passenger.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "Passenger successfully Updated";
-                return RedirectToAction("Users");
-            }
-            return View();
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult UpdatePassenger(PassengerViewModel obj)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.Passenger.Update(obj);
+        //        _db.SaveChanges();
+        //        TempData["success"] = "Passenger successfully Updated";
+        //        return RedirectToAction("Users");
+        //    }
+        //    return View();
+        //}
         public IActionResult Flight()
         {
             return View();
