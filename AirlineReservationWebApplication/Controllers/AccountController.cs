@@ -7,6 +7,7 @@ namespace AirlineReservationWebApplication.Controllers
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _db;
+
         public AccountController(ApplicationDbContext db)
         {
             _db = db;
@@ -16,6 +17,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             return View();
         }
+
         //Register GET
         [HttpGet]
         public IActionResult Register()
@@ -55,6 +57,11 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                return Redirect("~/HomePage/Index");
+            }
+
             ViewBag.DisableLoginButton = true;
             return View();
         }
@@ -66,8 +73,8 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool EmailExists= _db.Users.Any(x=> x.Email == obj.Email);
-                bool PassExists= _db.Users.Any(x=> x.Password == obj.Password);
+                bool EmailExists = _db.Users.Any(x => x.Email == obj.Email);
+                bool PassExists = _db.Users.Any(x => x.Password == obj.Password);
                 if (!PassExists && !EmailExists)
                 {
                     ModelState.AddModelError("EmailPass", "Invalid email or password");
@@ -81,6 +88,7 @@ namespace AirlineReservationWebApplication.Controllers
                     TempData["UserName"] = user.Name;
                     TempData["UserEmail"] = userEmail;
                     TempData["success"] = "Successfully Logged in";
+
                     return RedirectToAction("Index", "HomePage");
                 }
                 else
@@ -97,7 +105,5 @@ namespace AirlineReservationWebApplication.Controllers
             }
             return View();
         }
-
     }
 }
-

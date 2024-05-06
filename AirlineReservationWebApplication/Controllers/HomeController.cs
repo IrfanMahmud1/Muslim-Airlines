@@ -7,20 +7,21 @@ namespace AirlineReservationWebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-       /* private bool flag {  get; set; }*/
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
-            if (TempData["success"]!=null && TempData["success"] == "Successfully Logged out")
+            if (TempData["success"] != null && TempData["success"] == "Successfully Logged out")
             {
                 ViewBag.DisableLoginButton = true;
                 ViewBag.DisableRegisterButton = true;
             }
-            if (TempData["UserEmail"]!=null)
+            if (TempData["UserEmail"] != null)
             {
                 return RedirectToAction("Index", "HomePage");
             }

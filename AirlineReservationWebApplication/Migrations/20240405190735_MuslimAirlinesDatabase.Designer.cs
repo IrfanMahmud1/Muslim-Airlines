@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirlineReservationWebApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240404061305_AddRegisterToDbAfterRenamingProperties")]
-    partial class AddRegisterToDbAfterRenamingProperties
+    [Migration("20240405190735_MuslimAirlinesDatabase")]
+    partial class MuslimAirlinesDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

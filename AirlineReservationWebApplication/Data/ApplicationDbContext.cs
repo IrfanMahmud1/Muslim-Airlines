@@ -7,7 +7,7 @@ namespace AirlineReservationWebApplication.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options):base(options)
         {
-    
+
         }
         public DbSet<RegisterViewModel> Users { get; set; }
     }
