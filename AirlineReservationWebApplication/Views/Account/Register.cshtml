@@ -1,6 +1,7 @@
 ﻿@model RegisterViewModel
 @{
     ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout-Register.cshtml";
 }
 <partial name="_Notifications" />
 <form method="post">
@@ -10,14 +11,14 @@
             <hr />
         </div>
         <div class="mb-4 form-group">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control mt-1" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <label asp-for="User_Name"></label>
+            <input asp-for="User_Name" class="form-control mt-1" />
+            <span asp-validation-for="User_Name" class="text-danger"></span>
         </div>
         <div class="mb-4 form-group">
-            <label asp-for="Email"></label>
-            <input asp-for="Email" class="form-control mt-1" />
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <label asp-for="User_Email"></label>
+            <input asp-for="User_Email" class="form-control mt-1" />
+            <span asp-validation-for="User_Email" class="text-danger"></span>
         </div>
         <div class="mb-4">
             <label asp-for="Password"></label>

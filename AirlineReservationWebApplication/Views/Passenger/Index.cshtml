@@ -1,0 +1,94 @@
+﻿@model IEnumerable<PassengerViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout-DashboardCRUD.cshtml";
+}
+
+@if (TempData["success"] != null)
+{
+    <partial name="_Notifications" />
+}
+<div class="container">
+    <div class="row mt-3 justify-content-between">
+        <div class="col-2 border border-primary rounded">
+            <div class="pt-3">
+                <h2>Admin Panel</h2>
+                <hr />
+            </div>
+            <div class="my-4">
+                <div class="list-group">
+                    <a asp-controller="User" asp-action="Index" class="list-group-item list-group-item-action list-group-item-primary">User</a>
+                    <br />
+                    <a asp-controller="Passenger" asp-action="Index" class="list-group-item list-group-item-action list-group-item-secondary">Passenger</a>
+                    <br />
+                    <a asp-controller="Flight" asp-action="Index" class="list-group-item list-group-item-action list-group-item-success">Flight</a>
+                    <br />
+                    <a asp-controller="Reservation" asp-action="Index" class="list-group-item list-group-item-action list-group-item-danger">Reservation</a>
+                    <br />
+                    <a asp-controller="Offer" asp-action="Index" class="list-group-item list-group-item-action list-group-item-warning">Offer</a>
+                    <br />
+                    <a asp-controller="Hotel" asp-action="Index" class="list-group-item list-group-item-action list-group-item-info">Hotel</a>
+                    <br />
+                    <a asp-controller="Aircraft" asp-action="Index" class="list-group-item list-group-item-action list-group-item-danger">Aircraft</a>
+                    <br />
+                    <a asp-controller="PrivateService" asp-action="Index" class="list-group-item list-group-item-action list-group-item-dark">Private Service</a>
+                    <br />
+                    <a asp-controller="Transport" asp-action="Index" class="list-group-item list-group-item-action list-group-item-success">Transport</a>
+                    <br />
+                    @*  <button asp-controller="d" type="button" class="list-group-item list-group-item-action active" aria-current="true">
+                    The current button
+                    </button> *@
+                </div>
+            </div>
+        </div>
+        <div class="col-9 border border-secondary rounded">
+            <div class="row pt-3 text-center text-secondary">
+                <h2>Dashboard</h2>
+                <hr />
+            </div>
+            <div class="row pt-3">
+                <div class="col-6 ">
+                    <h2>Passenger List</h2>
+                </div>
+                <div class="col-6 text-end">
+                    <a asp-controller="Passenger" asp-action="CreatePassenger" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp Create new Passenger</a>
+                </div>
+            </div>
+            <table class="table table-bordered table-striped mt-3" width="100%">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Passport</th>
+                        <th>Mobile</th>
+                        <th>Nid</th>
+                        <th>Address</th>
+                        <th>User id</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td class="w-25">@obj.First_Name</td>
+                            <td class="w-50">@obj.Last_Name</td>
+                            <td class="w-50">@obj.Gender</td>
+                            <td class="w-50">@obj.Passport</td>
+                            <td class="w-50">@obj.Mobile</td>
+                            <td class="w-50">@obj.Nid</td>
+                            <td class="w-50">@obj.Address</td>
+                            <td class="w-50">@obj.User_Id</td>
+                            <td>
+                                <a asp-controller="Passenger" asp-action="UpdatePassenger" asp-route-id="@obj.User_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                                <a asp-controller="Passenger" asp-action="DeletePassenger" asp-route-id="@obj.User_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

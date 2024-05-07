@@ -16,15 +16,16 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (TempData["success"] != null && TempData["success"] == "Successfully Logged out")
-            {
-                ViewBag.DisableLoginButton = true;
-                ViewBag.DisableRegisterButton = true;
-            }
-            if (TempData["UserEmail"] != null)
+            if (TempData.ContainsKey("UserEmail"))
             {
                 return RedirectToAction("Index", "HomePage");
             }
+            if (TempData["UserEmail"]!=null)
+            {
+                return RedirectToAction("Dashboard", "Admin");
+            }
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            // ...
             return View();
         }
 

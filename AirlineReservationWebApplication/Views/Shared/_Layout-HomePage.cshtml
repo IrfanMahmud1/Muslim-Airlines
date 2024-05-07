@@ -15,14 +15,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-lg navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                @if(TempData.ContainsKey("UserEmail"))
-                {
-                    <a class="navbar-brand" asp-area="" asp-controller="HomePage" asp-action="Index">Muslim Airlines</a>
-                }
-                else
-                {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Muslim Airlines</a>
-                }
+                <a class="navbar-brand" asp-area="" asp-controller="HomePage" asp-action="Index">Muslim Airlines</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -52,10 +45,7 @@
                     <div class="d-flex">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="HomePage" asp-action="Logout">@TempData["UserEmail"]</a>
                             </li>
                         </ul>
                     </div>

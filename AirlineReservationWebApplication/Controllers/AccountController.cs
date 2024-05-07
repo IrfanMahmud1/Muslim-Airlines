@@ -13,16 +13,14 @@ namespace AirlineReservationWebApplication.Controllers
             _db = db;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         //Register GET
         [HttpGet]
         public IActionResult Register()
         {
-            ViewBag.DisableRegisterButton = true;
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                return RedirectToAction("Index", "HomePage");
+            }
             return View();
         }
 
@@ -33,22 +31,29 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (obj.Email == obj.Password)
+                if (obj.User_Email == obj.Password)
                 {
                     ModelState.AddModelError("password", "The password cannot match the Email");
                     return View();
                 }
-                bool IsRegistered = _db.Users.Any(x => x.Email == obj.Email);
-                if (IsRegistered)
+                bool IsRegisteredEmail = _db.Users.Any(x => x.User_Email == obj.User_Email);
+                bool IsRegisteredUser = _db.Users.Any(x => x.User_Name == obj.User_Name);
+                if (IsRegisteredEmail)
                 {
-                    ModelState.AddModelError("Email", "Already registered with this email");
+                    ModelState.AddModelError("User_Email", "Already registered with this email");
+                    return View();
+                }
+                if (IsRegisteredUser)
+                {
+                    ModelState.AddModelError("User_Name", "Already registered with this name");
                     return View();
                 }
                 _db.Users.Add(obj);
-                ViewBag.DisableRegisterButton = true;
+                ModelState.Clear();
                 _db.SaveChanges();
+                ModelState.Clear();
                 TempData["success"] = "Successfully Registered";
-                return View();
+                return View(obj);
             }
             return View();
         }
@@ -57,12 +62,15 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult Login()
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return Redirect("~/HomePage/Index");
+                return RedirectToAction("Index", "HomePage");
             }
-
-            ViewBag.DisableLoginButton = true;
+            if (TempData.ContainsKey("AdminEmail"))
+            {
+                return RedirectToAction("Dashboard", "Admin");
+            }
             return View();
         }
 
@@ -71,36 +79,37 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(LoginViewModel obj)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !TempData.ContainsKey("UserEmail"))
             {
-                bool EmailExists = _db.Users.Any(x => x.Email == obj.Email);
+                bool EmailExists = _db.Users.Any(x => x.User_Email == obj.Email);
                 bool PassExists = _db.Users.Any(x => x.Password == obj.Password);
-                if (!PassExists && !EmailExists)
+                if (!EmailExists)
                 {
-                    ModelState.AddModelError("EmailPass", "Invalid email or password");
-                    return View();
+                    ModelState.AddModelError("Email", "Invalid email");
+                    ModelState.AddModelError("Password", "Incorrect password");
                 }
-                if (EmailExists && PassExists)
+                else if (!PassExists)
                 {
-                    string userEmail = obj.Email;
-                    var user = _db.Users.ToList().Find(x => x.Email == obj.Email);
-                    TempData["LoginFlag"] = "true";
-                    TempData["UserName"] = user.Name;
-                    TempData["UserEmail"] = userEmail;
-                    TempData["success"] = "Successfully Logged in";
-
-                    return RedirectToAction("Index", "HomePage");
+                    ModelState.AddModelError("Password", "Incorrect password");
                 }
                 else
                 {
-                    if (!EmailExists)
+                    string userEmail = obj.Email;
+                    string AdminEmail = userEmail.Substring(userEmail.Length - 11);
+
+                    var user = _db.Users.ToList().Find(x => x.User_Email == obj.Email);
+
+                    TempData["success"] = "Successfully Logged in";
+
+                    if (userEmail.ToLower().Contains("admin") && AdminEmail == "@sample.com")
                     {
-                        ModelState.AddModelError("Email", "Invalid email");
+                        TempData["AdminName"] = user.User_Name;
+                        TempData["AdminEmail"] = userEmail;
+                        return RedirectToAction("Dashboard", "Admin");
                     }
-                    else
-                    {
-                        ModelState.AddModelError("Password", "Incorrect password");
-                    }
+                    TempData["UserName"] = user.User_Name;
+                    TempData["UserEmail"] = userEmail;
+                    return RedirectToAction("Index", "HomePage");
                 }
             }
             return View();

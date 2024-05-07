@@ -10,5 +10,6 @@ namespace AirlineReservationWebApplication.Data
 
         }
         public DbSet<RegisterViewModel> Users { get; set; }
+        public DbSet<PassengerViewModel> Passenger { get; set; }
     }
 }

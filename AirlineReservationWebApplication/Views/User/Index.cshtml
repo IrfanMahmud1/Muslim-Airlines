@@ -1,0 +1,40 @@
+﻿@model IEnumerable<RegisterViewModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
+}
+
+<div class="row pt-3">
+    <div class="col-6 ">
+        <h2>User List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-controller="User" asp-action="CreateUser" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp Create new User</a>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped mt-3" width="100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td class="w-25">@obj.User_Name</td>
+                <td class="w-50">@obj.User_Email</td>
+                <td>
+                    <a asp-controller="User" asp-action="UpdateUser" asp-route-id="@obj.User_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                    @if (!obj.User_Email.Equals("admin@sample.com"))
+                    {
+                        <a asp-controller="User" asp-action="DeleteUser" asp-route-id="@obj.User_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
