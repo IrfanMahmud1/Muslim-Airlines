@@ -25,21 +25,37 @@ namespace AirlineReservationWebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreatePassenger(int? id)
+        public IActionResult CreatePassenger()
         {
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
+
+                var existingPassengers = _db.Passenger
+                    .Select(ps => ps.User_Id)
+                    .ToList();
+
+                var availableUsers = _db.Users
+                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
+                        && user.User_Id != admin.User_Id)
+                    .ToList();
+
+                var newPassenger = new PassengerViewModel();
+
+                newPassenger.AllUsers = new List<(string, int)>();
+
+                foreach (var user in availableUsers)
+                {
+                    newPassenger.AllUsers.Add((user.User_Name, user.User_Id));
+                }
+
+                // Existing users: 1, 2, 3, 4, 5, 6, 7, 8
+                // Already passenger: 1, 3, 6, 7
+                // Available users: 2, 4, 5, 8
+
+                return View(newPassenger);
             }
-            var userFromDb = _db.Users.Find(id);
-            PassengerViewModel passengerFromDb = new PassengerViewModel();
-            passengerFromDb.User_Id = userFromDb.User_Id;
-            passengerFromDb.registerViewModel = userFromDb;
-            if (passengerFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(passengerFromDb);
+            return View();
         }
         public static int CountDigits(int number)
         {
@@ -49,21 +65,23 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreatePassenger(PassengerViewModel obj)
         {
-            if (obj.registerViewModel.Password == null)
-            {
-               
-            }
             if (ModelState.IsValid)
             {
-                bool isPassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
+                bool PassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
                 int mobile = obj.Mobile;
                 int nid = obj.Nid;
-                if (isPassportExist)
+                int passportSize = obj.Passport.Length;
+                if (PassportExist)
                 {
                     ModelState.AddModelError("Passport", "Already registered with this passport number");
                     return View();
                 }
                 int checkMobile = CountDigits(mobile);
+                if(passportSize < 9)
+                {
+                    ModelState.AddModelError("passport", "Invalid Passport number");
+                    return View();
+                }
                 if (checkMobile < 10 || checkMobile > 10)
                 {
                     ModelState.AddModelError("mobile", "Invalid Mobile number");

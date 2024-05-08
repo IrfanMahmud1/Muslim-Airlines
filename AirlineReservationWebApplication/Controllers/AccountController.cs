@@ -71,6 +71,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return RedirectToAction("Dashboard", "Admin");
             }
+            TempData["Log In"] = "activate";
             return View();
         }
 
