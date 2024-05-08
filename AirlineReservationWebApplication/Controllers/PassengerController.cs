@@ -18,19 +18,28 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 IEnumerable<PassengerViewModel> objPassengerList = _db.Passenger;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                TempData["user_id"] = 7;
                 return View(objPassengerList);
             }
             return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public IActionResult CreatePassenger()
+        public IActionResult CreatePassenger(int? id)
         {
-            if (TempData.ContainsKey("AdminEmail"))
+            if (id == null || id == 0)
             {
-                return View();
+                return NotFound();
             }
-            return View();
+            var userFromDb = _db.Users.Find(id);
+            PassengerViewModel passengerFromDb = new PassengerViewModel();
+            passengerFromDb.User_Id = userFromDb.User_Id;
+            passengerFromDb.registerViewModel = userFromDb;
+            if (passengerFromDb == null)
+            {
+                return NotFound();
+            }
+            return View(passengerFromDb);
         }
         public static int CountDigits(int number)
         {
@@ -40,17 +49,10 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreatePassenger(PassengerViewModel obj)
         {
-            /*if (obj.registerViewModel == null)
+            if (obj.registerViewModel.Password == null)
             {
-                var user = _db.Users.Find(obj.User_Id);
-                if(user == null)
-                {
-                    ModelState.AddModelError("User Id", "Invalid User Id");
-                    return View(obj);
-                }
-                user.ConfirmPassword = user.Password;
-                obj.registerViewModel = user;
-            }*/
+               
+            }
             if (ModelState.IsValid)
             {
                 bool isPassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
@@ -145,6 +147,18 @@ namespace AirlineReservationWebApplication.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+
+        public IActionResult Logout()
+        {
+            if (TempData.ContainsKey("AdminEmail"))
+            {
+                TempData["success"] = "Successfully Logged out";
+                TempData.Remove("AdminEmail");
+                //return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

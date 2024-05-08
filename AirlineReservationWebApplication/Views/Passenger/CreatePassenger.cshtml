@@ -1,12 +1,16 @@
 ﻿@model PassengerViewModel
 @{
     ViewData["Title"] = "CreatePassenger";
-    Layout = "~/Views/Shared/_Layout-DashboardCRUD.cshtml";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
 <form method="post">
     <div class="border mt-3 p-3">
-        <input asp-for="registerViewModel" hidden/>
+        <input asp-for="registerViewModel.User_Name" hidden/>
+        <input asp-for="registerViewModel.User_Email" hidden/>
+        <input asp-for="registerViewModel.User_Id" hidden/>
+        <input asp-for="registerViewModel.Password" hidden/>
+        <input asp-for="registerViewModel.ConfirmPassword" hidden/>
         <div class="row">
             <h2>Create Passenger</h2>
             <hr />

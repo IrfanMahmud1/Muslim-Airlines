@@ -1,53 +1,6 @@
 ﻿
 @{
     ViewData["Title"] = "Dashboard";
-    Layout = "~/Views/Shared/_Layout-AdminDashboard.cshtml";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
-@if(TempData["success"]!=null)
-{
-    <partial name="_Notifications" />
-}
-
-<div class="container">
-    <div class="row mt-3 justify-content-between">
-        <div class="col-2 border border-primary rounded">
-            <div class="pt-3">
-                <h2>Admin Panel</h2>
-                <hr />
-            </div>
-            <div class="my-4">
-                <div class="list-group">
-                    <a asp-controller="User" asp-action="Index" class="list-group-item list-group-item-action list-group-item-primary">User</a>
-                    <br />
-                    <a asp-controller="Passenger" asp-action="Index" class="list-group-item list-group-item-action list-group-item-secondary">Passenger</a>
-                    <br />
-                    <a asp-controller="Flight" asp-action="Index" class="list-group-item list-group-item-action list-group-item-success">Flight</a>
-                    <br />
-                    <a asp-controller="Reservation" asp-action="Index" class="list-group-item list-group-item-action list-group-item-danger">Reservation</a>
-                    <br />
-                    <a asp-controller="Offer" asp-action="Index" class="list-group-item list-group-item-action list-group-item-warning">Offer</a>
-                    <br />
-                    <a asp-controller="Hotel" asp-action="Index" class="list-group-item list-group-item-action list-group-item-info">Hotel</a>
-                    <br />
-                    <a asp-controller="Aircraft" asp-action="Index" class="list-group-item list-group-item-action list-group-item-danger">Aircraft</a>
-                    <br />
-                    <a asp-controller="PrivateService" asp-action="Index" class="list-group-item list-group-item-action list-group-item-dark">Private Service</a>
-                    <br />
-                    <a asp-controller="Transport" asp-action="Index" class="list-group-item list-group-item-action list-group-item-success">Transport</a>
-                    <br />
-                    @*  <button asp-controller="d" type="button" class="list-group-item list-group-item-action active" aria-current="true">
-                    The current button
-                    </button> *@
-                </div>
-            </div>
-        </div>
-        <div class="col-9 border border-secondary rounded">
-            <div class="row pt-3 text-center text-secondary">
-                <h2>Dashboard</h2>
-                <hr />
-            </div>
-
-        </div>
-    </div>
-</div>
