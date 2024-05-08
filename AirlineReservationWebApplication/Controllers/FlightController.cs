@@ -16,10 +16,9 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<PassengerViewModel> objPassengerList = _db.Passenger;
+                IEnumerable<FlightViewModel> objFlightList = _db.Flight;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                TempData["user_id"] = 7;
-                return View(objPassengerList);
+                return View(objFlightList);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -29,51 +28,23 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
-
-                var existingPassengers = _db.Passenger
-                    .Select(ps => ps.User_Id)
-                    .ToList();
-
-                var availableUsers = _db.Users
-                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
-                        && user.User_Id != admin.User_Id)
-                    .ToList();
-
-                var newPassenger = new PassengerViewModel();
-
-                newPassenger.AllUsers = new List<(string, int)>();
-
-                foreach (var user in availableUsers)
-                {
-                    newPassenger.AllUsers.Add((user.User_Name, user.User_Id));
-                }
-
-                // Existing users: 1, 2, 3, 4, 5, 6, 7, 8
-                // Already passenger: 1, 3, 6, 7
-                // Available users: 2, 4, 5, 8
-
-                return View(newPassenger);
+                return View();
             }
-            return View();
-        }
-        public static int CountDigits(int number)
-        {
-            return (int)Math.Floor(Math.Log10(Math.Abs(number))) + 1;
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateFlight(PassengerViewModel obj)
+        public IActionResult CreateFlight(FlightViewModel obj)
         {
             if (ModelState.IsValid)
             {
-                bool PassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
+                bool FlightExist = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
                 int mobile = obj.Mobile;
                 int nid = obj.Nid;
                 int passportSize = obj.Passport.Length;
-                if (PassportExist)
+                if (FlightExist)
                 {
-                    ModelState.AddModelError("Passport", "Already registered with this passport number");
+                    ModelState.AddModelError("Flight", "Flight is not available");
                     return View();
                 }
                 int checkMobile = CountDigits(mobile);

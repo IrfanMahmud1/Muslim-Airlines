@@ -5,7 +5,10 @@ namespace AirlineReservationWebApplication.Models
     public class FlightViewModel
     {
         [Key]
-        public int Flight_No { get; set; }
+        public int Flight_Id { get; set; }
+
+        [Required]
+        public string Flight_Name { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Departure_Date { get; set; }
@@ -26,6 +29,9 @@ namespace AirlineReservationWebApplication.Models
         public string Arrival_Place {  get; set; }
 
         [Required]
+        public int Total_Seats { get; set; }
+
+        [Required]
         public int Available_Seats { get; set; }
 
         [Required]
@@ -36,8 +42,5 @@ namespace AirlineReservationWebApplication.Models
 
         [Required]
         public string Flight_Status { get; set; }
-
-        [Required]
-        public bool Booked { get; set; }
     }
 }

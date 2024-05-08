@@ -30,7 +30,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return View();
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
