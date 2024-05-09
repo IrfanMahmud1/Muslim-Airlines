@@ -166,17 +166,5 @@ namespace AirlineReservationWebApplication.Controllers
             }
             return View();
         }
-
-
-        public IActionResult Logout()
-        {
-            if (TempData.ContainsKey("AdminEmail"))
-            {
-                TempData["success"] = "Successfully Logged out";
-                TempData.Remove("AdminEmail");
-                //return RedirectToAction("Index", "Home");
-            }
-            return RedirectToAction("Index", "Home");
-        }
     }
 }

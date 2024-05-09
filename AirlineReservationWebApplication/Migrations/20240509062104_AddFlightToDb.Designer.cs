@@ -4,6 +4,7 @@ using AirlineReservationWebApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirlineReservationWebApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240509062104_AddFlightToDb")]
+    partial class AddFlightToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +46,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Aircraft_Model");
 
-                    b.ToTable("Aircraft", (string)null);
+                    b.ToTable("Aircraft");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.FeedbackViewModel", b =>
@@ -65,7 +68,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Passenger_Id");
 
-                    b.ToTable("Feedback", (string)null);
+                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.FlightViewModel", b =>
@@ -80,28 +83,28 @@ namespace AirlineReservationWebApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("Arrival_Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Arrival_Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Arrival_Place")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeOnly>("Arrival_Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Arrival_Time")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Available_Seats")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("Departure_Date")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Departure_Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Departure_Place")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeOnly>("Departure_Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Departure_Time")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Flight_Name")
                         .IsRequired()
@@ -120,7 +123,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Flight_Id");
 
-                    b.ToTable("Flight", (string)null);
+                    b.ToTable("Flight");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.HotelViewModel", b =>
@@ -161,7 +164,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Hotel_Id");
 
-                    b.ToTable("Hotel", (string)null);
+                    b.ToTable("Hotel");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.OfferViewModel", b =>
@@ -197,7 +200,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Hotel_Id");
 
-                    b.ToTable("Offer", (string)null);
+                    b.ToTable("Offer");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PassengerViewModel", b =>
@@ -246,7 +249,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Passenger", (string)null);
+                    b.ToTable("Passenger");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PaymentViewModel", b =>
@@ -273,7 +276,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Payment_Id");
 
-                    b.ToTable("Payment", (string)null);
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PrivateServiceViewModel", b =>
@@ -315,7 +318,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Aircraft_Model");
 
-                    b.ToTable("PrivateService", (string)null);
+                    b.ToTable("PrivateService");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.RegisterViewModel", b =>
@@ -340,7 +343,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("User_Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.ReservationViewModel", b =>
@@ -390,7 +393,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Transport_Id");
 
-                    b.ToTable("Reservation", (string)null);
+                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.TransportViewModel", b =>
@@ -426,7 +429,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Transport_Model");
 
-                    b.ToTable("Transport", (string)null);
+                    b.ToTable("Transport");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.FeedbackViewModel", b =>

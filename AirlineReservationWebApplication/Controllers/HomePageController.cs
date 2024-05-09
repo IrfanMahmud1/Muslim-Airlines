@@ -30,7 +30,6 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 TempData["success"] = "Successfully Logged out";
                 TempData.Remove("UserEmail");
-                //return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home");
         }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AirlineReservationWebApplication.Models
 {
@@ -16,6 +17,8 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public string Aircraft_Type { get; set; }
         [Required]
+
+        [NotMapped]
         public bool Availability { get;set; } 
     }
 }

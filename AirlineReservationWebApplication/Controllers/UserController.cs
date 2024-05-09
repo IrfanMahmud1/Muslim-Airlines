@@ -89,7 +89,7 @@ namespace AirlineReservationWebApplication.Controllers
                         bool duplicate = _db.Users.Any(x => x.User_Email == obj.User_Email);
                         if (duplicate)
                         {
-                            ModelState.AddModelError("User_Email", "Already         registered with this email");
+                            ModelState.AddModelError("User_Email", "Already registered with this email");
                             return View();
                         }
                         user.User_Email = obj.User_Email;

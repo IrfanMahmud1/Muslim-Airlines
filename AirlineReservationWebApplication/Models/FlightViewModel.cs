@@ -11,16 +11,16 @@ namespace AirlineReservationWebApplication.Models
         public string Flight_Name { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Departure_Date { get; set; }
+        public DateOnly Departure_Date { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Arrival_Date { get; set; }
+        public DateOnly Arrival_Date { get; set; }
 
         [DataType(DataType.Time)]
-        public DateTime Departure_Time { get; set; }
+        public TimeOnly Departure_Time { get; set; }
 
         [DataType(DataType.Time)]
-        public DateTime Arrival_Time { get; set; }
+        public TimeOnly Arrival_Time { get; set; }
 
         [Required]
         public string Departure_Place {  get; set; }
