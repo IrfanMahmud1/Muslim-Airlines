@@ -24,6 +24,16 @@ namespace AirlineReservationWebApplication.Data
 
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<PassengerViewModel> Passenger { get; set; }
+        public DbSet<ReservationViewModel> Reservation{ get; set; }
+        public DbSet<FlightViewModel> Flight { get; set; }
+        public DbSet<OfferViewModel> Offer { get; set; }
+        public DbSet<HotelViewModel> Hotel { get; set; }
+        public DbSet<AircraftViewModel> Aircraft { get; set; }
+        public DbSet<FeedbackViewModel> Feedback { get; set; }
+        public DbSet<PaymentViewModel> Payment{ get; set; }
+        public DbSet<PrivateServiceViewModel> PrivateService { get; set; }
+        public DbSet<TransportViewModel> Transport { get; set; }
 
         public DbSet<UserViewModel> Users { get; set; }
         public DbSet<PassengerViewModel> Passengers { get; set; }

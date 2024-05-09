@@ -57,44 +57,14 @@ namespace AirlineReservationWebApplication.Controllers
             }
             return View();
         }
-        public static int CountDigits(int number)
-        {
-            return (int)Math.Floor(Math.Log10(Math.Abs(number))) + 1;
-        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateAircraft(PassengerViewModel obj)
+        public IActionResult CreateAircraft(AircraftViewModel obj)
         {
             if (ModelState.IsValid)
             {
-                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
-                int mobile = obj.Mobile;
-                int nid = obj.Nid;
-                int passportSize = obj.Passport.Length;
-                if (PassportExist)
-                {
-                    ModelState.AddModelError("Passport", "Already registered with this passport number");
-                    return View();
-                }
-                int checkMobile = CountDigits(mobile);
-                if (passportSize < 9)
-                {
-                    ModelState.AddModelError("passport", "Invalid Passport number");
-                    return View();
-                }
-                if (checkMobile < 10 || checkMobile > 10)
-                {
-                    ModelState.AddModelError("mobile", "Invalid Mobile number");
-                    return View();
-                }
-                int checkNid = CountDigits(nid);
-                if (checkNid < 10 || checkNid > 10)
-                {
-                    ModelState.AddModelError("nid", "Invalid NID number");
-                    return View();
-                }
-
-                _db.Passengers.Add(obj);
+                _db.Aircraft.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Passengers successfully Created";
@@ -120,14 +90,14 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateAircraft(PassengerViewModel obj)
+        public IActionResult UpdateAircraft(AircraftViewModel obj)
         {
             if (ModelState.IsValid)
             {
-                var passenger = _db.Passengers.Find(obj.Passenger_ID);
+                var passenger = _db.Aircraft.Find(obj.Aircraft_Model);
                 if (passenger != null)
                 {
-                    _db.Passengers.Update(obj);
+                    _db.Aircraft.Update(obj);
                     _db.SaveChanges();
                     TempData["success"] = "Passengers successfully Updated";
                 }
@@ -153,30 +123,18 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteAircraft(PassengerViewModel obj)
+        public IActionResult DeleteAircraft(AircraftViewModel obj)
         {
-            bool isValid = _db.Passengers.Any(x => x.Passenger_ID == obj.Passenger_ID);
+            bool isValid = _db.Aircraft.Any(x => x.Aircraft_Model == obj.Aircraft_Model);
             if (isValid)
             {
-                _db.Passengers.Remove(obj);
+                _db.Aircraft.Remove(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "User successfully Deleted";
                 return RedirectToAction("Index");
             }
             return View();
-        }
-
-
-        public IActionResult Logout()
-        {
-            if (TempData.ContainsKey("AdminEmail"))
-            {
-                TempData["success"] = "Successfully Logged out";
-                TempData.Remove("AdminEmail");
-                //return RedirectToAction("Index", "Home");
-            }
-            return RedirectToAction("Index", "Home");
         }
     }
 }
