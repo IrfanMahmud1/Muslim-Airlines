@@ -41,6 +41,7 @@ namespace AirlineReservationWebApplication.Models
         public virtual UserViewModel UserViewModel { get; set; }
 
         [NotMapped]
-        public List<(string, int)> AllUsers { get; set; }
+        public List<(string,int)> AllUsers { get; set; }
+
     }
 }

@@ -16,8 +16,9 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<PassengerViewModel> objPassengerList = _db.Passenger;
+                List<PassengerViewModel> objPassengerList = _db.Passengers.ToList();
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                TempData["user_id"] = 7;
                 return View(objPassengerList);
             }
             return RedirectToAction("Index", "Home");
@@ -29,13 +30,13 @@ namespace AirlineReservationWebApplication.Controllers
             if (TempData.ContainsKey("AdminEmail"))
             {
                 var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
-                
-                var existingPassengers = _db.Passenger
+
+                var existingPassengers = _db.Passengers
                     .Select(ps => ps.User_Id)
                     .ToList();
-                
+
                 var availableUsers = _db.Users
-                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id) 
+                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
                         && user.User_Id != admin.User_Id)
                     .ToList();
 
@@ -47,10 +48,6 @@ namespace AirlineReservationWebApplication.Controllers
                 {
                     newPassenger.AllUsers.Add((user.User_Name, user.User_Id));
                 }
-
-                // Existing users: 1, 2, 3, 4, 5, 6, 7, 8
-                // Already passenger: 1, 3, 6, 7
-                // Available users: 2, 4, 5, 8
 
                 return View(newPassenger);
             }
@@ -64,28 +61,23 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreatePassenger(PassengerViewModel obj)
         {
-            /*if (obj.registerViewModel == null)
-            {
-                var user = _db.Users.Find(obj.User_Id);
-                if(user == null)
-                {
-                    ModelState.AddModelError("User Id", "Invalid User Id");
-                    return View(obj);
-                }
-                user.ConfirmPassword = user.Password;
-                obj.registerViewModel = user;
-            }*/
             if (ModelState.IsValid)
             {
-                bool isPassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
+                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
                 int mobile = obj.Mobile;
                 int nid = obj.Nid;
-                if (isPassportExist)
+                int passportSize = obj.Passport.Length;
+                if (PassportExist)
                 {
                     ModelState.AddModelError("Passport", "Already registered with this passport number");
                     return View();
                 }
                 int checkMobile = CountDigits(mobile);
+                if(passportSize < 9)
+                {
+                    ModelState.AddModelError("passport", "Invalid Passport number");
+                    return View();
+                }
                 if (checkMobile < 10 || checkMobile > 10)
                 {
                     ModelState.AddModelError("mobile", "Invalid Mobile number");
@@ -98,10 +90,10 @@ namespace AirlineReservationWebApplication.Controllers
                     return View();
                 }
 
-                _db.Passenger.Add(obj);
+                _db.Passengers.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Passenger successfully Created";
+                TempData["success"] = "Passengers successfully Created";
                 return RedirectToAction("Index");
             }
             return View();
@@ -114,7 +106,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passenger.Find(id);
+            var passengerFromDb = _db.Passengers.Find(id);
             if (passengerFromDb == null)
             {
                 return NotFound();
@@ -128,12 +120,12 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var passenger = _db.Passenger.Find(obj.Passenger_ID);
+                var passenger = _db.Passengers.Find(obj.Passenger_ID);
                 if (passenger != null)
                 {
-                    _db.Passenger.Update(obj);
+                    _db.Passengers.Update(obj);
                     _db.SaveChanges();
-                    TempData["success"] = "Passenger successfully Updated";
+                    TempData["success"] = "Passengers successfully Updated";
                 } 
                 return RedirectToAction("Index");
             }
@@ -147,7 +139,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passenger.Find(id);
+            var passengerFromDb = _db.Passengers.Find(id);
             if (passengerFromDb == null)
             {
                 return NotFound();
@@ -159,16 +151,28 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePassenger(PassengerViewModel obj)
         {
-            bool isValid = _db.Passenger.Any(x => x.Passenger_ID == obj.Passenger_ID);
+            bool isValid = _db.Passengers.Any(x => x.Passenger_ID == obj.Passenger_ID);
             if (isValid)
             {
-                _db.Passenger.Remove(obj);
+                _db.Passengers.Remove(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "User successfully Deleted";
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+
+        public IActionResult Logout()
+        {
+            if (TempData.ContainsKey("AdminEmail"))
+            {
+                TempData["success"] = "Successfully Logged out";
+                TempData.Remove("AdminEmail");
+                //return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

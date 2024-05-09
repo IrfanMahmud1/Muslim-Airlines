@@ -5,7 +5,7 @@
 namespace AirlineReservationWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMuslimAirlineDBCheck : Migration
+    public partial class MuslimAirlineDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,7 @@ namespace AirlineReservationWebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Passenger",
+                name: "Passengers",
                 columns: table => new
                 {
                     Passenger_ID = table.Column<int>(type: "int", nullable: false)
@@ -43,18 +43,23 @@ namespace AirlineReservationWebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Passenger", x => x.Passenger_ID);
+                    table.PrimaryKey("PK_Passengers", x => x.Passenger_ID);
                     table.ForeignKey(
-                        name: "FK_Passenger_Users_User_Id",
+                        name: "FK_Passengers_Users_User_Id",
                         column: x => x.User_Id,
                         principalTable: "Users",
                         principalColumn: "User_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "User_Id", "Password", "User_Email", "User_Name" },
+                values: new object[] { 1, "123", "admin@sample.com", "Admin" });
+
             migrationBuilder.CreateIndex(
-                name: "IX_Passenger_User_Id",
-                table: "Passenger",
+                name: "IX_Passengers_User_Id",
+                table: "Passengers",
                 column: "User_Id");
         }
 
@@ -62,7 +67,7 @@ namespace AirlineReservationWebApplication.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Passenger");
+                name: "Passengers");
 
             migrationBuilder.DropTable(
                 name: "Users");

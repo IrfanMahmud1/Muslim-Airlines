@@ -20,11 +20,8 @@
                 </div>
                     <div class="d-flex">
                         <ul class="navbar-nav flex-grow-1">
-                            @* <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
-                            </li> *@
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Logout">Log out</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Passengers" asp-action="Logout">Log Out</a>
                             </li>
                         </ul>
                     </div>
@@ -37,26 +34,28 @@
             {
                 <partial name="_Notifications" />
             }
-
             <div class="container">
-                <div class="row mt-3 justify-content-between">
+                <div class="row mt-3">
                     <div class="col-2 border border-primary rounded">
                         <div class="pt-3">
                             <h2>Admin Panel</h2>
                             <hr />
                         </div>
                         <div class="my-4">
-                            <partial name="_AdminSidePanel" />
+                            <div class="list-group">
+                                <partial name="_AdminSidePanel" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-9 border border-secondary rounded">
-                        <div class="row pt-3 text-center text-secondary">
-                            @RenderBody()
+                    <div class="col-10 border border-secondary rounded pb-3">
+                        <div class="pt-3 text-center text-secondary">
+                            <h2>Dashboard</h2>
+                            <hr />
                         </div>
+                        @RenderBody()
                     </div>
                 </div>
             </div>
-            
         </main>
     </div>
 

@@ -16,7 +16,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<RegisterViewModel> objUserList = _db.Users;
+                List<UserViewModel> objUserList = _db.Users.ToList();
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objUserList);
             }
@@ -35,20 +35,15 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateUser(RegisterViewModel obj)
+        public IActionResult CreateUser(UserViewModel obj)
         {
             if (ModelState.IsValid)
             {
                 bool isRegisteredEmail = _db.Users.Any(x => x.User_Email == obj.User_Email);
-                bool isRegisteredName = _db.Users.Any(x => x.User_Name == obj.User_Name);
+
                 if (isRegisteredEmail)
                 {
-                    ModelState.AddModelError("User_Email", "Already registered with this email");
-                    if (isRegisteredName)
-                    {
-                        ModelState.AddModelError("User_Name", "Already registered with this name");
-                        return View();
-                    }
+                    ModelState.AddModelError("User_Email", "A user already registered with this email. Try a different one.");                    
                     return View();
                 }
                 _db.Users.Add(obj);
@@ -77,7 +72,7 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateUser(RegisterViewModel obj)
+        public IActionResult UpdateUser(UserViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -89,7 +84,7 @@ namespace AirlineReservationWebApplication.Controllers
                         bool duplicate = _db.Users.Any(x => x.User_Email == obj.User_Email);
                         if (duplicate)
                         {
-                            ModelState.AddModelError("User_Email", "Already         registered with this email");
+                            ModelState.AddModelError("User_Email", "Already registered with this email");
                             return View();
                         }
                         user.User_Email = obj.User_Email;
@@ -128,18 +123,20 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteUser(RegisterViewModel obj)
+        public IActionResult DeleteUser(int id)
         {
-            bool isValid = _db.Users.Any(x => x.User_Id == obj.User_Id);
-            if (isValid)
+            var user = _db.Users.Find(id);
+            if (user != null)
             {
-                _db.Users.Remove(obj);
+                _db.Users.Remove(user);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "User successfully Deleted";
-                return RedirectToAction("Index");
+                TempData["success"] = "User successfully deleted.";
             }
-            return View();
+            else
+                TempData["error"] = "User not found.";
+
+            return RedirectToAction("Index");
         }
     }
 }

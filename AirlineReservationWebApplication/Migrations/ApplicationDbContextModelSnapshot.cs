@@ -67,10 +67,10 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Passenger");
+                    b.ToTable("Passengers");
                 });
 
-            modelBuilder.Entity("AirlineReservationWebApplication.Models.RegisterViewModel", b =>
+            modelBuilder.Entity("AirlineReservationWebApplication.Models.UserViewModel", b =>
                 {
                     b.Property<int>("User_Id")
                         .ValueGeneratedOnAdd()
@@ -93,17 +93,26 @@ namespace AirlineReservationWebApplication.Migrations
                     b.HasKey("User_Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            User_Id = 1,
+                            Password = "123",
+                            User_Email = "admin@sample.com",
+                            User_Name = "Admin"
+                        });
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PassengerViewModel", b =>
                 {
-                    b.HasOne("AirlineReservationWebApplication.Models.RegisterViewModel", "registerViewModel")
+                    b.HasOne("AirlineReservationWebApplication.Models.UserViewModel", "UserViewModel")
                         .WithMany()
                         .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("registerViewModel");
+                    b.Navigation("UserViewModel");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,13 +1,18 @@
 ﻿@model PassengerViewModel
 @{
     ViewData["Title"] = "CreatePassenger";
-    Layout = "~/Views/Shared/_Layout-DashboardCRUD.cshtml";
+    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
 <form method="post">
     <div class="border mt-3 p-3">
+        @* <input asp-for="registerViewModel.User_Name" hidden/>
+        <input asp-for="registerViewModel.User_Email" hidden/>
+        <input asp-for="registerViewModel.User_Id" hidden/>
+        <input asp-for="registerViewModel.Password" hidden/>
+        <input asp-for="registerViewModel.ConfirmPassword" hidden/> *@
         <div class="row">
-            <h2>Create Passenger</h2>
+            <h2>Create Passengers</h2>
             <hr />
         </div>
         <div>
@@ -69,9 +74,10 @@
                 }
             </select>
         </div>
+
         <div class="mt-3">
             <button type="submit" class="btn btn-primary" style="width:120px">Create</button>
-            <a asp-controller="Passenger" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
+            <a asp-controller="Passengers" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
         </div>
     </div>
 </form>
