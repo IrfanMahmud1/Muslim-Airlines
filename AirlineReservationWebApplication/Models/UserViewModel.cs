@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AirlineReservationWebApplication.Models
 {
-    public class RegisterViewModel
+    public class UserViewModel
     {
         [Key]
         public int User_Id { get; set; }

@@ -16,7 +16,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<RegisterViewModel> objUserList = _db.User;
+                IEnumerable<UserViewModel> objUserList = _db.User;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objUserList);
             }
@@ -35,7 +35,7 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateUser(RegisterViewModel obj)
+        public IActionResult CreateUser(UserViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -63,21 +63,25 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult UpdateUser(int? id)
         {
-            if (id == null || id == 0)
+           if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var userFromDb = _db.User.Find(id);
+                if (userFromDb == null)
+                {
+                    return NotFound();
+                }
+                return View(userFromDb);
             }
-            var userFromDb = _db.User.Find(id);
-            if (userFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(userFromDb);
+            return RedirectToAction("Index","Home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateUser(RegisterViewModel obj)
+        public IActionResult UpdateUser(UserViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -114,16 +118,20 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult DeleteUser(int? id)
         {
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var userFromDb = _db.User.Find(id);
+                if (userFromDb == null)
+                {
+                    return NotFound();
+                }
+                return View(userFromDb);
             }
-            var userFromDb = _db.User.Find(id);
-            if (userFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(userFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
