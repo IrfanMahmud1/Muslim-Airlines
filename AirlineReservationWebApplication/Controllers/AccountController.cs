@@ -21,6 +21,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return RedirectToAction("Index", "HomePage");
             }
+            TempData["register"] = "activate";
             return View();
         }
 

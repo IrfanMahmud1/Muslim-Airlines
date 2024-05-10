@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AirlineReservationWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class AddFlightToDb : Migration
+    public partial class newMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,36 +27,16 @@ namespace AirlineReservationWebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Feedback",
-                columns: table => new
-                {
-                    Feedback_Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Passenger_Id = table.Column<int>(type: "int", nullable: false),
-                    Passenger_Feedback = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Feedback", x => x.Feedback_Id);
-                    table.ForeignKey(
-                        name: "FK_Feedback_Passenger_Passenger_Id",
-                        column: x => x.Passenger_Id,
-                        principalTable: "Passenger",
-                        principalColumn: "Passenger_ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Flight",
                 columns: table => new
                 {
                     Flight_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Flight_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Departure_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Arrival_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Departure_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Arrival_Time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Departure_Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Arrival_Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Departure_Time = table.Column<TimeOnly>(type: "time", nullable: false),
+                    Arrival_Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     Departure_Place = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Arrival_Place = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Total_Seats = table.Column<int>(type: "int", nullable: false),
@@ -88,6 +68,27 @@ namespace AirlineReservationWebApplication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Hotel", x => x.Hotel_Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Passenger",
+                columns: table => new
+                {
+                    Passenger_ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    First_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Last_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Passport = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
+                    Mobile = table.Column<int>(type: "int", nullable: false),
+                    Nid = table.Column<int>(type: "int", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Passenger", x => x.Passenger_ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,6 +124,21 @@ namespace AirlineReservationWebApplication.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transport", x => x.Transport_Model);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    User_Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    User_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    User_Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.User_Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,6 +194,26 @@ namespace AirlineReservationWebApplication.Migrations
                         column: x => x.Hotel_Id,
                         principalTable: "Hotel",
                         principalColumn: "Hotel_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Feedback",
+                columns: table => new
+                {
+                    Feedback_Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Passenger_Id = table.Column<int>(type: "int", nullable: false),
+                    Passenger_Feedback = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedback", x => x.Feedback_Id);
+                    table.ForeignKey(
+                        name: "FK_Feedback_Passenger_Passenger_Id",
+                        column: x => x.Passenger_Id,
+                        principalTable: "Passenger",
+                        principalColumn: "Passenger_ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -301,10 +337,16 @@ namespace AirlineReservationWebApplication.Migrations
                 name: "Reservation");
 
             migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
                 name: "Flight");
 
             migrationBuilder.DropTable(
                 name: "Hotel");
+
+            migrationBuilder.DropTable(
+                name: "Passenger");
 
             migrationBuilder.DropTable(
                 name: "Payment");

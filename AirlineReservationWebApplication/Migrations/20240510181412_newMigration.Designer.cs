@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirlineReservationWebApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240509173350_AddChangesToFlightModel")]
-    partial class AddChangesToFlightModel
+    [Migration("20240510181412_newMigration")]
+    partial class newMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -247,8 +247,6 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Passenger_ID");
 
-                    b.HasIndex("User_Id");
-
                     b.ToTable("Passenger");
                 });
 
@@ -460,17 +458,6 @@ namespace AirlineReservationWebApplication.Migrations
                     b.Navigation("flightViewModel");
 
                     b.Navigation("hotelViewModel");
-                });
-
-            modelBuilder.Entity("AirlineReservationWebApplication.Models.PassengerViewModel", b =>
-                {
-                    b.HasOne("AirlineReservationWebApplication.Models.RegisterViewModel", "registerViewModel")
-                        .WithMany()
-                        .HasForeignKey("User_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("registerViewModel");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PrivateServiceViewModel", b =>
