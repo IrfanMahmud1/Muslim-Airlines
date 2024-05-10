@@ -8,8 +8,17 @@ namespace AirlineReservationWebApplication.Models
         [Key]
         public int Offer_Id { get; set; }
 
-        
-        public DateTime Start_Date { get; set; }
+        [DataType(DataType.Date)]
+        public DateOnly Start_Date { get; set; }
+
+        [DataType(DataType.Time)]
+        public TimeOnly Start_Time { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateOnly End_Date { get; set; }
+
+        [DataType(DataType.Time)]
+        public TimeOnly End_Time { get; set; }
 
         public TimeSpan Validity { get; set; }
 
@@ -19,12 +28,10 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public string Offer_For { get; set; }
 
+        [Required]
         public int Hotel_Id { get; set; }
-        [ForeignKey("Hotel_Id")]
-        public virtual HotelViewModel hotelViewModel { get; set; }
 
+        [Required]
         public int Flight_Id { get; set; }
-        [ForeignKey("Flight_Id")]
-        public virtual FlightViewModel flightViewModel{ get; set; }
     }
 }

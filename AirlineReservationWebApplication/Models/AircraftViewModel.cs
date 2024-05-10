@@ -6,7 +6,10 @@ namespace AirlineReservationWebApplication.Models
     public class AircraftViewModel
     {
         [Key]
-        public int Aircraft_Model { get; set; }
+        public int Aircraft_Id { get; set; }
+
+        [Required]
+        public string Aircraft_Name { get; set;}
 
         [Required]
         public string Aircraft_Category { get; set; }

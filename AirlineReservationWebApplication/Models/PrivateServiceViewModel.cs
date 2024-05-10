@@ -6,19 +6,19 @@ namespace AirlineReservationWebApplication.Models
     public class PrivateServiceViewModel
     {
         [Key]
-        public int PrivateS_Id {  get; set; }
+        public int PrivateService_Id {  get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Departure_Date { get; set; }
+        public DateOnly Departure_Date { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Arrival_Date { get; set; }
+        public DateOnly Arrival_Date { get; set; }
 
         [DataType(DataType.Time)]
-        public DateTime Departure_Time { get; set; }
+        public TimeOnly Departure_Time { get; set; }
         
         [DataType(DataType.Time)]
-        public DateTime Arrival_Time { get; set; }
+        public TimeOnly Arrival_Time { get; set; }
 
         [Required]
         public string Departure_Place { get; set; }
@@ -29,10 +29,8 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public string Service_Category { get; set; }
 
-        public int Aircraft_Model {  get; set; }
-        [ForeignKey("Aircraft_Model")]
-        public AircraftViewModel aircraftViewModel { get; set; }
-
+        [Required]
+        public int Aircraft_Id {  get; set; }
 
     }
 }

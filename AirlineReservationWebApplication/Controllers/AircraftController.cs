@@ -1,4 +1,4 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿/*using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -138,3 +138,4 @@ namespace AirlineReservationWebApplication.Controllers
         }
     }
 }
+*/

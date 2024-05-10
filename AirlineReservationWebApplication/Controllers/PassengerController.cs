@@ -29,13 +29,13 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
+                var admin = _db.User.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
 
                 var existingPassengers = _db.Passenger
                     .Select(ps => ps.User_Id)
                     .ToList();
 
-                var availableUsers = _db.Users
+                var availableUsers = _db.User
                     .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
                         && user.User_Id != admin.User_Id)
                     .ToList();

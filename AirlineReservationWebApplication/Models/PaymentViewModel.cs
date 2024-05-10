@@ -14,7 +14,10 @@ namespace AirlineReservationWebApplication.Models
         public int Amount { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Payment_Date { get; set; }
+        public DateOnly Payment_Date { get; set; }
+
+        [DataType(DataType.Time)]
+        public TimeOnly Payment_Time { get; set; }
 
         [Required]
         public string Payment_For {  get; set; }

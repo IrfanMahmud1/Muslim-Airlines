@@ -1,4 +1,4 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿/*using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +16,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<PassengerViewModel> objPassengerList = _db.Passenger;
+                IEnumerable<PassengerViewModel> objPassengerList = _db.Passengers;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 TempData["user_id"] = 7;
                 return View(objPassengerList);
@@ -31,7 +31,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
 
-                var existingPassengers = _db.Passenger
+                var existingPassengers = _db.Passengers
                     .Select(ps => ps.User_Id)
                     .ToList();
 
@@ -67,7 +67,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool PassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
+                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
                 int mobile = obj.Mobile;
                 int nid = obj.Nid;
                 int passportSize = obj.Passport.Length;
@@ -94,7 +94,7 @@ namespace AirlineReservationWebApplication.Controllers
                     return View();
                 }
 
-                _db.Passenger.Add(obj);
+                _db.Passengers.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Passenger successfully Created";
@@ -110,7 +110,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passenger.Find(id);
+            var passengerFromDb = _db.Passengers.Find(id);
             if (passengerFromDb == null)
             {
                 return NotFound();
@@ -124,10 +124,10 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var passenger = _db.Passenger.Find(obj.Passenger_ID);
+                var passenger = _db.Passengers.Find(obj.Passenger_ID);
                 if (passenger != null)
                 {
-                    _db.Passenger.Update(obj);
+                    _db.Passengers.Update(obj);
                     _db.SaveChanges();
                     TempData["success"] = "Passenger successfully Updated";
                 }
@@ -143,7 +143,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passenger.Find(id);
+            var passengerFromDb = _db.Passengers.Find(id);
             if (passengerFromDb == null)
             {
                 return NotFound();
@@ -155,10 +155,10 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteHotel(PassengerViewModel obj)
         {
-            bool isValid = _db.Passenger.Any(x => x.Passenger_ID == obj.Passenger_ID);
+            bool isValid = _db.Passengers.Any(x => x.Passenger_ID == obj.Passenger_ID);
             if (isValid)
             {
-                _db.Passenger.Remove(obj);
+                _db.Passengers.Remove(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "User successfully Deleted";
@@ -180,3 +180,4 @@ namespace AirlineReservationWebApplication.Controllers
         }
     }
 }
+*/
