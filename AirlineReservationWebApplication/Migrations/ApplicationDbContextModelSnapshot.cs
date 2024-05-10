@@ -43,7 +43,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Aircraft_Model");
 
-                    b.ToTable("Aircraft", (string)null);
+                    b.ToTable("Aircraft");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.FeedbackViewModel", b =>
@@ -65,7 +65,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Passenger_Id");
 
-                    b.ToTable("Feedback", (string)null);
+                    b.ToTable("Feedback");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.FlightViewModel", b =>
@@ -120,7 +120,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Flight_Id");
 
-                    b.ToTable("Flight", (string)null);
+                    b.ToTable("Flight");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.HotelViewModel", b =>
@@ -161,7 +161,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Hotel_Id");
 
-                    b.ToTable("Hotel", (string)null);
+                    b.ToTable("Hotel");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.OfferViewModel", b =>
@@ -197,7 +197,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Hotel_Id");
 
-                    b.ToTable("Offer", (string)null);
+                    b.ToTable("Offer");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PassengerViewModel", b =>
@@ -246,7 +246,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Passenger", (string)null);
+                    b.ToTable("Passengers");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PaymentViewModel", b =>
@@ -273,7 +273,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Payment_Id");
 
-                    b.ToTable("Payment", (string)null);
+                    b.ToTable("Payment");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PrivateServiceViewModel", b =>
@@ -315,32 +315,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Aircraft_Model");
 
-                    b.ToTable("PrivateService", (string)null);
-                });
-
-            modelBuilder.Entity("AirlineReservationWebApplication.Models.UserViewModel", b =>
-                {
-                    b.Property<int>("User_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("User_Id"));
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User_Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User_Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("User_Id");
-
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("PrivateService");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.ReservationViewModel", b =>
@@ -390,7 +365,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("Transport_Id");
 
-                    b.ToTable("Reservation", (string)null);
+                    b.ToTable("Reservation");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.TransportViewModel", b =>
@@ -426,7 +401,31 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Transport_Model");
 
-                    b.ToTable("Transport", (string)null);
+                    b.ToTable("Transport");
+                });
+
+            modelBuilder.Entity("AirlineReservationWebApplication.Models.UserViewModel", b =>
+                {
+                    b.Property<int>("User_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("User_Id"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("User_Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("User_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("User_Id");
+
                     b.ToTable("Users");
 
                     b.HasData(

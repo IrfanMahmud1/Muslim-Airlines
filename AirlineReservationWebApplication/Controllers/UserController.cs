@@ -126,7 +126,7 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeleteUser(int id)
         {
             var user = _db.Users.Find(id);
-            if (user != null)
+            if (user!=null)
             {
                 _db.Users.Remove(user);
                 _db.SaveChanges();

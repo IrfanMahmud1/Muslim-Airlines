@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirlineReservationWebApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240509173350_AddChangesToFlightModel")]
-    partial class AddChangesToFlightModel
+    [Migration("20240510192526_MuslimAirlineDb")]
+    partial class MuslimAirlineDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -249,7 +249,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Passenger");
+                    b.ToTable("Passengers");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PaymentViewModel", b =>
@@ -319,31 +319,6 @@ namespace AirlineReservationWebApplication.Migrations
                     b.HasIndex("Aircraft_Model");
 
                     b.ToTable("PrivateService");
-                });
-
-            modelBuilder.Entity("AirlineReservationWebApplication.Models.RegisterViewModel", b =>
-                {
-                    b.Property<int>("User_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("User_Id"));
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User_Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("User_Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("User_Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.ReservationViewModel", b =>
@@ -432,6 +407,40 @@ namespace AirlineReservationWebApplication.Migrations
                     b.ToTable("Transport");
                 });
 
+            modelBuilder.Entity("AirlineReservationWebApplication.Models.UserViewModel", b =>
+                {
+                    b.Property<int>("User_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("User_Id"));
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("User_Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("User_Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("User_Id");
+
+                    b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            User_Id = 1,
+                            Password = "123",
+                            User_Email = "admin@sample.com",
+                            User_Name = "Admin"
+                        });
+                });
+
             modelBuilder.Entity("AirlineReservationWebApplication.Models.FeedbackViewModel", b =>
                 {
                     b.HasOne("AirlineReservationWebApplication.Models.PassengerViewModel", "passengerViewModel")
@@ -464,13 +473,13 @@ namespace AirlineReservationWebApplication.Migrations
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PassengerViewModel", b =>
                 {
-                    b.HasOne("AirlineReservationWebApplication.Models.RegisterViewModel", "registerViewModel")
+                    b.HasOne("AirlineReservationWebApplication.Models.UserViewModel", "UserViewModel")
                         .WithMany()
                         .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("registerViewModel");
+                    b.Navigation("UserViewModel");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PrivateServiceViewModel", b =>
