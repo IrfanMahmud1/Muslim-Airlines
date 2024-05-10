@@ -128,12 +128,12 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteUser(RegisterViewModel obj)
+        public IActionResult DeleteUser(int id)
         {
-            bool isValid = _db.Users.Any(x => x.User_Id == obj.User_Id);
-            if (isValid)
+            var user = _db.Users.Find(id);
+            if (user!=null)
             {
-                _db.Users.Remove(obj);
+                _db.Users.Remove(user);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "User successfully Deleted";

@@ -30,7 +30,10 @@
                 <td>@obj.User_Email</td>
                 <td>
                     <a asp-controller="User" asp-action="UpdateUser" asp-route-id="@obj.User_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
-                    <a asp-controller="User" asp-action="DeleteUser" asp-route-id="@obj.User_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
+                    @if (!(obj.User_Email.Contains("admin")) && !(obj.User_Email.Contains("@sample.com")))
+                    {
+                        <a asp-controller="User" asp-action="DeleteUser" asp-route-id="@obj.User_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
+                    }
                 </td>
             </tr>
         }

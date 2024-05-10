@@ -35,11 +35,10 @@ namespace AirlineReservationWebApplication.Models
         public string Address { get; set; }
 
         public int User_Id { get; set; }
-        [ForeignKey("User_Id")]
-        public virtual RegisterViewModel registerViewModel { get; set; }
+       /* public virtual RegisterViewModel registerViewModel { get; set; }*/
 
         [NotMapped]
-        public List<(string,int)> AllUsers { get; set; }
+        public List<(string,int)>? AllUsers { get; set; }
 
     }
 }
