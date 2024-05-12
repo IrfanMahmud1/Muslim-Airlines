@@ -19,9 +19,7 @@ namespace AirlineReservationWebApplication.Models
 
         [Required]
         public string Aircraft_Type { get; set; }
-        [Required]
 
-        [NotMapped]
-        public bool Availability { get;set; } 
+        public bool Availability { get; set; } = true;
     }
 }
