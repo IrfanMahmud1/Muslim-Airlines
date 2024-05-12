@@ -1,4 +1,4 @@
-﻿/*using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +18,6 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 IEnumerable<AircraftViewModel> objAircraftList = _db.Aircraft;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                TempData["user_id"] = 7;
                 return View(objAircraftList);
             }
             return RedirectToAction("Index", "Home");
@@ -31,7 +30,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -41,7 +40,7 @@ namespace AirlineReservationWebApplication.Controllers
             if (ModelState.IsValid)
             {
                 bool aircraft = _db.Aircraft.Any(x => x.Aircraft_Name == obj.Aircraft_Name);
-                if(aircraft)
+                if (aircraft)
                 {
                     ModelState.AddModelError("aircraft", "This aircraft name is already exist.Try a new aircraft name");
                     return View();
@@ -76,12 +75,26 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var passenger = _db.Aircraft.Find(obj.Aircraft_Id);
-                if (passenger != null)
+                var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
+                if (aircraft != null)
                 {
-                    _db.Aircraft.Update(obj);
+                    if (aircraft.Aircraft_Name != obj.Aircraft_Name)
+                    {
+                        bool duplicate = _db.Aircraft.Any(x => x.Aircraft_Name == obj.Aircraft_Name);
+                        if (duplicate)
+                        {
+                            ModelState.AddModelError("Aircraft", "This aircraft is already exist.Try a different one");
+                            return View(obj);
+                        }
+                        aircraft.Aircraft_Name = obj.Aircraft_Name;
+                    }
+                    aircraft.Aircraft_Category = obj.Aircraft_Category;
+                    aircraft.Aircraft_Type = obj.Aircraft_Type;
+                    aircraft.Seat_Capacity = obj.Seat_Capacity;
+                    aircraft.Availability = obj.Availability;
+                    _db.Aircraft.Update(aircraft);
                     _db.SaveChanges();
-                    TempData["success"] = "Passenger successfully Updated";
+                    TempData["success"] = "Aircraft successfully Updated";
                 }
                 return RedirectToAction("Index");
             }
@@ -95,29 +108,28 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passenger.Find(id);
-            if (passengerFromDb == null)
+            var aircraftFromDb = _db.Aircraft.Find(id);
+            if (aircraftFromDb == null)
             {
                 return NotFound();
             }
-            return View(passengerFromDb);
+            return View(aircraftFromDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteAircraft(AircraftViewModel obj)
+        public IActionResult DeleteAircraft(int id)
         {
-            bool isValid = _db.Aircraft.Any(x => x.Aircraft_Model == obj.Aircraft_Model);
-            if (isValid)
+            var aircraft = _db.Aircraft.Find(id);
+            if (aircraft != null)
             {
-                _db.Aircraft.Remove(obj);
+                _db.Aircraft.Remove(aircraft);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "User successfully Deleted";
+                TempData["success"] = "Aircraft successfully Deleted";
                 return RedirectToAction("Index");
             }
             return View();
         }
     }
 }
-*/

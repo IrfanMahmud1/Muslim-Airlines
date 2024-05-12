@@ -1,8 +1,64 @@
-﻿
+﻿@model AircraftViewModel
 @{
     ViewData["Title"] = "DeleteAircraft";
     Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
-<h1>DeleteAircraft</h1>
+<form method="post">
+    <div class="border mt-3 p-3">
+           <input asp-for="Aircraft_Id" hidden />
+        <div class="row">
+            <h2>Delete Aircraft</h2>
+            <hr />
+        </div>
+        <div class="mt-3">
+            <label asp-for="Aircraft_Name" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Aircraft_Name" class="form-control mt-1" disabled/>
+            <span asp-validation-for="Aircraft_Name" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label for="Aircraft_Category" class="text-secondary" style="font-size:20px">Aircraaft Category :</label>
+            <div>
+                @Html.RadioButtonFor(m => m.Aircraft_Category, "Airplane", new { disabled = "disabled" })
+                <label for="airPlane">Air Plane</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(m => m.Aircraft_Category, "HeliCopter", new { disabled = "disabled" })
+                <label for="heliCopter">Helicopter</label>
+            </div>
+        </div>
+        <div class="mt-3">
+            <label for="Aircraft_Type" class="text-secondary" style="font-size:20px">Aircraaft Type :</label>
+            <div>
+                @Html.RadioButtonFor(m => m.Aircraft_Type, "Public", new { disabled = "disabled" })
+                <label for="public">Public</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(m => m.Aircraft_Type,"Private", new { disabled = "disabled" })
+                <label for="private">Private</label>
+            </div>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Seat_Capacity" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Seat_Capacity" class="form-control mt-1 disabled" />
+            <span asp-validation-for="Seat_Capacity" class="text-danger"></span>
+        </div>
+        @*  <div class="mt-3">
+        <label asp-for="Availability" class="text-secondary" style="font-size:20px"></label>
+        <input asp-for="Availability" class="form-control mt-1" />
+        <span asp-validation-for="Availability" class="text-danger"></span>
+        </div> *@
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary" style="width:120px">Delete</button>
+            <a asp-controller="Aircraft" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
+        </div>
+    </div>
+</form>
+
+@section scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
 
