@@ -1,4 +1,5 @@
 ﻿using AirlineReservationWebApplication.Data;
+using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,11 +8,14 @@ namespace AirlineReservationWebApplication.Controllers
     public class PassengerController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IPassengerModelFactory _passengerModelFactory;
 
-        public PassengerController(ApplicationDbContext db)
+        public PassengerController(ApplicationDbContext db, IPassengerModelFactory passengerModelFactory)
         {
             _db = db;
+            _passengerModelFactory = passengerModelFactory;
         }
+
         public IActionResult Index()
         {
             if (TempData.ContainsKey("AdminEmail"))
@@ -28,21 +32,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                /* var existingPassengers = _db.Passenger
-                     .Select(ps => ps.User_Id)
-                     .ToList();*/
-
-                var availableUsers = _db.User.Select(user => user).Where(us => us.User_Email!= "admin@sample.com").ToList();
-
-                var newPassenger = new PassengerViewModel();
-
-                newPassenger.AllUsers = new List<(string, int)>();
-
-                foreach (var user in availableUsers)
-                {
-                    newPassenger.AllUsers.Add((user.User_Name, user.User_Id));
-                }
-
+                var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
                 return View(newPassenger);
             }
             return View();
@@ -56,41 +46,47 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult CreatePassenger(PassengerViewModel obj)
         {
             if (ModelState.IsValid)
-            {
-                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
+            {                
                 int mobile = obj.Mobile;
                 int nid = obj.Nid;
-                int passportSize = obj.Passport.Length;
+
+                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
                 if (PassportExist)
                 {
                     ModelState.AddModelError("Passport", "This Passenger is already registered");
                     return View(obj);
                 }
+
+                int passportSize = obj.Passport.Length;
+                if (passportSize < 9)
+                {
+                    ModelState.AddModelError("Passport", "Invalid Passport number");
+                    return View(obj);
+                }
+
                 int checkMobile = CountDigits(mobile);
-                if(passportSize < 9)
+                if (checkMobile != 10)
                 {
-                    ModelState.AddModelError("passport", "Invalid Passport number");
-                    return View();
+                    ModelState.AddModelError("Mobile", "Invalid Mobile number");
+                    return View(obj);
                 }
-                if (checkMobile < 10 || checkMobile > 10)
-                {
-                    ModelState.AddModelError("mobile", "Invalid Mobile number");
-                    return View();
-                }
+
                 int checkNid = CountDigits(nid);
-                if (checkNid < 10 || checkNid > 10)
+                if (checkNid != 10)
                 {
-                    ModelState.AddModelError("nid", "Invalid NID number");
-                    return View();
+                    ModelState.AddModelError("NID", "Invalid NID number");
+                    return View(obj);
                 }
 
                 _db.Passengers.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Passengers successfully Created";
+                TempData["success"] = "Passengers successfully created.";
                 return RedirectToAction("Index");
             }
-            return View();
+
+            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
+            return View(newPassenger);
         }
 
         [HttpGet]

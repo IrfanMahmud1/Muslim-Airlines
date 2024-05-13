@@ -25,21 +25,6 @@ namespace AirlineReservationWebApplication.Data
             base.OnModelCreating(modelBuilder);
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<UserViewModel>()
-                .HasData(new UserViewModel()
-                {
-                    User_Id = 1,
-                    User_Email = "admin@sample.com",
-                    User_Name = "Admin",
-                    Password = "123",
-                    ConfirmPassword = "123"
-                });
-
-            base.OnModelCreating(modelBuilder);
-        }
-
         public DbSet<UserViewModel> User { get; set; }
         public DbSet<PassengerViewModel> Passenger { get; set; }
         public DbSet<ReservationViewModel> Reservation { get; set; }
