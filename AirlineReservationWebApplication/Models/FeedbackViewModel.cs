@@ -8,9 +8,8 @@ namespace AirlineReservationWebApplication.Models
         [Key]
         public int Feedback_Id { get; set; }
 
+        [Required]
         public int Passenger_Id { get; set; }
-        [ForeignKey("Passenger_Id")]
-        public PassengerViewModel passengerViewModel { get; set; }
 
         [Required]
         public string Passenger_Feedback {  get; set; }

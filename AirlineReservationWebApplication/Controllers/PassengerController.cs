@@ -18,7 +18,6 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 List<PassengerViewModel> objPassengerList = _db.Passengers.ToList();
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                TempData["user_id"] = 7;
                 return View(objPassengerList);
             }
             return RedirectToAction("Index", "Home");
@@ -29,16 +28,11 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
+                /* var existingPassengers = _db.Passenger
+                     .Select(ps => ps.User_Id)
+                     .ToList();*/
 
-                var existingPassengers = _db.Passengers
-                    .Select(ps => ps.User_Id)
-                    .ToList();
-
-                var availableUsers = _db.Users
-                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
-                        && user.User_Id != admin.User_Id)
-                    .ToList();
+                var availableUsers = _db.User.Select(user => user).Where(us => us.User_Email!= "admin@sample.com").ToList();
 
                 var newPassenger = new PassengerViewModel();
 
@@ -69,8 +63,8 @@ namespace AirlineReservationWebApplication.Controllers
                 int passportSize = obj.Passport.Length;
                 if (PassportExist)
                 {
-                    ModelState.AddModelError("Passport", "Already registered with this passport number");
-                    return View();
+                    ModelState.AddModelError("Passport", "This Passenger is already registered");
+                    return View(obj);
                 }
                 int checkMobile = CountDigits(mobile);
                 if(passportSize < 9)
@@ -123,7 +117,27 @@ namespace AirlineReservationWebApplication.Controllers
                 var passenger = _db.Passengers.Find(obj.Passenger_ID);
                 if (passenger != null)
                 {
-                    _db.Passengers.Update(obj);
+                    if (passenger.Passport != obj.Passport)
+                    {
+                        bool duplicate = _db.Passenger.Any(x => x.Passport == obj.Passport);
+                        if (duplicate)
+                        {
+                            ModelState.AddModelError("passport", "A passenger already exists with this passport");
+                            return View(obj);
+                        }
+                        passenger.Passport = obj.Passport;
+                    }
+                    passenger.First_Name = obj.First_Name;
+                    passenger.Last_Name = obj.Last_Name;
+                    passenger.Gender = obj.Gender;
+                    passenger.Mobile = obj.Mobile;
+                    passenger.Nid = obj.Nid;
+                    passenger.Email = obj.Email;
+                    passenger.Address = obj.Address;
+                    passenger.User_Id = obj.User_Id;
+                    passenger.Is_Approved = obj.Is_Approved;
+                    passenger.AllUsers = obj.AllUsers;
+                    _db.Passenger.Update(passenger);
                     _db.SaveChanges();
                     TempData["success"] = "Passengers successfully Updated";
                 } 
@@ -149,15 +163,15 @@ namespace AirlineReservationWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePassenger(PassengerViewModel obj)
+        public IActionResult DeletePassenger(int id)
         {
-            bool isValid = _db.Passengers.Any(x => x.Passenger_ID == obj.Passenger_ID);
-            if (isValid)
+            var passenger = _db.Passenger.Find(id);
+            if (passenger != null)
             {
-                _db.Passengers.Remove(obj);
+                _db.Passenger.Remove(passenger);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "User successfully Deleted";
+                TempData["success"] = "Passenger successfully Deleted";
                 return RedirectToAction("Index");
             }
             return View();

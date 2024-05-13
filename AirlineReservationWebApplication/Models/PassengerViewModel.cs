@@ -35,8 +35,12 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public string Address { get; set; }
 
+        [Required]
         public int User_Id { get; set; }
+        /* public virtual RegisterViewModel registerViewModel { get; set; }*/
 
+        public bool Is_Approved { get; set; }
+        
         [NotMapped]
         public List<(string,int)>? AllUsers { get; set; }
 

@@ -16,10 +16,9 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<PassengerViewModel> objPassengerList = _db.Passengers;
+                IEnumerable<AircraftViewModel> objAircraftList = _db.Aircraft;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                TempData["user_id"] = 7;
-                return View(objPassengerList);
+                return View(objAircraftList);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -29,33 +28,9 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
-
-                var existingPassengers = _db.Passengers
-                    .Select(ps => ps.User_Id)
-                    .ToList();
-
-                var availableUsers = _db.Users
-                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
-                        && user.User_Id != admin.User_Id)
-                    .ToList();
-
-                var newPassenger = new PassengerViewModel();
-
-                newPassenger.AllUsers = new List<(string, int)>();
-
-                foreach (var user in availableUsers)
-                {
-                    newPassenger.AllUsers.Add((user.User_Name, user.User_Id));
-                }
-
-                // Existing users: 1, 2, 3, 4, 5, 6, 7, 8
-                // Already passenger: 1, 3, 6, 7
-                // Available users: 2, 4, 5, 8
-
-                return View(newPassenger);
+                return View();
             }
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -64,10 +39,16 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
+                bool aircraft = _db.Aircraft.Any(x => x.Aircraft_Name == obj.Aircraft_Name);
+                if (aircraft)
+                {
+                    ModelState.AddModelError("aircraft", "This aircraft name is already exist.Try a new aircraft name");
+                    return View();
+                }
                 _db.Aircraft.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Passengers successfully Created";
+                TempData["success"] = "Aircraft successfully Created";
                 return RedirectToAction("Index");
             }
             return View();
@@ -80,12 +61,12 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
-            if (passengerFromDb == null)
+            var aircraftFromDb = _db.Aircraft.Find(id);
+            if (aircraftFromDb == null)
             {
                 return NotFound();
             }
-            return View(passengerFromDb);
+            return View(aircraftFromDb);
         }
 
         [HttpPost]
@@ -94,12 +75,26 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var passenger = _db.Aircraft.Find(obj.Aircraft_Model);
-                if (passenger != null)
+                var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
+                if (aircraft != null)
                 {
-                    _db.Aircraft.Update(obj);
+                    if (aircraft.Aircraft_Name != obj.Aircraft_Name)
+                    {
+                        bool duplicate = _db.Aircraft.Any(x => x.Aircraft_Name == obj.Aircraft_Name);
+                        if (duplicate)
+                        {
+                            ModelState.AddModelError("Aircraft", "This aircraft is already exist.Try a different one");
+                            return View(obj);
+                        }
+                        aircraft.Aircraft_Name = obj.Aircraft_Name;
+                    }
+                    aircraft.Aircraft_Category = obj.Aircraft_Category;
+                    aircraft.Aircraft_Type = obj.Aircraft_Type;
+                    aircraft.Seat_Capacity = obj.Seat_Capacity;
+                    aircraft.Availability = obj.Availability;
+                    _db.Aircraft.Update(aircraft);
                     _db.SaveChanges();
-                    TempData["success"] = "Passengers successfully Updated";
+                    TempData["success"] = "Aircraft successfully Updated";
                 }
                 return RedirectToAction("Index");
             }
@@ -113,25 +108,25 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
-            if (passengerFromDb == null)
+            var aircraftFromDb = _db.Aircraft.Find(id);
+            if (aircraftFromDb == null)
             {
                 return NotFound();
             }
-            return View(passengerFromDb);
+            return View(aircraftFromDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteAircraft(AircraftViewModel obj)
+        public IActionResult DeleteAircraft(int id)
         {
-            bool isValid = _db.Aircraft.Any(x => x.Aircraft_Model == obj.Aircraft_Model);
-            if (isValid)
+            var aircraft = _db.Aircraft.Find(id);
+            if (aircraft != null)
             {
-                _db.Aircraft.Remove(obj);
+                _db.Aircraft.Remove(aircraft);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "User successfully Deleted";
+                TempData["success"] = "Aircraft successfully Deleted";
                 return RedirectToAction("Index");
             }
             return View();

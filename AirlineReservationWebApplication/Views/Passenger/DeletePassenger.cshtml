@@ -25,11 +25,11 @@
             @* <label asp-for="Gender" class="text-secondary" style="font-size:20px"></label> *@
             <label for="gender" class="text-secondary" style="font-size:20px">Gender:</label>
             <div>
-                @Html.RadioButtonFor(m => m.Gender, "Male", new { @id = "genderMale" })
+                @Html.RadioButtonFor(m => m.Gender, "Male", new { disabled = "disabled" })
                 <label for="genderMale">Male</label>
             </div>
             <div>
-                @Html.RadioButtonFor(m => m.Gender, "Female", new { @id = "genderFemale" })
+                @Html.RadioButtonFor(m => m.Gender, "Female", new { disabled = "disabled" })
                 <label for="genderFemale">Female</label>
             </div>
         </div>
@@ -45,7 +45,7 @@
         </div>
         <div class="mt-3">
             <label asp-for="Nid" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Nid" class="form-control mt-1" />
+            <input asp-for="Nid" class="form-control mt-1" disabled />
             <span asp-validation-for="Nid" class="text-danger"></span>
         </div>
         <div class="mt-3">

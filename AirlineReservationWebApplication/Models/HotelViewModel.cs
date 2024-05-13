@@ -24,10 +24,18 @@ namespace AirlineReservationWebApplication.Models
         public bool Room_Availability { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Hotel_Date { get; set; }
+        public DateOnly Checkin_Date { get; set; }
+        [DataType(DataType.Date)]
+        public DateOnly Checkout_Date { get; set; }
+
+        [DataType(DataType.Time)]
+        public TimeOnly Checkin_Time { get; set; }
+
+        [DataType(DataType.Time)]
+        public TimeOnly Checkout_Time { get; set; }
 
         [Required]
-        public string Place {  get; set; }
+        public string Country {  get; set; }
 
 
     }

@@ -96,7 +96,7 @@ namespace AirlineReservationWebApplication.Controllers
                     flight.Arrival_Place = obj.Departure_Place;
                     flight.Total_Seats = obj.Total_Seats;
                     flight.Available_Seats = obj.Available_Seats;
-                    flight.Aircraft_Model = obj.Aircraft_Model;
+                    flight.Aircraft_Id = obj.Aircraft_Id;
                     flight.Flight_Status = obj.Flight_Status;
                     flight.Flight_Type = obj.Flight_Type;
                     _db.Flight.Update(flight);

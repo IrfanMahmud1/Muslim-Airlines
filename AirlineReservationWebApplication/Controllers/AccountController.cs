@@ -37,8 +37,8 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.AddModelError("password", "The password cannot match the Email");
                     return View();
                 }
-                bool IsRegisteredEmail = _db.Users.Any(x => x.User_Email == obj.User_Email);
-                bool IsRegisteredUser = _db.Users.Any(x => x.User_Name == obj.User_Name);
+                bool IsRegisteredEmail = _db.User.Any(x => x.User_Email == obj.User_Email);
+                bool IsRegisteredUser = _db.User.Any(x => x.User_Name == obj.User_Name);
                 if (IsRegisteredEmail)
                 {
                     ModelState.AddModelError("User_Email", "Already registered with this email");
@@ -49,7 +49,7 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.AddModelError("User_Name", "Already registered with this name");
                     return View();
                 }
-                _db.Users.Add(obj);
+                _db.User.Add(obj);
                 ModelState.Clear();
                 _db.SaveChanges();
                 ModelState.Clear();
@@ -83,8 +83,8 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (ModelState.IsValid && !TempData.ContainsKey("UserEmail"))
             {
-                bool EmailExists = _db.Users.Any(x => x.User_Email == obj.Email);
-                bool PassExists = _db.Users.Any(x => x.Password == obj.Password);
+                bool EmailExists= _db.User.Any(x=> x.User_Email == obj.Email);
+                bool PassExists= _db.User.Any(x=> x.Password == obj.Password);
                 if (!EmailExists)
                 {
                     ModelState.AddModelError("Email", "Invalid email");
@@ -98,9 +98,9 @@ namespace AirlineReservationWebApplication.Controllers
                 {
                     string userEmail = obj.Email;
                     string AdminEmail = userEmail.Substring(userEmail.Length - 11);
-
-                    var user = _db.Users.ToList().Find(x => x.User_Email == obj.Email);
-
+                    
+                    var user = _db.User.ToList().Find(x => x.User_Email == obj.Email);
+                    
                     TempData["success"] = "Successfully Logged in";
 
                     if (userEmail.ToLower().Contains("admin") && AdminEmail == "@sample.com")

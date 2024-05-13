@@ -39,8 +39,8 @@
                 <td class="w-50">@obj.Address</td>
                 <td class="w-50">@obj.User_Id</td>
                 <td>
-                    <a asp-controller="Passengers" asp-action="UpdatePassenger" asp-route-id="@obj.User_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Edit</a>
-                    <a asp-controller="Passengers" asp-action="DeletePassenger" asp-route-id="@obj.User_Id" class="btn btn-danger"><i class="bi bi-trash"></i>Delete</a>
+                    <a asp-controller="Passenger" asp-action="UpdatePassenger" asp-route-id="@obj.Passenger_ID" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                    <a asp-controller="Passenger" asp-action="DeletePassenger" asp-route-id="@obj.Passenger_ID" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
                 </td>
             </tr>
         }

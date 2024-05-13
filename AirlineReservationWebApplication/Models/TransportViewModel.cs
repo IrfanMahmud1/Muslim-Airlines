@@ -5,7 +5,7 @@ namespace AirlineReservationWebApplication.Models
     public class TransportViewModel
     {
         [Key]
-        public int Transport_Model { get; set; }
+        public int Transport_Id { get; set; }
 
         [Required]
         public string Transport_Category { get; set; }
@@ -19,12 +19,12 @@ namespace AirlineReservationWebApplication.Models
         public int Seat_Booked { get; set; }
 
         [DataType(DataType.Time)]
-        public DateTime PickUp_Time { get; set; }
+        public TimeOnly PickUp_Time { get; set; }
 
         [Required]
         public string PickUp_Place {  get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime Transport_Date { get; set; }
+        public DateOnly Date { get; set; }
     }
 }
