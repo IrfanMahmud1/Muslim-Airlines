@@ -4,5 +4,47 @@
     Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
+<<<<<<< Updated upstream
 <h1>Index</h1>
+=======
+<div class="row pt-2">
+    <div class="col-6 ">
+        <h2>Aircraft List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-controller="Aircraft" asp-action="CreateAircraft" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp Create new Aircraft</a>
+    </div>
+</div>
+<table class="table table-bordered table-striped mt-3" width="100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Type</th>
+            <th>Seats</th>
+            <th>Availability</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>@obj.Aircraft_Id</td>
+                <td>@obj.Aircraft_Name</td>
+                <td>@obj.Aircraft_Category</td>
+                <td>@obj.Aircraft_Type</td>
+                <td>@obj.Seat_Capacity</td>
+                <td>@obj.Availability</td>
+                <td>
+                    <a asp-controller="Aircraft" asp-action="UpdateAircraft" asp-route-id="@obj.Aircraft_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                    <a asp-controller="Aircraft" asp-action="DeleteAircraft" asp-route-id="@obj.Aircraft_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+>>>>>>> Stashed changes
 

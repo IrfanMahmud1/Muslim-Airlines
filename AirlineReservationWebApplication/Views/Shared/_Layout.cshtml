@@ -19,18 +19,18 @@
             <div class="container-fluid">
                 @if(TempData.ContainsKey("UserEmail"))
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="HomePage" asp-action="Index">Muslim Airlines</a>
+                        <a class="navbar-brand text-danger" asp-area="" asp-controller="HomePage" asp-action="Index"><b>Muslim Airlines</b></a>
                 }
                 else
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Muslim Airlines</a>
+                        <a class="navbar-brand text-danger fs-3" asp-area="" asp-controller="Home" asp-action="Index"><b>Muslim Airlines</b></a>
                 }
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Home</a>
                         </li>
                         <li class="nav-item">
@@ -49,23 +49,23 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
-                    </ul>
+                        </li>*@
+                    </ul> 
                     <div class="d-flex">
                         <ul class="navbar-nav flex-grow-1">
                             @if(!TempData.ContainsKey("UserEmail"))
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
+                                <li class="nav-item me-1">
+                                        <a class="nav-link text-light bg-danger p-3 rounded-2" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                                    <a class="nav-link text-light bg-danger p-3 rounded-2" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="HomePage" asp-action="Logout">Log Out</a>
+                                    <a class="nav-link text-light bg-danger" asp-area="" asp-controller="HomePage" asp-action="Logout">Log Out</a>
                                 </li>
                             }
                         </ul>

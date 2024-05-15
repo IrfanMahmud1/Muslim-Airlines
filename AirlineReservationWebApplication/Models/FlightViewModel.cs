@@ -42,5 +42,11 @@ namespace AirlineReservationWebApplication.Models
 
         [Required]
         public string Flight_Status { get; set; }
+
+        public int Business {  get; set; }
+
+        public int Economy { get; set; }
+
+        public int FirstClass { get; set; }
     }
 }

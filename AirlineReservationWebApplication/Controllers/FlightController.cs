@@ -99,6 +99,9 @@ namespace AirlineReservationWebApplication.Controllers
                     flight.Aircraft_Model = obj.Aircraft_Model;
                     flight.Flight_Status = obj.Flight_Status;
                     flight.Flight_Type = obj.Flight_Type;
+                    flight.Business  = obj.Business;
+                    flight.Economy = obj.Economy;
+                    flight.FirstClass = obj.FirstClass;
                     _db.Flight.Update(flight);
                     _db.SaveChanges();
                     ModelState.Clear();
