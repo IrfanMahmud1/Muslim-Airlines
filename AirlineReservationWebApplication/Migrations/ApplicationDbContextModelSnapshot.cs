@@ -97,6 +97,9 @@ namespace AirlineReservationWebApplication.Migrations
                     b.Property<int>("Available_Seats")
                         .HasColumnType("int");
 
+                    b.Property<int>("Business")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("Departure_Date")
                         .HasColumnType("date");
 
@@ -106,6 +109,12 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.Property<TimeOnly>("Departure_Time")
                         .HasColumnType("time");
+
+                    b.Property<int>("Economy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirstClass")
+                        .HasColumnType("int");
 
                     b.Property<string>("Flight_Name")
                         .IsRequired()
