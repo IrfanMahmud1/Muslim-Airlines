@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AirlineReservationWebApplication.Models
 {
@@ -31,7 +32,6 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public int Total_Seats { get; set; }
 
-        [Required]
         public int Available_Seats { get; set; }
 
         [Required]
@@ -41,12 +41,18 @@ namespace AirlineReservationWebApplication.Models
         public string Flight_Type { get; set; }
 
         [Required]
-        public string Flight_Status { get; set; }
+        public string Flight_Status { get; set; } = "Not scheduled"; 
 
         public int Business {  get; set; }
 
         public int Economy { get; set; }
 
         public int FirstClass { get; set; }
+
+        [NotMapped]
+        public int Seat_Capacity { get; set; }
+
+        [NotMapped]
+        public List<(string, int)>? AllAircrafts { get; set; }
     }
 }

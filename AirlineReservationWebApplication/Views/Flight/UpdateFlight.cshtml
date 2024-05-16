@@ -47,17 +47,7 @@
             <span asp-validation-for="Arrival_Time" class="text-danger"></span>
         </div>
         <div class="mt-3">
-            <label asp-for="Total_Seats" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Total_Seats" class="form-control mt-1" />
-            <span asp-validation-for="Total_Seats" class="text-danger"></span>
-        </div>
-        <div class="mt-3">
-            <label asp-for="Available_Seats" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Available_Seats" class="form-control mt-1" />
-            <span asp-validation-for="Available_Seats" class="text-danger"></span>
-        </div>
-        <div class="mt-3">
-            <label asp-for="Flight_Type" class="text-secondary" style="font-size:20px"></label>
+            <label asp-for="Flight_Status" class="text-secondary" style="font-size:20px"></label>
             <div>
                 @Html.RadioButtonFor(m => m.Flight_Status, "Scheduled", new { @id = "scheduled" })
                 <label for="scheduled">Scheduled</label>
@@ -93,26 +83,18 @@
             <span asp-validation-for="Flight_Type" class="text-danger"></span>
         </div>
         <div class="mt-3">
-            <label asp-for="Business" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Business" class="form-control mt-1"  />
-            <span asp-validation-for="Business" class="text-danger"></span>
-        </div>
-        <div class="mt-3">
-            <label asp-for="Economy" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Economy" class="form-control mt-1"  />
-            <span asp-validation-for="Economy" class="text-danger"></span>
-        </div>
-        <div class="mt-3">
-            <label asp-for="FirstClass" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="FirstClass" class="form-control mt-1"  />
-            <span asp-validation-for="FirstClass" class="text-danger"></span>
-        </div>
-        <div class="mt-3">
             <label asp-for="Aircraft_Id" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Aircraft_Id" class="form-control mt-1" />
+            <select id="Aircraft_Id" name="Aircraft_Id">
+                <option>-- Seletct Aircraft --</option>
+                @{
+                    foreach (var item in Model.AllAircrafts)
+                    {
+                        <option value="@item.Item2">@item.Item1</option>
+                    }
+                }
+            </select>
             <span asp-validation-for="Aircraft_Id" class="text-danger"></span>
-        </div>
-
+        </div>        
         <div class="mt-3">
             <button type="submit" class="btn btn-primary" style="width:120px">Update</button>
             <a asp-controller="Flight" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>

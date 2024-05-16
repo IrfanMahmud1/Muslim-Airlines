@@ -21,5 +21,6 @@ namespace AirlineReservationWebApplication.Models
         public string Aircraft_Type { get; set; }
 
         public bool Availability { get; set; } = true;
+
     }
 }
