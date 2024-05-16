@@ -1,4 +1,5 @@
 ﻿/*using AirlineReservationWebApplication.Data;
+using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,8 +8,7 @@ namespace AirlineReservationWebApplication.Controllers
     public class TransportController : Controller
     {
         private readonly ApplicationDbContext _db;
-
-        public TransportController(ApplicationDbContext db)
+        public TransportController(ApplicationDbContext db, IFlightModelFactory flightModelFactory)
         {
             _db = db;
         }
@@ -16,10 +16,9 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<PassengerViewModel> objPassengerList = _db.Passengers;
+                IEnumerable<FlightViewModel> objFlightList = _db.Flight;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                TempData["user_id"] = 7;
-                return View(objPassengerList);
+                return View(objFlightList);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -27,156 +26,141 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult CreateTransport()
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
-
-                var existingPassengers = _db.Passengers
-                    .Select(ps => ps.User_Id)
-                    .ToList();
-
-                var availableUsers = _db.Users
-                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
-                        && user.User_Id != admin.User_Id)
-                    .ToList();
-
-                var newPassenger = new PassengerViewModel();
-
-                newPassenger.AllUsers = new List<(string, int)>();
-
-                foreach (var user in availableUsers)
+                var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+                if (availableAircrafts == null)
                 {
-                    newPassenger.AllUsers.Add((user.User_Name, user.User_Id));
+                    return View();
                 }
-
-                // Existing users: 1, 2, 3, 4, 5, 6, 7, 8
-                // Already passenger: 1, 3, 6, 7
-                // Available users: 2, 4, 5, 8
-
-                return View(newPassenger);
+                return View(availableAircrafts);
             }
-            return View();
-        }
-        public static int CountDigits(int number)
-        {
-            return (int)Math.Floor(Math.Log10(Math.Abs(number))) + 1;
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateTransport(PassengerViewModel obj)
+        public IActionResult CreateTransport(FlightViewModel obj)
         {
+            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
             if (ModelState.IsValid)
             {
-                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
-                int mobile = obj.Mobile;
-                int nid = obj.Nid;
-                int passportSize = obj.Passport.Length;
-                if (PassportExist)
-                {
-                    ModelState.AddModelError("Passport", "Already registered with this passport number");
-                    return View();
-                }
-                int checkMobile = CountDigits(mobile);
-                if (passportSize < 9)
-                {
-                    ModelState.AddModelError("passport", "Invalid Passport number");
-                    return View();
-                }
-                if (checkMobile < 10 || checkMobile > 10)
-                {
-                    ModelState.AddModelError("mobile", "Invalid Mobile number");
-                    return View();
-                }
-                int checkNid = CountDigits(nid);
-                if (checkNid < 10 || checkNid > 10)
-                {
-                    ModelState.AddModelError("nid", "Invalid NID number");
-                    return View();
-                }
+                obj.AllAircrafts = availableAircrafts.AllAircrafts;
+                var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
+                obj.Total_Seats = aircraft.Seat_Capacity;
+                obj.Available_Seats = obj.Total_Seats;
+                int seatPerClass = obj.Total_Seats / 3;
+                obj.Business = seatPerClass;
+                obj.FirstClass = seatPerClass;
+                obj.Economy = seatPerClass + obj.Total_Seats % 3;
 
-                _db.Passengers.Add(obj);
+                bool FlightExist = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
+                if (FlightExist)
+                {
+                    ModelState.AddModelError("Flight", "Flight is already available");
+                    return View(obj);
+                }
+                _db.Flight.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Passengers successfully Created";
+                TempData["success"] = "Flight successfully Created";
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(availableAircrafts);
         }
 
         [HttpGet]
         public IActionResult UpdateTransport(int? id)
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
-            if (passengerFromDb == null)
+            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+            FlightViewModel flightFromDb = _db.Flight.Find(id);
+            if (flightFromDb == null)
             {
-                return NotFound();
+                return View();
             }
-            return View(passengerFromDb);
+            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
+            return View(flightFromDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateTransport(PassengerViewModel obj)
+        public IActionResult UpdateTransport(FlightViewModel obj)
         {
+            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+            obj.AllAircrafts = availableAircrafts.AllAircrafts;
             if (ModelState.IsValid)
             {
-                var passenger = _db.Passengers.Find(obj.Passenger_ID);
-                if (passenger != null)
+                var flight = _db.Flight.Find(obj.Flight_Id);
+                if (flight != null)
                 {
-                    _db.Passengers.Update(obj);
+                    if (obj.Flight_Name != flight.Flight_Name)
+                    {
+                        bool duplicate = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
+                        if (duplicate)
+                        {
+                            ModelState.AddModelError("flight", "Flight is already availabe");
+                            return View();
+                        }
+
+                        flight.Flight_Name = obj.Flight_Name;
+                    }
+                    flight.Departure_Date = obj.Departure_Date;
+                    flight.Arrival_Date = obj.Arrival_Date;
+                    flight.Departure_Time = obj.Departure_Time;
+                    flight.Arrival_Time = obj.Arrival_Time;
+                    flight.Departure_Place = obj.Departure_Place;
+                    flight.Arrival_Place = obj.Departure_Place;
+                    flight.Aircraft_Id = obj.Aircraft_Id;
+                    flight.Flight_Status = obj.Flight_Status;
+                    flight.Flight_Type = obj.Flight_Type;
+                    flight.AllAircrafts = obj.AllAircrafts;
+                    _db.Flight.Update(flight);
                     _db.SaveChanges();
-                    TempData["success"] = "Passengers successfully Updated";
+                    ModelState.Clear();
+                    TempData["success"] = "Flight successfully Updated";
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
             }
-            return View();
+            return View(availableAircrafts);
         }
 
         [HttpGet]
         public IActionResult DeleteTransport(int? id)
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
-            if (passengerFromDb == null)
+            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+            var flightFromDb = _db.Flight.Find(id);
+            if (flightFromDb == null)
             {
-                return NotFound();
+                return View();
             }
-            return View(passengerFromDb);
+            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
+            return View(flightFromDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteTransport(PassengerViewModel obj)
+        public IActionResult DeleteTransport(int id)
         {
-            bool isValid = _db.Passengers.Any(x => x.Passenger_ID == obj.Passenger_ID);
-            if (isValid)
+            var flight = _db.Flight.Find(id);
+            if (flight != null)
             {
-                _db.Passengers.Remove(obj);
+                _db.Flight.Remove(flight);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "User successfully Deleted";
+                TempData["success"] = "Flight successfully Deleted";
                 return RedirectToAction("Index");
             }
-            return View();
-        }
-
-
-        public IActionResult Logout()
-        {
-            if (TempData.ContainsKey("AdminEmail"))
-            {
-                TempData["success"] = "Successfully Logged out";
-                TempData.Remove("AdminEmail");
-                //return RedirectToAction("Index", "Home");
-            }
-            return RedirectToAction("Index", "Home");
+            return View(flight);
         }
     }
 }

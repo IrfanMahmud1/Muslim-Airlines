@@ -17,7 +17,6 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public int Total_Rooms { get; set; }
 
-        [Required]
         public int Available_Rooms { get; set; }
 
         [DataType(DataType.Date)]
