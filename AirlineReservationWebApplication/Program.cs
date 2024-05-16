@@ -1,4 +1,5 @@
 using AirlineReservationWebApplication.Data;
+using AirlineReservationWebApplication.Factory;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirlineReservationWebApplication
@@ -14,6 +15,9 @@ namespace AirlineReservationWebApplication
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
+
+            builder.Services.AddScoped<IPassengerModelFactory, PassengerModelFactory>();
+
             /*builder.Services.AddDistributedMemoryCache(); // Or other chosen session provider
             builder.Services.AddSession(options =>
             {

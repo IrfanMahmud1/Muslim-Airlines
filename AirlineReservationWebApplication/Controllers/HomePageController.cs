@@ -4,13 +4,19 @@ namespace AirlineReservationWebApplication.Controllers
 {
     public class HomePageController : Controller
     {
+        private readonly ILogger<HomePageController> _logger;
+
+        public HomePageController(ILogger<HomePageController> logger)
+        {
+            _logger = logger;
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            string userEmail = "";
-            //string userName = "";
             if (TempData.ContainsKey("UserEmail"))
             {
-                userEmail = TempData["UserEmail"].ToString();
+                var userEmail = TempData["UserEmail"].ToString();
                 //userName = TempData["UserName"].ToString();
                 ViewBag.UserEmail = userEmail;
                 TempData.Keep("UserEmail");            

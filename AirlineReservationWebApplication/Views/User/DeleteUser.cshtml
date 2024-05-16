@@ -4,9 +4,8 @@
     Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
-<form method="post">
+<form method="post" asp-action="DeleteUser" asp-route-id="@Model.User_Id">
     <div class="border mt-3 p-3">
-        <input asp-for="User_Id" hidden />
         <div class="row">
             <h2>Delete User</h2>
             <hr />

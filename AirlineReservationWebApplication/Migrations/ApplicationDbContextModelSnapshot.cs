@@ -274,7 +274,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Passenger_ID");
 
-                    b.ToTable("Passenger");
+                    b.ToTable("PassengerViewModel");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PaymentViewModel", b =>
@@ -443,7 +443,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("User_Id");
 
-                    b.ToTable("User");
+                    b.ToTable("UserViewModel");
 
                     b.HasData(
                         new

@@ -144,10 +144,12 @@ namespace AirlineReservationWebApplication.Controllers
                 _db.User.Remove(user);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "User successfully Deleted";
-                return RedirectToAction("Index");
+                TempData["success"] = "User successfully deleted.";
             }
-            return View();
+            else
+                TempData["error"] = "User not found.";
+
+            return RedirectToAction("Index");
         }
     }
 }

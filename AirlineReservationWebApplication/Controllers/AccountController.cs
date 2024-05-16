@@ -1,13 +1,13 @@
 ﻿using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
 
 namespace AirlineReservationWebApplication.Controllers
 {
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _db;
+
         public AccountController(ApplicationDbContext db)
         {
             _db = db;
@@ -44,7 +44,7 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.AddModelError("User_Email", "Already registered with this email");
                     return View();
                 }
-                if(IsRegisteredUser)
+                if (IsRegisteredUser)
                 {
                     ModelState.AddModelError("User_Name", "Already registered with this name");
                     return View();
@@ -53,7 +53,7 @@ namespace AirlineReservationWebApplication.Controllers
                 ModelState.Clear();
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Successfully Registered";      
+                TempData["success"] = "Successfully Registered";
                 return View(obj);
             }
             return View();
@@ -68,7 +68,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return RedirectToAction("Index", "HomePage");
             }
-            if(TempData.ContainsKey("AdminEmail"))
+            if (TempData.ContainsKey("AdminEmail"))
             {
                 return RedirectToAction("Dashboard", "Admin");
             }
@@ -90,7 +90,7 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.AddModelError("Email", "Invalid email");
                     ModelState.AddModelError("Password", "Incorrect password");
                 }
-                else if(!PassExists)
+                else if (!PassExists)
                 {
                     ModelState.AddModelError("Password", "Incorrect password");
                 }
@@ -116,7 +116,5 @@ namespace AirlineReservationWebApplication.Controllers
             }
             return View();
         }
-
     }
 }
-

@@ -97,7 +97,7 @@ namespace AirlineReservationWebApplication.Controllers
                 _db.Passengers.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Passenger successfully Created";
+                TempData["success"] = "Passengers successfully Created";
                 return RedirectToAction("Index");
             }
             return View();
@@ -129,7 +129,7 @@ namespace AirlineReservationWebApplication.Controllers
                 {
                     _db.Passengers.Update(obj);
                     _db.SaveChanges();
-                    TempData["success"] = "Passenger successfully Updated";
+                    TempData["success"] = "Passengers successfully Updated";
                 }
                 return RedirectToAction("Index");
             }

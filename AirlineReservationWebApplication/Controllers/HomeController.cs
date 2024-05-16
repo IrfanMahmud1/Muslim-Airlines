@@ -7,19 +7,20 @@ namespace AirlineReservationWebApplication.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-       /* private bool flag {  get; set; }*/
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             if (TempData.ContainsKey("UserEmail"))
             {
                 return RedirectToAction("Index", "HomePage");
             }
-            if (TempData.ContainsKey("AdminEmail"))
+            if (TempData["UserEmail"]!=null)
             {
                 return RedirectToAction("Dashboard", "Admin");
             }

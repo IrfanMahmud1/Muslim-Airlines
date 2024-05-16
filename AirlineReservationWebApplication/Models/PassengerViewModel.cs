@@ -15,7 +15,6 @@ namespace AirlineReservationWebApplication.Models
         public string Last_Name { get; set;}
 
         [Required]
-
         public string Gender { get; set; }
 
         [Required]
@@ -26,11 +25,13 @@ namespace AirlineReservationWebApplication.Models
         [DataType(DataType.PhoneNumber)]
         [Required]
         public int Mobile { get; set; }
+
         [Required]
         public int Nid { get; set; }
 
         [EmailAddress]
         public string Email { get; set; }
+
         [Required]
         public string Address { get; set; }
 

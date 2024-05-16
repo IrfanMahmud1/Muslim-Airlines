@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AirlineReservationWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class addnewModelstoDb : Migration
+    public partial class MuslimAirlineDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,8 @@ namespace AirlineReservationWebApplication.Migrations
                     Aircraft_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Aircraft_Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Seat_Capacity = table.Column<int>(type: "int", nullable: false),
-                    Aircraft_Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Aircraft_Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Availability = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,7 +111,7 @@ namespace AirlineReservationWebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Passenger",
+                name: "PassengerViewModel",
                 columns: table => new
                 {
                     Passenger_ID = table.Column<int>(type: "int", nullable: false)
@@ -128,7 +129,7 @@ namespace AirlineReservationWebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Passenger", x => x.Passenger_ID);
+                    table.PrimaryKey("PK_PassengerViewModel", x => x.Passenger_ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -208,7 +209,7 @@ namespace AirlineReservationWebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "UserViewModel",
                 columns: table => new
                 {
                     User_Id = table.Column<int>(type: "int", nullable: false)
@@ -219,11 +220,11 @@ namespace AirlineReservationWebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.User_Id);
+                    table.PrimaryKey("PK_UserViewModel", x => x.User_Id);
                 });
 
             migrationBuilder.InsertData(
-                table: "User",
+                table: "UserViewModel",
                 columns: new[] { "User_Id", "Password", "User_Email", "User_Name" },
                 values: new object[] { 1, "123", "admin@sample.com", "Admin" });
         }
@@ -247,7 +248,7 @@ namespace AirlineReservationWebApplication.Migrations
                 name: "Offer");
 
             migrationBuilder.DropTable(
-                name: "Passenger");
+                name: "PassengerViewModel");
 
             migrationBuilder.DropTable(
                 name: "Payment");
@@ -262,7 +263,7 @@ namespace AirlineReservationWebApplication.Migrations
                 name: "Transport");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "UserViewModel");
         }
     }
 }
