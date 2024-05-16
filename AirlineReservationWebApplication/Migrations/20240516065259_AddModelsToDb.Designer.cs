@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AirlineReservationWebApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240513190150_MuslimAirlineDb")]
-    partial class MuslimAirlineDb
+    [Migration("20240516065259_AddModelsToDb")]
+    partial class AddModelsToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -100,6 +100,9 @@ namespace AirlineReservationWebApplication.Migrations
                     b.Property<int>("Available_Seats")
                         .HasColumnType("int");
 
+                    b.Property<int>("Business")
+                        .HasColumnType("int");
+
                     b.Property<DateOnly>("Departure_Date")
                         .HasColumnType("date");
 
@@ -109,6 +112,12 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.Property<TimeOnly>("Departure_Time")
                         .HasColumnType("time");
+
+                    b.Property<int>("Economy")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirstClass")
+                        .HasColumnType("int");
 
                     b.Property<string>("Flight_Name")
                         .IsRequired()
@@ -165,15 +174,12 @@ namespace AirlineReservationWebApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Room_Availability")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Room_Booked")
-                        .HasColumnType("int");
-
                     b.Property<string>("Room_Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Total_Rooms")
+                        .HasColumnType("int");
 
                     b.HasKey("Hotel_Id");
 
@@ -199,10 +205,6 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.Property<int>("Hotel_Id")
                         .HasColumnType("int");
-
-                    b.Property<string>("Offer_For")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Offer_Range")
                         .HasColumnType("int");
@@ -252,11 +254,13 @@ namespace AirlineReservationWebApplication.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Mobile")
-                        .HasColumnType("int");
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Nid")
-                        .HasColumnType("int");
+                    b.Property<string>("Nid")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Passport")
                         .IsRequired()
@@ -268,7 +272,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("Passenger_ID");
 
-                    b.ToTable("PassengerViewModel");
+                    b.ToTable("Passenger");
                 });
 
             modelBuilder.Entity("AirlineReservationWebApplication.Models.PaymentViewModel", b =>
@@ -289,12 +293,11 @@ namespace AirlineReservationWebApplication.Migrations
                     b.Property<DateOnly>("Payment_Date")
                         .HasColumnType("date");
 
-                    b.Property<string>("Payment_For")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<TimeOnly>("Payment_Time")
                         .HasColumnType("time");
+
+                    b.Property<int>("Reservation_Id")
+                        .HasColumnType("int");
 
                     b.HasKey("Payment_Id");
 
@@ -400,9 +403,6 @@ namespace AirlineReservationWebApplication.Migrations
                     b.Property<TimeOnly>("PickUp_Time")
                         .HasColumnType("time");
 
-                    b.Property<int>("Seat_Booked")
-                        .HasColumnType("int");
-
                     b.Property<int>("Total_Seats")
                         .HasColumnType("int");
 
@@ -437,7 +437,7 @@ namespace AirlineReservationWebApplication.Migrations
 
                     b.HasKey("User_Id");
 
-                    b.ToTable("UserViewModel");
+                    b.ToTable("User");
 
                     b.HasData(
                         new

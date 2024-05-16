@@ -20,7 +20,7 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return RedirectToAction("Index", "HomePage");
             }
-            if (TempData["UserEmail"]!=null)
+            if (TempData.ContainsKey("AdminEmail"))
             {
                 return RedirectToAction("Dashboard", "Admin");
             }

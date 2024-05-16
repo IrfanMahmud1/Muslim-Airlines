@@ -24,12 +24,13 @@ namespace AirlineReservationWebApplication.Models
 
         [DataType(DataType.PhoneNumber)]
         [Required]
-        public int Mobile { get; set; }
+        public string Mobile { get; set; }
 
         [Required]
-        public int Nid { get; set; }
+        public string Nid { get; set; }
 
         [EmailAddress]
+        [Required]
         public string Email { get; set; }
 
         [Required]

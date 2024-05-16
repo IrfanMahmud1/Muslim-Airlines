@@ -15,8 +15,6 @@ namespace AirlineReservationWebApplication.Models
 
         [Required]
         public int Total_Seats { get; set; }
-        [Required]
-        public int Seat_Booked { get; set; }
 
         [DataType(DataType.Time)]
         public TimeOnly PickUp_Time { get; set; }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AirlineReservationWebApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class MuslimAirlineDb : Migration
+    public partial class AddModelsToDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,7 +59,10 @@ namespace AirlineReservationWebApplication.Migrations
                     Available_Seats = table.Column<int>(type: "int", nullable: false),
                     Aircraft_Id = table.Column<int>(type: "int", nullable: false),
                     Flight_Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Flight_Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Flight_Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Business = table.Column<int>(type: "int", nullable: false),
+                    Economy = table.Column<int>(type: "int", nullable: false),
+                    FirstClass = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,9 +78,8 @@ namespace AirlineReservationWebApplication.Migrations
                     Hotel_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Hotel_Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Room_Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Total_Rooms = table.Column<int>(type: "int", nullable: false),
                     Available_Rooms = table.Column<int>(type: "int", nullable: false),
-                    Room_Booked = table.Column<int>(type: "int", nullable: false),
-                    Room_Availability = table.Column<bool>(type: "bit", nullable: false),
                     Checkin_Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Checkout_Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Checkin_Time = table.Column<TimeOnly>(type: "time", nullable: false),
@@ -101,7 +103,6 @@ namespace AirlineReservationWebApplication.Migrations
                     End_Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     Validity = table.Column<TimeSpan>(type: "time", nullable: false),
                     Offer_Range = table.Column<int>(type: "int", nullable: false),
-                    Offer_For = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Hotel_Id = table.Column<int>(type: "int", nullable: false),
                     Flight_Id = table.Column<int>(type: "int", nullable: false)
                 },
@@ -111,7 +112,7 @@ namespace AirlineReservationWebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PassengerViewModel",
+                name: "Passenger",
                 columns: table => new
                 {
                     Passenger_ID = table.Column<int>(type: "int", nullable: false)
@@ -120,8 +121,8 @@ namespace AirlineReservationWebApplication.Migrations
                     Last_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Passport = table.Column<string>(type: "nvarchar(9)", maxLength: 9, nullable: false),
-                    Mobile = table.Column<int>(type: "int", nullable: false),
-                    Nid = table.Column<int>(type: "int", nullable: false),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Nid = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     User_Id = table.Column<int>(type: "int", nullable: false),
@@ -129,7 +130,7 @@ namespace AirlineReservationWebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PassengerViewModel", x => x.Passenger_ID);
+                    table.PrimaryKey("PK_Passenger", x => x.Passenger_ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,7 +143,7 @@ namespace AirlineReservationWebApplication.Migrations
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Payment_Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Payment_Time = table.Column<TimeOnly>(type: "time", nullable: false),
-                    Payment_For = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Reservation_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -198,7 +199,6 @@ namespace AirlineReservationWebApplication.Migrations
                     Transport_Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Available_Seats = table.Column<int>(type: "int", nullable: false),
                     Total_Seats = table.Column<int>(type: "int", nullable: false),
-                    Seat_Booked = table.Column<int>(type: "int", nullable: false),
                     PickUp_Time = table.Column<TimeOnly>(type: "time", nullable: false),
                     PickUp_Place = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false)
@@ -209,7 +209,7 @@ namespace AirlineReservationWebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserViewModel",
+                name: "User",
                 columns: table => new
                 {
                     User_Id = table.Column<int>(type: "int", nullable: false)
@@ -220,11 +220,11 @@ namespace AirlineReservationWebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserViewModel", x => x.User_Id);
+                    table.PrimaryKey("PK_User", x => x.User_Id);
                 });
 
             migrationBuilder.InsertData(
-                table: "UserViewModel",
+                table: "User",
                 columns: new[] { "User_Id", "Password", "User_Email", "User_Name" },
                 values: new object[] { 1, "123", "admin@sample.com", "Admin" });
         }
@@ -248,7 +248,7 @@ namespace AirlineReservationWebApplication.Migrations
                 name: "Offer");
 
             migrationBuilder.DropTable(
-                name: "PassengerViewModel");
+                name: "Passenger");
 
             migrationBuilder.DropTable(
                 name: "Payment");
@@ -263,7 +263,7 @@ namespace AirlineReservationWebApplication.Migrations
                 name: "Transport");
 
             migrationBuilder.DropTable(
-                name: "UserViewModel");
+                name: "User");
         }
     }
 }

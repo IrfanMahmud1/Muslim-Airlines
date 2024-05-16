@@ -20,7 +20,7 @@ namespace AirlineReservationWebApplication.Models
         public TimeOnly Payment_Time { get; set; }
 
         [Required]
-        public string Payment_For {  get; set; }
+        public int Reservation_Id { get; set; }
 
     }
 }

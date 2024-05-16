@@ -20,7 +20,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                List<PassengerViewModel> objPassengerList = _db.Passengers.ToList();
+                List<PassengerViewModel> objPassengerList = _db.Passenger.ToList();
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objPassengerList);
             }
@@ -45,12 +45,11 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreatePassenger(PassengerViewModel obj)
         {
+            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
             if (ModelState.IsValid)
             {                
-                int mobile = obj.Mobile;
-                int nid = obj.Nid;
-
-                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
+                obj.AllUsers = newPassenger.AllUsers;
+                bool PassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
                 if (PassportExist)
                 {
                     ModelState.AddModelError("Passport", "This Passenger is already registered");
@@ -64,28 +63,25 @@ namespace AirlineReservationWebApplication.Controllers
                     return View(obj);
                 }
 
-                int checkMobile = CountDigits(mobile);
-                if (checkMobile != 10)
+                int checkMobile = obj.Mobile.Length;
+                if (checkMobile != 11)
                 {
                     ModelState.AddModelError("Mobile", "Invalid Mobile number");
                     return View(obj);
                 }
 
-                int checkNid = CountDigits(nid);
+                int checkNid = obj.Nid.Length;
                 if (checkNid != 10)
                 {
                     ModelState.AddModelError("NID", "Invalid NID number");
                     return View(obj);
                 }
-
-                _db.Passengers.Add(obj);
+                _db.Passenger.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Passengers successfully created.";
                 return RedirectToAction("Index");
             }
-
-            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
             return View(newPassenger);
         }
 
@@ -96,7 +92,9 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
+            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
+            PassengerViewModel passengerFromDb = _db.Passenger.Find(id);
+            passengerFromDb.AllUsers = newPassenger.AllUsers;
             if (passengerFromDb == null)
             {
                 return NotFound();
@@ -108,9 +106,11 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdatePassenger(PassengerViewModel obj)
         {
+            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
+            obj.AllUsers = newPassenger.AllUsers;
             if (ModelState.IsValid)
             {
-                var passenger = _db.Passengers.Find(obj.Passenger_ID);
+                var passenger = _db.Passenger.Find(obj.Passenger_ID);
                 if (passenger != null)
                 {
                     if (passenger.Passport != obj.Passport)
@@ -139,7 +139,7 @@ namespace AirlineReservationWebApplication.Controllers
                 } 
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(obj);
         }
 
         [HttpGet]
@@ -149,7 +149,9 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
+            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
+            PassengerViewModel passengerFromDb = _db.Passenger.Find(id);
+            passengerFromDb.AllUsers = newPassenger.AllUsers;
             if (passengerFromDb == null)
             {
                 return NotFound();
@@ -161,16 +163,16 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeletePassenger(int id)
         {
-            var passenger = _db.Passenger.Find(id);
-            if (passenger != null)
+            var passengerFromDb = _db.Passenger.Find(id);
+            if (passengerFromDb != null)
             {
-                _db.Passenger.Remove(passenger);
+                _db.Passenger.Remove(passengerFromDb);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Passenger successfully Deleted";
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(passengerFromDb);
         }
     }
 }

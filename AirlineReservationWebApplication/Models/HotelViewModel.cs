@@ -14,14 +14,11 @@ namespace AirlineReservationWebApplication.Models
 
         [Required]
         public string Room_Category { get; set; }
+        [Required]
+        public int Total_Rooms { get; set; }
 
         [Required]
         public int Available_Rooms { get; set; }
-
-        [Required]
-        public int Room_Booked { get; set; }
-        [Required]
-        public bool Room_Availability { get; set; }
 
         [DataType(DataType.Date)]
         public DateOnly Checkin_Date { get; set; }

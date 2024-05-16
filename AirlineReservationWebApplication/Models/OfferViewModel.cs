@@ -25,13 +25,8 @@ namespace AirlineReservationWebApplication.Models
         [Required]        
         public int Offer_Range { get; set; }
 
-        [Required]
-        public string Offer_For { get; set; }
-
-        [Required]
         public int Hotel_Id { get; set; }
 
-        [Required]
         public int Flight_Id { get; set; }
     }
 }
