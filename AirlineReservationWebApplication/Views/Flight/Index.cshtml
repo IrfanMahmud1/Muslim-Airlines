@@ -21,7 +21,7 @@
             <th>Departure Place</th>
             <th>Arrivale Place</th>
             <th>Total Seats</th>
-            <th>Available Seats</th>
+            <th>Booked Seats</th>
             <th>Flight Type</th>
             <th></th>
         </tr>
@@ -36,7 +36,7 @@
                 <td class="w-50">@obj.Departure_Place</td>
                 <td class="w-50">@obj.Arrival_Place</td>
                 <td class="w-50">@obj.Total_Seats</td>
-                <td class="w-50">@obj.Available_Seats</td>
+                <td class="w-50">@obj.Booked_Seats</td>
                 <td class="w-50">@obj.Flight_Type</td>
                 <td>
                     <a asp-controller="Flight" asp-action="UpdateFlight" asp-route-id="@obj.Flight_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>

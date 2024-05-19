@@ -50,7 +50,6 @@ namespace AirlineReservationWebApplication.Controllers
                 obj.AllAircrafts = availableAircrafts.AllAircrafts;
                 var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
                 obj.Total_Seats = aircraft.Seat_Capacity;
-                obj.Available_Seats = obj.Total_Seats;
                 int seatPerClass = obj.Total_Seats / 3;
                 obj.Business = seatPerClass;
                 obj.FirstClass = seatPerClass;
@@ -118,6 +117,12 @@ namespace AirlineReservationWebApplication.Controllers
                     flight.Departure_Place = obj.Departure_Place;
                     flight.Arrival_Place = obj.Departure_Place;
                     flight.Aircraft_Id = obj.Aircraft_Id;
+                    var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
+                    obj.Total_Seats = aircraft.Seat_Capacity;
+                    int seatPerClass = obj.Total_Seats / 3;
+                    obj.Business = seatPerClass;
+                    obj.FirstClass = seatPerClass;
+                    obj.Economy = seatPerClass + obj.Total_Seats % 3;
                     flight.Flight_Status = obj.Flight_Status;
                     flight.Flight_Type = obj.Flight_Type;
                     flight.AllAircrafts = obj.AllAircrafts;

@@ -17,10 +17,11 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public int Total_Rooms { get; set; }
 
-        public int Available_Rooms { get; set; }
+        public int Booked_Rooms { get; set; }
 
         [DataType(DataType.Date)]
         public DateOnly Checkin_Date { get; set; }
+
         [DataType(DataType.Date)]
         public DateOnly Checkout_Date { get; set; }
 

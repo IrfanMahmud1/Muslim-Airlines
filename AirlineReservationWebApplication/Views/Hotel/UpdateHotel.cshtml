@@ -6,6 +6,7 @@
 
 <form method="post">
     <div class="border mt-3 p-3">
+        <input asp-for="Hotel_Id" hidden/>
         <div class="row">
             <h2>Edit Hotel</h2>
             <hr />
@@ -22,7 +23,21 @@
         </div>
         <div class="mt-3">
             <label asp-for="Room_Category" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Room_Category" class="form-control mt-1" />
+            <div>
+                @Html.RadioButtonFor(x => x.Room_Category , "Single", new{@id = "single"})
+                <label for="single">Single bed</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(x => x.Room_Category , "Double", new{@id = "double"})
+                <label for="double">Double bed</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(x => x.Room_Category , "Three", new{@id = "three"})
+                <label for="three">Three bed</label>
+            </div><div>
+                @Html.RadioButtonFor(x => x.Room_Category , "Four", new{@id = "single"})
+                <label for="four">Four bed</label>
+            </div>
             <span asp-validation-for="Room_Category" class="text-danger"></span>
         </div>
         <div class="mt-3">

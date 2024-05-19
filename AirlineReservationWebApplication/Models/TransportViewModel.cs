@@ -11,11 +11,11 @@ namespace AirlineReservationWebApplication.Models
         public string Transport_Category { get; set; }
 
         [Required]
-        public int Available_Seats { get; set; }
-
-        [Required]
         public int Total_Seats { get; set; }
 
+        public int Reserved_Seats { get; set; }
+
+        [DataType(DataType.Time)]
         public TimeOnly PickUp_Time { get; set; }
 
         [Required]

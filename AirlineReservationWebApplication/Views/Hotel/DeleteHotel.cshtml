@@ -21,7 +21,21 @@
         </div>
         <div class="mt-3">
             <label asp-for="Room_Category" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Room_Category" class="form-control mt-1" disabled />
+            <div>
+                @Html.RadioButtonFor(x => x.Room_Category, "Single", new { disabled = "disabled" })
+                <label for="single">Single bed</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(x => x.Room_Category, "Double", new { disabled = "disabled" })
+                <label for="double">Double bed</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(x => x.Room_Category, "Three", new { disabled = "disabled" })
+                <label for="three">Three bed</label>
+            </div><div>
+                @Html.RadioButtonFor(x => x.Room_Category, "Four", new { disabled = "disabled" })
+                <label for="four">Four bed</label>
+            </div>
             <span asp-validation-for="Room_Category" class="text-danger"></span>
         </div>
         <div class="mt-3">

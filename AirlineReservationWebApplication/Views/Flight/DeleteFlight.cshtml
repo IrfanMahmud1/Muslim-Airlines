@@ -52,11 +52,6 @@
             <span asp-validation-for="Total_Seats" class="text-danger"></span>
         </div>
         <div class="mt-3">
-            <label asp-for="Available_Seats" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Available_Seats" class="form-control mt-1" disabled />
-            <span asp-validation-for="Available_Seats" class="text-danger"></span>
-        </div>
-        <div class="mt-3">
             <label asp-for="Flight_Status" class="text-secondary" style="font-size:20px"></label>
             <div>
                 @Html.RadioButtonFor(m => m.Flight_Status, "Scheduled", new { disabled = "disabled" })

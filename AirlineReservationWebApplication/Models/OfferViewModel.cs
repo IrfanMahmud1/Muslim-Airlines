@@ -28,11 +28,11 @@ namespace AirlineReservationWebApplication.Models
         public int Hotel_Id { get; set; }
 
         [NotMapped]
-        public List<(string,int)>AllHotels { get; set; }
+        public List<(string,int)>? AllHotels { get; set; }
   
         public int Flight_Id { get; set; }
 
         [NotMapped]
-        public List<(string, int)> AllFlights { get; set; }
+        public List<(string, int)>? AllFlights { get; set; }
     }
 }

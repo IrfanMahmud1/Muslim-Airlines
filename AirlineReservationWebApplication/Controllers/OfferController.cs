@@ -1,4 +1,5 @@
-﻿/*using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Data;
+using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,19 +8,19 @@ namespace AirlineReservationWebApplication.Controllers
     public class OfferController : Controller
     {
         private readonly ApplicationDbContext _db;
-
-        public OfferController(ApplicationDbContext db)
+        private readonly IOfferModelFactory _offerModelFactory;
+        public OfferController(ApplicationDbContext db,IOfferModelFactory offerModelFactory)
         {
             _db = db;
+            _offerModelFactory = offerModelFactory;
         }
         public IActionResult Index()
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<PassengerViewModel> objPassengerList = _db.Passengers;
+                IEnumerable<OfferViewModel> objOfferList = _db.Offer;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                TempData["user_id"] = 7;
-                return View(objPassengerList);
+                return View(objOfferList);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -27,157 +28,128 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult CreateOffer()
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var admin = _db.Users.Where(user => user.User_Email.Equals("admin@sample.com")).FirstOrDefault();
-
-                var existingPassengers = _db.Passengers
-                    .Select(ps => ps.User_Id)
-                    .ToList();
-
-                var availableUsers = _db.Users
-                    .Where(user => !existingPassengers.Any(ps => ps == user.User_Id)
-                        && user.User_Id != admin.User_Id)
-                    .ToList();
-
-                var newPassenger = new PassengerViewModel();
-
-                newPassenger.AllUsers = new List<(string, int)>();
-
-                foreach (var user in availableUsers)
-                {
-                    newPassenger.AllUsers.Add((user.User_Name, user.User_Id));
-                }
-
-                // Existing users: 1, 2, 3, 4, 5, 6, 7, 8
-                // Already passenger: 1, 3, 6, 7
-                // Available users: 2, 4, 5, 8
-
-                return View(newPassenger);
+                var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
+                return View(allFlightHotelOffers);
             }
-            return View();
-        }
-        public static int CountDigits(int number)
-        {
-            return (int)Math.Floor(Math.Log10(Math.Abs(number))) + 1;
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateOffer(PassengerViewModel obj)
+        public IActionResult CreateOffer(OfferViewModel obj)
         {
+            var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
+            
             if (ModelState.IsValid)
             {
-                bool PassportExist = _db.Passengers.Any(x => x.Passport == obj.Passport);
-                int mobile = obj.Mobile;
-                int nid = obj.Nid;
-                int passportSize = obj.Passport.Length;
-                if (PassportExist)
-                {
-                    ModelState.AddModelError("Passport", "Already registered with this passport number");
-                    return View();
-                }
-                int checkMobile = CountDigits(mobile);
-                if (passportSize < 9)
-                {
-                    ModelState.AddModelError("passport", "Invalid Passport number");
-                    return View();
-                }
-                if (checkMobile < 10 || checkMobile > 10)
-                {
-                    ModelState.AddModelError("mobile", "Invalid Mobile number");
-                    return View();
-                }
-                int checkNid = CountDigits(nid);
-                if (checkNid < 10 || checkNid > 10)
-                {
-                    ModelState.AddModelError("nid", "Invalid NID number");
-                    return View();
-                }
+                obj.AllHotels = allFlightHotelOffers.AllHotels;
+                obj.AllFlights = allFlightHotelOffers.AllFlights;
 
-                _db.Passengers.Add(obj);
+                bool OfferExist = _db.Offer.Any(x => x.Start_Date == obj.Start_Date&& x.End_Date== obj.End_Date && x.Validity== obj.Validity && x.Offer_Range == obj.Offer_Range);
+                if (OfferExist)
+                {
+                    ModelState.AddModelError("", "Offer is already available");
+                    return View(obj);
+                }
+                _db.Offer.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Passengers successfully Created";
+                TempData["success"] = "Offer successfully Created";
                 return RedirectToAction("Index");
             }
-            return View();
+            return View(allFlightHotelOffers);
         }
 
         [HttpGet]
         public IActionResult UpdateOffer(int? id)
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
-            if (passengerFromDb == null)
+            var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
+            var offerFromDb = _db.Offer.Find(id);
+            if (offerFromDb == null)
             {
-                return NotFound();
+                return View(allFlightHotelOffers);
             }
-            return View(passengerFromDb);
+            offerFromDb.AllFlights = allFlightHotelOffers.AllFlights;
+            offerFromDb.AllHotels = allFlightHotelOffers.AllHotels;
+            return View(offerFromDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateOffer(PassengerViewModel obj)
+        public IActionResult UpdateOffer(OfferViewModel obj)
         {
+            var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
+            obj.AllHotels = allFlightHotelOffers.AllHotels;
+            obj.AllFlights = allFlightHotelOffers.AllFlights;
             if (ModelState.IsValid)
             {
-                var passenger = _db.Passengers.Find(obj.Passenger_ID);
-                if (passenger != null)
+                var offer = _db.Offer.Find(obj.Offer_Id);
+                if (offer != null)
                 {
-                    _db.Passengers.Update(obj);
+                    bool OfferExist = _db.Offer.Any(x => x.Start_Date == obj.Start_Date && x.End_Date == obj.End_Date && x.Validity == obj.Validity && x.Offer_Range == obj.Offer_Range);
+                    if (OfferExist)
+                    {
+                        ModelState.AddModelError("", "Offer is already available");
+                        return View(obj);
+                    }
+                    offer.Start_Date = obj.Start_Date;
+                    offer.Start_Time = obj.Start_Time;
+                    offer.End_Date = obj.End_Date;
+                    offer.End_Time = obj.End_Time;
+                    offer.Validity = obj.Validity;
+                    offer.Flight_Id = obj.Flight_Id;
+                    offer.Hotel_Id = obj.Hotel_Id;
+
+                    _db.Offer.Update(offer);
                     _db.SaveChanges();
-                    TempData["success"] = "Passengers successfully Updated";
+                    ModelState.Clear();
+                    TempData["success"] = "Offer successfully Updated";
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
             }
-            return View();
+            return View(obj);
         }
 
         [HttpGet]
         public IActionResult DeleteOffer(int? id)
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (id == null || id == 0)
             {
                 return NotFound();
             }
-            var passengerFromDb = _db.Passengers.Find(id);
-            if (passengerFromDb == null)
+            var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
+            var offerFromDb = _db.Offer.Find(id);
+            if (offerFromDb == null)
             {
-                return NotFound();
+                return View(allFlightHotelOffers);
             }
-            return View(passengerFromDb);
+            offerFromDb.AllFlights = allFlightHotelOffers.AllFlights;
+            offerFromDb.AllHotels = allFlightHotelOffers.AllHotels;
+            return View(offerFromDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteOffer(PassengerViewModel obj)
+        public IActionResult DeleteOffer(int id)
         {
-            bool isValid = _db.Passengers.Any(x => x.Passenger_ID == obj.Passenger_ID);
-            if (isValid)
+            var offer = _db.Offer.Find(id);
+            if (offer != null)
             {
-                _db.Passengers.Remove(obj);
+                _db.Offer.Remove(offer);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "User successfully Deleted";
+                TempData["success"] = "Offer successfully Deleted";
                 return RedirectToAction("Index");
             }
-            return View();
-        }
-
-
-        public IActionResult Logout()
-        {
-            if (TempData.ContainsKey("AdminEmail"))
-            {
-                TempData["success"] = "Successfully Logged out";
-                TempData.Remove("AdminEmail");
-                //return RedirectToAction("Index", "Home");
-            }
-            return RedirectToAction("Index", "Home");
+            return View(offer);
         }
     }
 }
-*/

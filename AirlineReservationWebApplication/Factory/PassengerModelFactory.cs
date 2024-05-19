@@ -14,7 +14,7 @@ namespace AirlineReservationWebApplication.Factory
 
         public PassengerViewModel PreparePassengerViewModel()
         {
-            var availableUsers = _db.User.Select(user => user).Where(us => us.User_Email != "admin@sample.com").ToList();
+            var availableUsers = _db.User.Where(us => us.User_Email != "admin@sample.com").ToList();
 
             var newPassenger = new PassengerViewModel();
 

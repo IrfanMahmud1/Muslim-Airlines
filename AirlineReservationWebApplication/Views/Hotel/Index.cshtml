@@ -1,7 +1,53 @@
-﻿
+﻿@model IEnumerable<HotelViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
 
+<div class="row pt-2">
+    <div class="col-6 ">
+        <h2>Hotel List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-controller="Hotel" asp-action="CreateHotel" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp Create new Hotel</a>
+    </div>
+</div>
+<table class="table table-bordered table-striped mt-3" width="100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Category</th>
+            <th>Total rooms</th>
+            <th>Checkin Date</th>
+            <th>Checkin Time</th>
+            <th>Checkout Date</th>
+            <th>Checkout Time</th>
+            <th>Location</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td>@obj.Hotel_Id</td>
+                <td>@obj.Hotel_Name</td>
+                <td>@obj.Hotel_Location</td>
+                <td>@obj.Room_Category</td>
+                <td>@obj.Total_Rooms</td>
+                <td>@obj.Checkin_Date</td>
+                <td>@obj.Checkin_Time</td>
+                <td>@obj.Checkout_Date</td>
+                <td>@obj.Checkout_Time</td>
+                <td>@obj.Country</td>
+                <td>
+                    <a asp-controller="Hotel" asp-action="UpdateHotel" asp-route-id="@obj.Hotel_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                    <a asp-controller="Hotel" asp-action="DeleteHotel" asp-route-id="@obj.Hotel_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

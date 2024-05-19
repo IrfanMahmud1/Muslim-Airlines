@@ -29,10 +29,9 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public string Arrival_Place {  get; set; }
 
-        [Required]
         public int Total_Seats { get; set; }
 
-        public int Available_Seats { get; set; }
+        public int Booked_Seats { get; set; }
 
         [Required]
         public int Aircraft_Id { get; set; }
