@@ -8,7 +8,7 @@
     <div class="border mt-3 p-3">
         <input asp-for="Flight_Id" hidden/>
         <div class="row">
-            <h2>Update Flight</h2>
+            <h2>Edit Flight</h2>
             <hr />
         </div>
         <div>
@@ -89,7 +89,7 @@
                 @{
                     foreach (var item in Model.AllAircrafts)
                     {
-                        <option value="@item.Item2">@item.Item1</option>
+                        <option value="@item.Item2">@item.Item1 <span class="me-2">(@item.Item3)</span></option>
                     }
                 }
             </select>

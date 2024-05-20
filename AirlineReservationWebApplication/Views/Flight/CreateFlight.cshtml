@@ -88,7 +88,7 @@
                 @{
                     foreach (var item in Model.AllAircrafts)
                     {
-                        <option value="@item.Item2">@item.Item1</option>
+                        <option value="@item.Item2">@item.Item1 <span>(@item.Item3)</span></option>
                     }
                 }
             </select>           

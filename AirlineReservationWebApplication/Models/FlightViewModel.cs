@@ -49,9 +49,6 @@ namespace AirlineReservationWebApplication.Models
         public int FirstClass { get; set; }
 
         [NotMapped]
-        public int Seat_Capacity { get; set; }
-
-        [NotMapped]
-        public List<(string, int)>? AllAircrafts { get; set; }
+        public List<(string, int,int)>? AllAircrafts { get; set; }
     }
 }

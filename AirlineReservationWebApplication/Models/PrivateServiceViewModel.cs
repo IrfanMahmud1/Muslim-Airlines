@@ -29,11 +29,13 @@ namespace AirlineReservationWebApplication.Models
         [Required]
         public string Service_Category { get; set; }
 
+        public int Seat_Capacity { get; set; }
+
         [Required]
         public int Aircraft_Id {  get; set; }
 
         [NotMapped]
-        public List<(string,int)> AllAircraft { get; set; }
+        public List<(string,int,int)> AllAircrafts{ get; set; }
 
     }
 }

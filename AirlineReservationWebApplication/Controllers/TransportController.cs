@@ -1,4 +1,4 @@
-﻿/*using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ namespace AirlineReservationWebApplication.Controllers
     public class TransportController : Controller
     {
         private readonly ApplicationDbContext _db;
-        public TransportController(ApplicationDbContext db, IFlightModelFactory flightModelFactory)
+        public TransportController(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -16,9 +16,9 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<FlightViewModel> objFlightList = _db.Flight;
+                IEnumerable<TransportViewModel> objTransportList = _db.Transport;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                return View(objFlightList);
+                return View(objTransportList);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -29,44 +29,29 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-                if (availableAircrafts == null)
-                {
-                    return View();
-                }
-                return View(availableAircrafts);
+                return View();
             }
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateTransport(FlightViewModel obj)
+        public IActionResult CreateTransport(TransportViewModel obj)
         {
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
             if (ModelState.IsValid)
             {
-                obj.AllAircrafts = availableAircrafts.AllAircrafts;
-                var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
-                obj.Total_Seats = aircraft.Seat_Capacity;
-                obj.Available_Seats = obj.Total_Seats;
-                int seatPerClass = obj.Total_Seats / 3;
-                obj.Business = seatPerClass;
-                obj.FirstClass = seatPerClass;
-                obj.Economy = seatPerClass + obj.Total_Seats % 3;
-
-                bool FlightExist = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
-                if (FlightExist)
+                bool TransportExist = _db.Transport.Any(x => x.Transport_Name == obj.Transport_Name);
+                if (TransportExist)
                 {
-                    ModelState.AddModelError("Flight", "Flight is already available");
+                    ModelState.AddModelError("Transport_Name", "Transport is already available");
                     return View(obj);
                 }
-                _db.Flight.Add(obj);
+                _db.Transport.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Flight successfully Created";
+                TempData["success"] = "Transport successfully Created";
                 return RedirectToAction("Index");
             }
-            return View(availableAircrafts);
+            return View();
         }
 
         [HttpGet]
@@ -77,56 +62,47 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            FlightViewModel flightFromDb = _db.Flight.Find(id);
-            if (flightFromDb == null)
+            var transFromDB= _db.Transport.Find(id);
+            if (transFromDB == null)
             {
                 return View();
             }
-            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(flightFromDb);
+            return View(transFromDB);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateTransport(FlightViewModel obj)
+        public IActionResult UpdateTransport(TransportViewModel obj)
         {
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            obj.AllAircrafts = availableAircrafts.AllAircrafts;
             if (ModelState.IsValid)
             {
-                var flight = _db.Flight.Find(obj.Flight_Id);
-                if (flight != null)
+                var transport = _db.Transport.Find(obj.Transport_Id);
+                if (transport != null)
                 {
-                    if (obj.Flight_Name != flight.Flight_Name)
+                    if (obj.Transport_Name != transport.Transport_Name)
                     {
-                        bool duplicate = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
-                        if (duplicate)
+                        bool TransportExist = _db.Transport.Any(x => x.Transport_Name == obj.Transport_Name);
+                        if (TransportExist)
                         {
-                            ModelState.AddModelError("flight", "Flight is already availabe");
-                            return View();
+                            ModelState.AddModelError("Transport_Name", "Transport is already available");
+                            return View(obj);
                         }
 
-                        flight.Flight_Name = obj.Flight_Name;
+                        transport.Transport_Name = obj.Transport_Name;
                     }
-                    flight.Departure_Date = obj.Departure_Date;
-                    flight.Arrival_Date = obj.Arrival_Date;
-                    flight.Departure_Time = obj.Departure_Time;
-                    flight.Arrival_Time = obj.Arrival_Time;
-                    flight.Departure_Place = obj.Departure_Place;
-                    flight.Arrival_Place = obj.Departure_Place;
-                    flight.Aircraft_Id = obj.Aircraft_Id;
-                    flight.Flight_Status = obj.Flight_Status;
-                    flight.Flight_Type = obj.Flight_Type;
-                    flight.AllAircrafts = obj.AllAircrafts;
-                    _db.Flight.Update(flight);
+                    transport.Transport_Category = obj.Transport_Category;
+                    transport.Total_Seats = obj.Total_Seats;
+                    transport.Date = obj.Date;
+                    transport.PickUp_Place = obj.PickUp_Place;
+                    transport.PickUp_Time = obj.PickUp_Time;
+                    _db.Transport.Update(transport);
                     _db.SaveChanges();
                     ModelState.Clear();
-                    TempData["success"] = "Flight successfully Updated";
+                    TempData["success"] = "Transport successfully Updated";
                     return RedirectToAction("Index");
                 }
             }
-            return View(availableAircrafts);
+            return View(obj);
         }
 
         [HttpGet]
@@ -137,31 +113,28 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return NotFound();
             }
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            var flightFromDb = _db.Flight.Find(id);
-            if (flightFromDb == null)
+            var transFromDB = _db.Transport.Find(id);
+            if (transFromDB == null)
             {
                 return View();
             }
-            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(flightFromDb);
+            return View(transFromDB);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteTransport(int id)
         {
-            var flight = _db.Flight.Find(id);
-            if (flight != null)
+            var transport = _db.Transport.Find(id);
+            if (transport != null)
             {
-                _db.Flight.Remove(flight);
+                _db.Transport.Remove(transport);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Flight successfully Deleted";
+                TempData["success"] = "Transport successfully Deleted";
                 return RedirectToAction("Index");
             }
-            return View(flight);
+            return View(transport);
         }
     }
 }
-*/

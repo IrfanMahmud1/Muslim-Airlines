@@ -1,8 +1,81 @@
-﻿
+﻿@model PrivateServiceViewModel
 @{
     ViewData["Title"] = "CreatePrivateService";
     Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
-<h1>CreateOffer</h1>
+<form method="post">
+    <div class="border mt-3 p-3">
+        <div class="row">
+            <h2>Create Private Service</h2>
+            <hr />
+        </div>
+        <div>
+            <label asp-for="Departure_Date" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Departure_Date" class="form-control mt-1" />
+            <span asp-validation-for="Departure_Date" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Departure_Time" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Departure_Time" class="form-control mt-1" />
+            <span asp-validation-for="Departure_Time" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Departure_Place" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Departure_Place" class="form-control mt-1" />
+            <span asp-validation-for="Departure_Place" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Arrival_Date" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Arrival_Date" class="form-control mt-1" />
+            <span asp-validation-for="Arrival_Date" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Arrival_Time" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Arrival_Time" class="form-control mt-1" />
+            <span asp-validation-for="Arrival_Time" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="ArrivalPlace" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="ArrivalPlace" class="form-control mt-1" />
+            <span asp-validation-for="ArrivalPlace" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Service_Category" class="text-secondary" style="font-size:20px"></label>  
+            <div>
+                @Html.RadioButtonFor(m => m.Service_Category, "Helicopter", new { @id = "helicopter" })
+                <label for="helicopter">Helicopter</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(m => m.Service_Category, "Airplane", new { @id = "airPlane" })
+                <label for="airPlane">Airplane</label>
+            </div>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Aircraft_Id" class="text-secondary" style="font-size:20px">User</label>
+            @* <input asp-for="User_Id" class="form-control mt-1" /> *@
+            <select id="Aircraft_Id" name="Aircraft_Id">
+                <option value="">-- Select User --</option>
+                @foreach (var item in Model.AllAircrafts)
+                {
+                    <option value="@item.Item2">@item.Item1 <span class="me-2">(@item.Item3)</span></option>
+                }
+            </select>
+            <span asp-validation-for="Aircraft_Id" class="text-danger"></span>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary" style="width:120px">Create</button>
+            <a asp-controller="PrivateService" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
+        </div>
+    </div>
+</form>
+
+
+@section scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
 

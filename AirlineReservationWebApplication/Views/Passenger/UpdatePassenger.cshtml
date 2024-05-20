@@ -6,7 +6,7 @@
 
 <form method="post">
     <div class="border mt-3 p-3">
-        <input asp-for="Passenger_ID" hidden />
+        <input asp-for="Passenger_ID" hidden/>
         <div class="row">
             <h2>Edit Passengers</h2>
             <hr />
@@ -70,9 +70,10 @@
                 }
             </select>
         </div>
+
         <div class="mt-3">
             <button type="submit" class="btn btn-primary" style="width:120px">Update</button>
-            <a asp-controller="Passengers" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
+            <a asp-controller="Passenger" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
         </div>
     </div>
 </form>
@@ -83,5 +84,3 @@
         <partial name="_ValidationScriptsPartial" />
     }
 }
-
-

@@ -6,14 +6,13 @@
 
 <form method="post">
     <div class="border mt-3 p-3">
-        <input asp-for="Flight_Id" hidden />
         <div class="row">
             <h2>Delete Flight</h2>
             <hr />
         </div>
         <div>
             <label asp-for="Flight_Name" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Flight_Name" class="form-control mt-1" disabled />
+            <input asp-for="Flight_Name" class="form-control mt-1" disabled/>
             <span asp-validation-for="Flight_Name" class="text-danger"></span>
         </div>
         <div class="mt-3">
@@ -45,11 +44,6 @@
             <label asp-for="Arrival_Time" class="text-secondary" style="font-size:20px"></label>
             <input asp-for="Arrival_Time" class="form-control mt-1" disabled />
             <span asp-validation-for="Arrival_Time" class="text-danger"></span>
-        </div>
-        <div class="mt-3">
-            <label asp-for="Total_Seats" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Total_Seats" class="form-control mt-1" disabled />
-            <span asp-validation-for="Total_Seats" class="text-danger"></span>
         </div>
         <div class="mt-3">
             <label asp-for="Flight_Status" class="text-secondary" style="font-size:20px"></label>
@@ -89,7 +83,15 @@
         </div>
         <div class="mt-3">
             <label asp-for="Aircraft_Id" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Aircraft_Id" class="form-control mt-1" disabled />
+            <select id="Aircraft_Id" name="Aircraft_Id">
+                <option>-- Seletct Aircraft --</option>
+                @{
+                    foreach (var item in Model.AllAircrafts)
+                    {
+                        <option value="@item.Item2">@item.Item1 <span class="me-2">(@item.Item3)</span></option>
+                    }
+                }
+            </select>
             <span asp-validation-for="Aircraft_Id" class="text-danger"></span>
         </div>
 
@@ -100,4 +102,10 @@
     </div>
 </form>
 
+
+@section scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
 

@@ -14,13 +14,13 @@ namespace AirlineReservationWebApplication.Factory
         public FlightViewModel PrepareFlightViewModel()
         {
             var aircrafts = _db.Aircraft.Where(x => x.Availability == true);
-            
+
             var flight = new FlightViewModel();
-            flight.AllAircrafts = new List<(string, int)>();
+            flight.AllAircrafts = new List<(string, int, int)>();
 
             foreach (var aircraft in aircrafts)
             {
-                flight.AllAircrafts.Add((aircraft.Aircraft_Name, aircraft.Aircraft_Id));
+                flight.AllAircrafts.Add((aircraft.Aircraft_Name, aircraft.Aircraft_Id, aircraft.Seat_Capacity));
             }
             return flight;
         }

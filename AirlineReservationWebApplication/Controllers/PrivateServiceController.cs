@@ -1,4 +1,4 @@
-﻿/*using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,17 +8,19 @@ namespace AirlineReservationWebApplication.Controllers
     public class PrivateServiceController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IFlightModelFactory _flightModelFactory;
         public PrivateServiceController(ApplicationDbContext db, IFlightModelFactory flightModelFactory)
         {
             _db = db;
+            _flightModelFactory = flightModelFactory;
         }
         public IActionResult Index()
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<FlightViewModel> objFlightList = _db.Flight;
+                IEnumerable<PrivateServiceViewModel> objPrivateServiceList = _db.PrivateService;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-                return View(objFlightList);
+                return View(objPrivateServiceList);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -30,6 +32,7 @@ namespace AirlineReservationWebApplication.Controllers
             if (TempData.ContainsKey("AdminEmail"))
             {
                 var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+
                 if (availableAircrafts == null)
                 {
                     return View();
@@ -40,37 +43,31 @@ namespace AirlineReservationWebApplication.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateFlight(FlightViewModel obj)
+        public IActionResult CreatePrivateService(PrivateServiceViewModel obj)
         {
             var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
             if (ModelState.IsValid)
             {
-                obj.AllAircrafts = availableAircrafts.AllAircrafts;
                 var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
-                obj.Total_Seats = aircraft.Seat_Capacity;
-                obj.Available_Seats = obj.Total_Seats;
-                int seatPerClass = obj.Total_Seats / 3;
-                obj.Business = seatPerClass;
-                obj.FirstClass = seatPerClass;
-                obj.Economy = seatPerClass + obj.Total_Seats % 3;
-
-                bool FlightExist = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
-                if (FlightExist)
+                obj.Seat_Capacity = aircraft.Seat_Capacity;
+                obj.AllAircrafts = availableAircrafts.AllAircrafts;
+                bool privatServiceExist = _db.PrivateService.Any(x => x.Departure_Date == obj.Departure_Date && x.Departure_Time == obj.Departure_Time && x.Aircraft_Id == obj.Aircraft_Id || x.Arrival_Date == obj.Arrival_Date && x.Arrival_Time == obj.Arrival_Time && x.Aircraft_Id == obj.Aircraft_Id);
+                if (privatServiceExist)
                 {
-                    ModelState.AddModelError("Flight", "Flight is already available");
+                    ModelState.AddModelError("Aircraft_Id", "Private Service is not available for this aircraft");
                     return View(obj);
                 }
-                _db.Flight.Add(obj);
+                _db.PrivateService.Add(obj);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Flight successfully Created";
+                TempData["success"] = "Private Service successfully Created";
                 return RedirectToAction("Index");
             }
             return View(availableAircrafts);
         }
 
         [HttpGet]
-        public IActionResult UpdateFlight(int? id)
+        public IActionResult UpdatePrivateService(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (id == null || id == 0)
@@ -78,51 +75,47 @@ namespace AirlineReservationWebApplication.Controllers
                 return NotFound();
             }
             var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            FlightViewModel flightFromDb = _db.Flight.Find(id);
-            if (flightFromDb == null)
+            var privateServiceFormDb = _db.PrivateService.Find(id);
+            if (privateServiceFormDb == null)
             {
                 return View();
             }
-            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(flightFromDb);
+            privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
+            return View(privateServiceFormDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateFlight(FlightViewModel obj)
+        public IActionResult UpdatePrivateService(PrivateServiceViewModel obj)
         {
             var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
             obj.AllAircrafts = availableAircrafts.AllAircrafts;
             if (ModelState.IsValid)
             {
-                var flight = _db.Flight.Find(obj.Flight_Id);
-                if (flight != null)
+                var privateService = _db.PrivateService.Find(obj.PrivateService_Id);
+                if (privateService != null)
                 {
-                    if (obj.Flight_Name != flight.Flight_Name)
+                    bool privatServiceExist = _db.PrivateService.Any(x => x.Departure_Date == obj.Departure_Date && x.Departure_Time == obj.Departure_Time && x.Aircraft_Id == obj.Aircraft_Id || x.Arrival_Date == obj.Arrival_Date && x.Arrival_Time == obj.Arrival_Time && x.Aircraft_Id == obj.Aircraft_Id);
+                    if (privatServiceExist)
                     {
-                        bool duplicate = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
-                        if (duplicate)
-                        {
-                            ModelState.AddModelError("flight", "Flight is already availabe");
-                            return View();
-                        }
-
-                        flight.Flight_Name = obj.Flight_Name;
+                        ModelState.AddModelError("Aircraft_Id", "Private Service is not available for this aircraft");
+                        return View(obj);
                     }
-                    flight.Departure_Date = obj.Departure_Date;
-                    flight.Arrival_Date = obj.Arrival_Date;
-                    flight.Departure_Time = obj.Departure_Time;
-                    flight.Arrival_Time = obj.Arrival_Time;
-                    flight.Departure_Place = obj.Departure_Place;
-                    flight.Arrival_Place = obj.Departure_Place;
-                    flight.Aircraft_Id = obj.Aircraft_Id;
-                    flight.Flight_Status = obj.Flight_Status;
-                    flight.Flight_Type = obj.Flight_Type;
-                    flight.AllAircrafts = obj.AllAircrafts;
-                    _db.Flight.Update(flight);
+                    privateService.Departure_Date = obj.Departure_Date;
+                    privateService.Departure_Time = obj.Departure_Time;
+                    privateService.Departure_Place = obj.Departure_Place;
+                    privateService.Arrival_Date = obj.Arrival_Date;
+                    privateService.Arrival_Time = obj.Arrival_Time;
+                    privateService.ArrivalPlace = obj.ArrivalPlace;
+                    privateService.Service_Category = obj.Service_Category;
+                    privateService.Seat_Capacity = obj.Seat_Capacity;
+                    privateService.Aircraft_Id = obj.Aircraft_Id;
+                    privateService.AllAircrafts = obj.AllAircrafts;
+
+                    _db.PrivateService.Update(privateService);
                     _db.SaveChanges();
                     ModelState.Clear();
-                    TempData["success"] = "Flight successfully Updated";
+                    TempData["success"] = "Private Service successfully Updated";
                     return RedirectToAction("Index");
                 }
             }
@@ -130,7 +123,7 @@ namespace AirlineReservationWebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteFlight(int? id)
+        public IActionResult DeletePrivateService(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (id == null || id == 0)
@@ -138,30 +131,29 @@ namespace AirlineReservationWebApplication.Controllers
                 return NotFound();
             }
             var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            var flightFromDb = _db.Flight.Find(id);
-            if (flightFromDb == null)
+            var privateServiceFormDb = _db.PrivateService.Find(id);
+            if (privateServiceFormDb == null)
             {
                 return View();
             }
-            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(flightFromDb);
+            privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
+            return View(privateServiceFormDb);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteFlight(int id)
+        public IActionResult DeletePrivateService(int id)
         {
-            var flight = _db.Flight.Find(id);
-            if (flight != null)
+            var privateService = _db.PrivateService.Find(id);
+            if (privateService != null)
             {
-                _db.Flight.Remove(flight);
+                _db.PrivateService.Remove(privateService);
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Flight successfully Deleted";
                 return RedirectToAction("Index");
             }
-            return View(flight);
+            return View(privateService);
         }
     }
 }
-*/

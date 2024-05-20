@@ -1,8 +1,50 @@
-﻿
+﻿@model IEnumerable<TransportViewModel>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
-<h1>Index</h1>
-
+<div class="row pt-2">
+    <div class="col-6 ">
+        <h2>Transport List</h2>
+    </div>
+    <div class="col-6 text-end">
+        <a asp-controller="Transport" asp-action="CreateTransport" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp Create new Transport</a>
+    </div>
+</div>
+<table class="table table-bordered table-striped mt-3" width="100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Total seats</th>
+            <th>Booked seats</th>
+            <th>Date</th>
+            <th>Pickup place</th>
+            <th>Arrival place</th>
+            <th>Pickup time</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td class="w-25">@obj.Transport_Id</td>
+                <td class="w-25">@obj.Transport_Name</td>
+                <td class="w-50">@obj.Transport_Category</td>
+                <td class="w-50">@obj.Total_Seats</td>
+                <td class="w-50">@obj.Booked_Seats</td>
+                <td class="w-50">@obj.Date</td>
+                <td class="w-50">@obj.PickUp_Place</td>
+                <td class="w-50">@obj.Arrival_Place</td>
+                <td class="w-50">@obj.PickUp_Time</td>
+                <td>
+                    <a asp-controller="Transport" asp-action="UpdateTransport" asp-route-id="@obj.Transport_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                    <a asp-controller="Transport" asp-action="DeleteTransport" asp-route-id="@obj.Transport_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
