@@ -87,18 +87,22 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdatePassenger(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
+                PassengerViewModel passengerFromDb = _db.Passenger.Find(id);
+                if (passengerFromDb == null)
+                {
+                    return View();
+                }
+                passengerFromDb.AllUsers = newPassenger.AllUsers;
+                return View(passengerFromDb);
             }
-            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
-            PassengerViewModel passengerFromDb = _db.Passenger.Find(id);
-            if (passengerFromDb == null)
-            {
-                return View();
-            }
-            passengerFromDb.AllUsers = newPassenger.AllUsers;
-            return View(passengerFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -145,18 +149,22 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeletePassenger(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
+                PassengerViewModel passengerFromDb = _db.Passenger.Find(id);
+                if (passengerFromDb == null)
+                {
+                    return View();
+                }
+                passengerFromDb.AllUsers = newPassenger.AllUsers;
+                return View(passengerFromDb);
             }
-            var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
-            PassengerViewModel passengerFromDb = _db.Passenger.Find(id);
-            if (passengerFromDb == null)
-            {
-                return View();
-            }
-            passengerFromDb.AllUsers = newPassenger.AllUsers;
-            return View(passengerFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

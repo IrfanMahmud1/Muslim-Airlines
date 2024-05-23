@@ -74,18 +74,22 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdateFlight(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if(TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+                FlightViewModel flightFromDb = _db.Flight.Find(id);
+                if (flightFromDb == null)
+                {
+                    return View();
+                }
+                flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
+                return View(flightFromDb);
             }
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            FlightViewModel flightFromDb = _db.Flight.Find(id);
-            if (flightFromDb == null)
-            {
-                return View();
-            }
-            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(flightFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -140,18 +144,22 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeleteFlight(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+                FlightViewModel flightFromDb = _db.Flight.Find(id);
+                if (flightFromDb == null)
+                {
+                    return View();
+                }
+                flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
+                return View(flightFromDb);
             }
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            var flightFromDb = _db.Flight.Find(id);
-            if (flightFromDb == null)
-            {
-                return View();
-            }
-            flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(flightFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

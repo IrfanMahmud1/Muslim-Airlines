@@ -35,7 +35,7 @@ namespace AirlineReservationWebApplication.Models
         public int Aircraft_Id {  get; set; }
 
         [NotMapped]
-        public List<(string,int,int)> AllAircrafts{ get; set; }
+        public List<(string,int,int)>? AllAircrafts{ get; set; }
 
     }
 }

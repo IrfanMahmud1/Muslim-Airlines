@@ -59,16 +59,20 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdateAircraft(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if(TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var aircraftFromDb = _db.Aircraft.Find(id);
+                if (aircraftFromDb == null)
+                {
+                    return View();
+                }
+                return View(aircraftFromDb);
             }
-            var aircraftFromDb = _db.Aircraft.Find(id);
-            if (aircraftFromDb == null)
-            {
-                return NotFound();
-            }
-            return View(aircraftFromDb);
+            return RedirectToAction("Index","Home");
         }
 
         [HttpPost]
@@ -107,12 +111,20 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeleteAircraft(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var aircraftFromDb = _db.Aircraft.Find(id);
+                if (aircraftFromDb == null)
+                {
+                    return View();
+                }
+                return View(aircraftFromDb);
             }
-            var aircraftFromDb = _db.Aircraft.Find(id);
-            return View(aircraftFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

@@ -1,14 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <h1 class="mt-5 text-center" style="font-size:50px"><b>It's more than
-        <br />
-            just a trip
-        </b>
+ <div class="container">
+    <h1 class="mt-5 text-center" style="font-size:80px">
+            <b>
+                It's more than
+                <br />
+                just a trip
+            </b>
     </h1>
-     <form id="flight-search-form" class="mt-4 form-inline mt-5">
+     <form id="flight-search-form myForm" class="mt-4 form-inline mt-5">
         <div class="row shadow rounded-2 p-5">
             <div class="form-group col-3">
                 <label for="origin">Origin:</label>
@@ -49,10 +52,10 @@
                 <img src="~/images/explore.webp" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item" data-bs-interval="">
-                <img src="~/images/pci-dss.webp" class="d-block w-100" alt="...">
+                <img src="~/images/explore.webp" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item" data-bs-interval="">
-                <img src="~/images/pci-dss.webp" class="d-block w-100" alt="...">
+                <img src="~/images/explore.webp" class="d-block w-100" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
