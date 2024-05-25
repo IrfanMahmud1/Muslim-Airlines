@@ -1,40 +1,18 @@
-﻿@{
+﻿@model EditUserFlightSearchAndFlightViewModel
+@{
     ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <h1 class="mt-5 text-center" style="font-size:50px"><b>It's more than
-        <br />
-            just a trip
-        </b>
+ <div class="container">
+    <h1 class="mt-5 text-center" style="font-size:80px">
+            <b>
+                It's more than
+                <br />
+                just a trip
+            </b>
     </h1>
-     <form id="flight-search-form" class="mt-4 form-inline mt-5">
-        <div class="row shadow rounded-2 p-5">
-            <div class="form-group col-3">
-                <label for="origin">Origin:</label>
-                <select class="form-control" id="origin" name="origin" required>
-                    <option value="LHR">London Heathrow</option>
-                    <option value="CDG">Paris Charles de Gaulle</option>
-                    <option value="SYD">Sydney</option>
-                    <!-- Add more options as needed -->
-                </select>
-             </div>
-            <div class="form-group col-3 ms-2">
-                <label for="destination">Destination:</label>
-                <select class="form-control" id="destination" name="destination" required>
-                    <option value="LHR">London Heathrow</option>
-                    <option value="CDG">Paris Charles de Gaulle</option>
-                    <option value="SYD">Sydney</option>
-                    <!-- Add more options as needed -->
-                </select>
-            </div>
-            <div class="form-group col-3 ms-2">
-                <label for="date">Departure:</label>
-                <input type="date" class="form-control" id="date" name="date" required>
-            </div>
-            <button type="submit" class="btn btn-danger ms-3" style="width:150px">Search Flights</button>
-        </div>
-    </form>
+        <partial name="_FlightSearchForm" />
 </div>
 
 <div class="container mt-5">
@@ -49,10 +27,10 @@
                 <img src="~/images/explore.webp" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item" data-bs-interval="">
-                <img src="~/images/pci-dss.webp" class="d-block w-100" alt="...">
+                <img src="~/images/explore.webp" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item" data-bs-interval="">
-                <img src="~/images/pci-dss.webp" class="d-block w-100" alt="...">
+                <img src="~/images/explore.webp" class="d-block w-100" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">

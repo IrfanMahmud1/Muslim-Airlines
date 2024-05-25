@@ -58,16 +58,20 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdateHotel(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var hotelFromDb = _db.Hotel.Find(id);
+                if (hotelFromDb == null)
+                {
+                    return View();
+                }
+                return View(hotelFromDb);
             }
-            var hotelFromDb = _db.Hotel.Find(id);
-            if (hotelFromDb == null)
-            {
-                return View();
-            }
-            return View(hotelFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -108,16 +112,20 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeleteHotel(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var hotelFromDb = _db.Hotel.Find(id);
+                if (hotelFromDb == null)
+                {
+                    return View();
+                }
+                return View(hotelFromDb);
             }
-            var hotelFromDb = _db.Hotel.Find(id);
-            if (hotelFromDb == null)
-            {
-                return View();
-            }
-            return View(hotelFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

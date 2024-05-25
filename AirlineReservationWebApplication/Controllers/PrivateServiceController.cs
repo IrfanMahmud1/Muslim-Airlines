@@ -8,11 +8,11 @@ namespace AirlineReservationWebApplication.Controllers
     public class PrivateServiceController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private readonly IFlightModelFactory _flightModelFactory;
-        public PrivateServiceController(ApplicationDbContext db, IFlightModelFactory flightModelFactory)
+        private readonly IPrivateServiceModelFactory _privateServiceModelFactory;
+        public PrivateServiceController(ApplicationDbContext db, IPrivateServiceModelFactory privateServiceModelFactory)
         {
             _db = db;
-            _flightModelFactory = flightModelFactory;
+            _privateServiceModelFactory = privateServiceModelFactory;
         }
         public IActionResult Index()
         {
@@ -31,7 +31,7 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("AdminEmail"))
             {
-                var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+                var availableAircrafts = _privateServiceModelFactory.PreparePrivateServiceViewModle();
 
                 if (availableAircrafts == null)
                 {
@@ -45,7 +45,7 @@ namespace AirlineReservationWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreatePrivateService(PrivateServiceViewModel obj)
         {
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+            var availableAircrafts = _privateServiceModelFactory.PreparePrivateServiceViewModle();
             if (ModelState.IsValid)
             {
                 var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
@@ -70,37 +70,41 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdatePrivateService(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var availableAircrafts = _privateServiceModelFactory.PreparePrivateServiceViewModle();
+                var privateServiceFormDb = _db.PrivateService.Find(id);
+                if (privateServiceFormDb == null)
+                {
+                    return View();
+                }
+                privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
+                return View(privateServiceFormDb);
             }
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            var privateServiceFormDb = _db.PrivateService.Find(id);
-            if (privateServiceFormDb == null)
-            {
-                return View();
-            }
-            privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(privateServiceFormDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpdatePrivateService(PrivateServiceViewModel obj)
         {
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
+            var availableAircrafts = _privateServiceModelFactory.PreparePrivateServiceViewModle();
             obj.AllAircrafts = availableAircrafts.AllAircrafts;
             if (ModelState.IsValid)
             {
                 var privateService = _db.PrivateService.Find(obj.PrivateService_Id);
                 if (privateService != null)
                 {
-                    bool privatServiceExist = _db.PrivateService.Any(x => x.Departure_Date == obj.Departure_Date && x.Departure_Time == obj.Departure_Time && x.Aircraft_Id == obj.Aircraft_Id || x.Arrival_Date == obj.Arrival_Date && x.Arrival_Time == obj.Arrival_Time && x.Aircraft_Id == obj.Aircraft_Id);
+                   /* bool privatServiceExist = _db.PrivateService.Any(x => x.Departure_Date == obj.Departure_Date && x.Departure_Time == obj.Departure_Time && x.Aircraft_Id == obj.Aircraft_Id || x.Arrival_Date == obj.Arrival_Date && x.Arrival_Time == obj.Arrival_Time && x.Aircraft_Id == obj.Aircraft_Id);
                     if (privatServiceExist)
                     {
                         ModelState.AddModelError("Aircraft_Id", "Private Service is not available for this aircraft");
                         return View(obj);
-                    }
+                    }*/
                     privateService.Departure_Date = obj.Departure_Date;
                     privateService.Departure_Time = obj.Departure_Time;
                     privateService.Departure_Place = obj.Departure_Place;
@@ -126,18 +130,22 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeletePrivateService(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var availableAircrafts = _privateServiceModelFactory.PreparePrivateServiceViewModle();
+                var privateServiceFormDb = _db.PrivateService.Find(id);
+                if (privateServiceFormDb == null)
+                {
+                    return View();
+                }
+                privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
+                return View(privateServiceFormDb);
             }
-            var availableAircrafts = _flightModelFactory.PrepareFlightViewModel();
-            var privateServiceFormDb = _db.PrivateService.Find(id);
-            if (privateServiceFormDb == null)
-            {
-                return View();
-            }
-            privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
-            return View(privateServiceFormDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -150,7 +158,7 @@ namespace AirlineReservationWebApplication.Controllers
                 _db.PrivateService.Remove(privateService);
                 _db.SaveChanges();
                 ModelState.Clear();
-                TempData["success"] = "Flight successfully Deleted";
+                TempData["success"] = "Private Service successfully Deleted";
                 return RedirectToAction("Index");
             }
             return View(privateService);

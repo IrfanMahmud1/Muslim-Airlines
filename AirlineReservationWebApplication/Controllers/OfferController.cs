@@ -66,19 +66,23 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdateOffer(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
+                var offerFromDb = _db.Offer.Find(id);
+                if (offerFromDb == null)
+                {
+                    return View(allFlightHotelOffers);
+                }
+                offerFromDb.AllFlights = allFlightHotelOffers.AllFlights;
+                offerFromDb.AllHotels = allFlightHotelOffers.AllHotels;
+                return View(offerFromDb);
             }
-            var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
-            var offerFromDb = _db.Offer.Find(id);
-            if (offerFromDb == null)
-            {
-                return View(allFlightHotelOffers);
-            }
-            offerFromDb.AllFlights = allFlightHotelOffers.AllFlights;
-            offerFromDb.AllHotels = allFlightHotelOffers.AllHotels;
-            return View(offerFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -121,19 +125,23 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeleteOffer(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
+                var offerFromDb = _db.Offer.Find(id);
+                if (offerFromDb == null)
+                {
+                    return View(allFlightHotelOffers);
+                }
+                offerFromDb.AllFlights = allFlightHotelOffers.AllFlights;
+                offerFromDb.AllHotels = allFlightHotelOffers.AllHotels;
+                return View(offerFromDb);
             }
-            var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
-            var offerFromDb = _db.Offer.Find(id);
-            if (offerFromDb == null)
-            {
-                return View(allFlightHotelOffers);
-            }
-            offerFromDb.AllFlights = allFlightHotelOffers.AllFlights;
-            offerFromDb.AllHotels = allFlightHotelOffers.AllHotels;
-            return View(offerFromDb);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

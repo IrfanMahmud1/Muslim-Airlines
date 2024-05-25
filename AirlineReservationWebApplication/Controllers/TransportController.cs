@@ -58,16 +58,20 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdateTransport(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var transFromDB = _db.Transport.Find(id);
+                if (transFromDB == null)
+                {
+                    return View();
+                }
+                return View(transFromDB);
             }
-            var transFromDB= _db.Transport.Find(id);
-            if (transFromDB == null)
-            {
-                return View();
-            }
-            return View(transFromDB);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -109,16 +113,20 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeleteTransport(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (id == null || id == 0)
+            if (TempData.ContainsKey("AdminEmail"))
             {
-                return NotFound();
+                if (id == null || id == 0)
+                {
+                    return NotFound();
+                }
+                var transFromDB = _db.Transport.Find(id);
+                if (transFromDB == null)
+                {
+                    return View();
+                }
+                return View(transFromDB);
             }
-            var transFromDB = _db.Transport.Find(id);
-            if (transFromDB == null)
-            {
-                return View();
-            }
-            return View(transFromDB);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
