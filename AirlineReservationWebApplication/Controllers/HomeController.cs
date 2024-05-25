@@ -34,12 +34,32 @@ namespace AirlineReservationWebApplication.Controllers
             var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
             editUserFlight.userFlightSearchModel = allFlights;
-            TempData["button"] = "Search Flights";
             TempData["action"] = "Index";
             return View(editUserFlight);
         }
 
-       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Flights(UserFlightSearchModel obj)
+        {
+            var flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
+            if (ModelState.IsValid)
+            {
+                if (obj.Origin == obj.Destination)
+                {
+                    TempData["error"] = "Origin and Destination cannot be same";
+                    ModelState.AddModelError("Origin", "Origin and Destination cannot be same");
+                    if(TempData.ContainsKey("button") && TempData["button"]==(string)"Modify Search")
+                    {
+                        return View(flightResults);
+                    }
+                    return RedirectToAction("Index");
+                }
+                return View(flightResults);
+            }
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();

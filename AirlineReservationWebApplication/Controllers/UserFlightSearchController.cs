@@ -20,22 +20,6 @@ namespace AirlineReservationWebApplication.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Flights(UserFlightSearchModel obj)
-        {
-            var flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
-            if (ModelState.IsValid)
-            {
-                if (obj.Origin == obj.Destination)
-                {
-                    TempData["error"] = "Origin and Destination cannot be same";
-                    ModelState.AddModelError("Origin", "Origin and Destination cannot be same");
-                    return RedirectToAction("Index", "Home");
-                }
-                return View(flightResults);
-            }
-            return RedirectToAction("Index");
-        }
+        
     }
 }
