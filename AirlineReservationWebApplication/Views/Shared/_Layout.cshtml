@@ -56,7 +56,7 @@
         </nav>
     </header>
     }
-    @if (TempData["success"] != null)
+    @if (TempData["success"] != null || TempData["error"] != null)
     {
         <partial name="_Notifications" />
     }

@@ -119,7 +119,7 @@ namespace AirlineReservationWebApplication.Controllers
                     flight.Departure_Time = obj.Departure_Time;
                     flight.Arrival_Time = obj.Arrival_Time;
                     flight.Departure_Place = obj.Departure_Place;
-                    flight.Arrival_Place = obj.Departure_Place;
+                    flight.Arrival_Place = obj.Arrival_Place;
                     flight.Aircraft_Id = obj.Aircraft_Id;
                     var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
                     obj.Total_Seats = aircraft.Seat_Capacity;

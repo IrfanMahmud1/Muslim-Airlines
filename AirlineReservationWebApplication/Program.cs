@@ -20,6 +20,7 @@ namespace AirlineReservationWebApplication
             builder.Services.AddScoped<IFlightModelFactory, FlightModelFactory>();
             builder.Services.AddScoped<IOfferModelFactory,OfferModelFactory>();
             builder.Services.AddScoped<IPrivateServiceModelFactory,PrivateServiceModelFactory>();
+            builder.Services.AddScoped<IUserFlightSearchModelFactory, UserFlightSearchModelFactory>();
 
             /*builder.Services.AddDistributedMemoryCache(); // Or other chosen session provider
             builder.Services.AddSession(options =>
