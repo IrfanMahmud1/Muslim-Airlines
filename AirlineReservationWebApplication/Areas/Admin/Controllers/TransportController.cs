@@ -1,10 +1,11 @@
-﻿using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Factory;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class TransportController : Controller
     {
         private readonly ApplicationDbContext _db;

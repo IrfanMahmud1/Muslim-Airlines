@@ -1,15 +1,16 @@
-﻿using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Factory;
-using AirlineReservationWebApplication.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Factory;
+using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class OfferController : Controller
     {
         private readonly ApplicationDbContext _db;
         private readonly IOfferModelFactory _offerModelFactory;
-        public OfferController(ApplicationDbContext db,IOfferModelFactory offerModelFactory)
+        public OfferController(ApplicationDbContext db, IOfferModelFactory offerModelFactory)
         {
             _db = db;
             _offerModelFactory = offerModelFactory;
@@ -41,13 +42,13 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult CreateOffer(OfferViewModel obj)
         {
             var allFlightHotelOffers = _offerModelFactory.PrepareOfferViewModel();
-            
+
             if (ModelState.IsValid)
             {
                 obj.AllHotels = allFlightHotelOffers.AllHotels;
                 obj.AllFlights = allFlightHotelOffers.AllFlights;
 
-                bool OfferExist = _db.Offer.Any(x => x.Start_Date == obj.Start_Date&& x.End_Date== obj.End_Date && x.Validity== obj.Validity && x.Offer_Range == obj.Offer_Range);
+                bool OfferExist = _db.Offer.Any(x => x.Start_Date == obj.Start_Date && x.End_Date == obj.End_Date && x.Validity == obj.Validity && x.Offer_Range == obj.Offer_Range);
                 if (OfferExist)
                 {
                     ModelState.AddModelError("", "Offer is already available");

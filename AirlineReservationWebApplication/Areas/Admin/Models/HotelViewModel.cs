@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AirlineReservationWebApplication.Models
+namespace AirlineReservationWebApplication.Areas.Admin.Models
 {
     public class HotelViewModel
     {

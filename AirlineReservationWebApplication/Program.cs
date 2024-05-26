@@ -1,3 +1,4 @@
+using AirlineReservationWebApplication.Areas.Admin.Factory;
 using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using Microsoft.EntityFrameworkCore;
@@ -46,8 +47,12 @@ namespace AirlineReservationWebApplication
             app.UseAuthorization();
 
             app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{irfan?}");
 
             app.Run();
         }

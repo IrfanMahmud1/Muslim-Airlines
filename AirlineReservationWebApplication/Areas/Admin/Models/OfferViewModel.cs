@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AirlineReservationWebApplication.Models
+namespace AirlineReservationWebApplication.Areas.Admin.Models
 {
     public class OfferViewModel
     {
@@ -22,14 +22,14 @@ namespace AirlineReservationWebApplication.Models
 
         public TimeSpan Validity { get; set; }
 
-        [Required]        
+        [Required]
         public int Offer_Range { get; set; }
 
         public int Hotel_Id { get; set; }
 
         [NotMapped]
-        public List<(string,int)>? AllHotels { get; set; }
-  
+        public List<(string, int)>? AllHotels { get; set; }
+
         public int Flight_Id { get; set; }
 
         [NotMapped]

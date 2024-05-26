@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AirlineReservationWebApplication.Models
+namespace AirlineReservationWebApplication.Areas.Admin.Models
 {
     public class AircraftViewModel
     {
@@ -9,7 +8,7 @@ namespace AirlineReservationWebApplication.Models
         public int Aircraft_Id { get; set; }
 
         [Required]
-        public string Aircraft_Name { get; set;}
+        public string Aircraft_Name { get; set; }
 
         [Required]
         public string Aircraft_Category { get; set; }

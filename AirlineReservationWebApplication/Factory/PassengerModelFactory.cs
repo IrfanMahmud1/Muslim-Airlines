@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 
 namespace AirlineReservationWebApplication.Factory

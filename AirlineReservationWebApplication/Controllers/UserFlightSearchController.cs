@@ -10,14 +10,34 @@ namespace AirlineReservationWebApplication.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IUserFlightSearchModelFactory _userflightsearchmodelFactory;
 
-        public UserFlightSearchController(ApplicationDbContext db, IUserFlightSearchModelFactory userFlightSearchModelFactory)
+        public UserFlightSearchController(ApplicationDbContext db, 
+            IUserFlightSearchModelFactory userFlightSearchModelFactory)
         {
             _db = db;
             _userflightsearchmodelFactory = userFlightSearchModelFactory;
         }
+
         public IActionResult Index()
         {
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult Check(FlightSearchFormData data)
+        {
+            string origin = data.origin;
+            string des = data.destination;
+
+            bool success = true;
+
+            if (success)
+            {
+                return Json(new { status = "success", message = "Operation was successful." });
+            }
+            else
+            {
+                return Json(new { status = "error", message = "There was an error." });
+            }
         }
 
         [HttpPost]
@@ -27,15 +47,9 @@ namespace AirlineReservationWebApplication.Controllers
             var flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
             if (ModelState.IsValid)
             {
-                if (obj.Origin == obj.Destination)
-                {
-                    TempData["error"] = "Origin and Destination cannot be same";
-                    ModelState.AddModelError("Origin", "Origin and Destination cannot be same");
-                    return RedirectToAction("Index", "Home");
-                }
                 return View(flightResults);
             }
-            return RedirectToAction("Index");
+            return Redirect("/Home/Index");
         }
     }
 }

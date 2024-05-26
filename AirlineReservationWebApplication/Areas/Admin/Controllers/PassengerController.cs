@@ -1,10 +1,12 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class PassengerController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -45,7 +47,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
             if (ModelState.IsValid)
-            {                
+            {
                 obj.AllUsers = newPassenger.AllUsers;
                 bool PassportExist = _db.Passenger.Any(x => x.Passport == obj.Passport);
                 if (PassportExist)
@@ -139,7 +141,7 @@ namespace AirlineReservationWebApplication.Controllers
                     _db.Passenger.Update(passenger);
                     _db.SaveChanges();
                     TempData["success"] = "Passengers successfully Updated";
-                } 
+                }
                 return RedirectToAction("Index");
             }
             return View(obj);

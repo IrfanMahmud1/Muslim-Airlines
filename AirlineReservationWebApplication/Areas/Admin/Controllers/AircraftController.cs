@@ -1,9 +1,11 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AircraftController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -59,7 +61,7 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdateAircraft(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if(TempData.ContainsKey("AdminEmail"))
+            if (TempData.ContainsKey("AdminEmail"))
             {
                 if (id == null || id == 0)
                 {
@@ -72,7 +74,7 @@ namespace AirlineReservationWebApplication.Controllers
                 }
                 return View(aircraftFromDb);
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]

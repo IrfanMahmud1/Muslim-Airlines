@@ -1,10 +1,12 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class PrivateServiceController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -99,12 +101,12 @@ namespace AirlineReservationWebApplication.Controllers
                 var privateService = _db.PrivateService.Find(obj.PrivateService_Id);
                 if (privateService != null)
                 {
-                   /* bool privatServiceExist = _db.PrivateService.Any(x => x.Departure_Date == obj.Departure_Date && x.Departure_Time == obj.Departure_Time && x.Aircraft_Id == obj.Aircraft_Id || x.Arrival_Date == obj.Arrival_Date && x.Arrival_Time == obj.Arrival_Time && x.Aircraft_Id == obj.Aircraft_Id);
-                    if (privatServiceExist)
-                    {
-                        ModelState.AddModelError("Aircraft_Id", "Private Service is not available for this aircraft");
-                        return View(obj);
-                    }*/
+                    /* bool privatServiceExist = _db.PrivateService.Any(x => x.Departure_Date == obj.Departure_Date && x.Departure_Time == obj.Departure_Time && x.Aircraft_Id == obj.Aircraft_Id || x.Arrival_Date == obj.Arrival_Date && x.Arrival_Time == obj.Arrival_Time && x.Aircraft_Id == obj.Aircraft_Id);
+                     if (privatServiceExist)
+                     {
+                         ModelState.AddModelError("Aircraft_Id", "Private Service is not available for this aircraft");
+                         return View(obj);
+                     }*/
                     privateService.Departure_Date = obj.Departure_Date;
                     privateService.Departure_Time = obj.Departure_Time;
                     privateService.Departure_Place = obj.Departure_Place;

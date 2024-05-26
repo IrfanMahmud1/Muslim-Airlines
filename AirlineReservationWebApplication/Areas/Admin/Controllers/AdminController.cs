@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class AdminController : Controller
     {
         public IActionResult Dashboard()
@@ -12,7 +13,7 @@ namespace AirlineReservationWebApplication.Controllers
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View();
             }
-            
+
             return RedirectToAction("Index", "Home");
 
         }
@@ -30,6 +31,6 @@ namespace AirlineReservationWebApplication.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
-        
+
     }
 }

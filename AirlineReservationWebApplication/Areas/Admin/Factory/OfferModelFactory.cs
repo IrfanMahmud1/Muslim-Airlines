@@ -1,7 +1,7 @@
-﻿using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 
-namespace AirlineReservationWebApplication.Factory
+namespace AirlineReservationWebApplication.Areas.Admin.Factory
 {
     public class OfferModelFactory : IOfferModelFactory
     {
@@ -19,11 +19,11 @@ namespace AirlineReservationWebApplication.Factory
             offers.AllFlights = new List<(string, int)>();
             offers.AllHotels = new List<(string, int)>();
 
-            foreach(var flight in allFlights)
+            foreach (var flight in allFlights)
             {
                 offers.AllFlights.Add((flight.Flight_Name, flight.Flight_Id));
             }
-            foreach(var hotel in allHotels)
+            foreach (var hotel in allHotels)
             {
                 offers.AllHotels.Add((hotel.Hotel_Name, hotel.Hotel_Id));
             }

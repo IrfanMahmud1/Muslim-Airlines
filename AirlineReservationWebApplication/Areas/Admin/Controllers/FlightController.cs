@@ -1,15 +1,17 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class FlightController : Controller
     {
         private readonly ApplicationDbContext _db;
         private readonly IFlightModelFactory _flightModelFactory;
-        public FlightController(ApplicationDbContext db,IFlightModelFactory flightModelFactory)
+        public FlightController(ApplicationDbContext db, IFlightModelFactory flightModelFactory)
         {
             _db = db;
             _flightModelFactory = flightModelFactory;
@@ -74,7 +76,7 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult UpdateFlight(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if(TempData.ContainsKey("AdminEmail"))
+            if (TempData.ContainsKey("AdminEmail"))
             {
                 if (id == null || id == 0)
                 {

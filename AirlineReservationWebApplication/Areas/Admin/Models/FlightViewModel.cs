@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AirlineReservationWebApplication.Models
+namespace AirlineReservationWebApplication.Areas.Admin.Models
 {
     public class FlightViewModel
     {
