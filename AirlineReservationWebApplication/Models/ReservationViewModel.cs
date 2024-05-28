@@ -25,6 +25,8 @@ namespace AirlineReservationWebApplication.Models
 
         public int Hotel_Id { get; set; }
 
+        public TimeOnly Checkin_Time {  get; set; }
+
         public int PrivateService_Id { get; set; }
 
     }

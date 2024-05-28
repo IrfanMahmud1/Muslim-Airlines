@@ -1,3 +1,5 @@
+using AirlineReservationWebApplication.Data;
+using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -27,10 +29,16 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return RedirectToAction("Index", "HomePage");
             }
-            if (TempData["UserEmail"]!=null)
+            if (TempData.ContainsKey("AdminEmail"))
             {
                 return RedirectToAction("Dashboard", "Admin");
             }
+            var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
+            var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
+            editUserFlight.userFlightSearchModel = allFlights;
+            TempData["button"] = "Search Flights";
+            TempData["action"] = "Index";
+            return View(editUserFlight);
             var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
             editUserFlight.userFlightSearchModel = allFlights;
@@ -93,6 +101,7 @@ namespace AirlineReservationWebApplication.Controllers
             return RedirectToAction("Index");
         }
 
+       
         public IActionResult Privacy()
         {
             return View();

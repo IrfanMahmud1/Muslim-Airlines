@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 
 namespace AirlineReservationWebApplication.Factory
@@ -14,7 +15,7 @@ namespace AirlineReservationWebApplication.Factory
 
         public PassengerViewModel PreparePassengerViewModel()
         {
-            var availableUsers = _db.User.Select(user => user).Where(us => us.User_Email != "admin@sample.com").ToList();
+            var availableUsers = _db.User.Where(us => us.User_Email != "admin@sample.com").ToList();
 
             var newPassenger = new PassengerViewModel();
 

@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirlineReservationWebApplication.Data
@@ -36,7 +37,5 @@ namespace AirlineReservationWebApplication.Data
         public DbSet<PaymentViewModel> Payment { get; set; }
         public DbSet<PrivateServiceViewModel> PrivateService { get; set; }
         public DbSet<TransportViewModel> Transport { get; set; }
-        public DbSet<UserViewModel> Users { get; set; }
-        public DbSet<PassengerViewModel> Passengers { get; set; }
     }
 }

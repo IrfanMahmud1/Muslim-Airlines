@@ -1,6 +1,6 @@
 ﻿@model EditUserFlightSearchAndFlightViewModel
 
-<form id="flight-search-form myForm" class="form-inline mt-5" method="post" asp-action="@TempData["action"]">
+<form id="flight-search-form myForm" class="form-inline mt-5" method="post" asp-area="" asp-action="Flights" asp-controller="UserFlightSearch">
     <div class="row shadow rounded-2 p-5 justify-content-center">
         <div class="form-group col-3">
             <label asp-for="userFlightSearchModel.Origin" class="text-secondary fw-bold"></label>
@@ -26,7 +26,22 @@
             <label asp-for="userFlightSearchModel.Departure" class="text-secondary fw-bold">Departure</label>
             <input type="date" class="form-control" id="Departure" name="Departure">
         </div>
-            <button type="submit" class="btn btn-danger ms-3" style="width:150px">@TempData["button"]</button>
+        <button type="submit" class="btn btn-danger ms-3 flightSearchButton" style="width:150px" onclick="return validateForm()">@TempData["button"]</button>
     </div>
 </form>
 
+
+ <script>
+    function validateForm() {
+        var origin = document.getElementById('Origin').value;
+        var destination = document.getElementById('Destination').value;
+
+        if (origin === destination) {
+            alert("Origin and Destination cannot be the same. Please choose different locations.");
+            return false;
+        } else {
+            alert("Success");
+            return true;
+        }
+    }
+</script>
