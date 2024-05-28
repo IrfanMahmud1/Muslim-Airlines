@@ -1,0 +1,32 @@
+﻿@model EditUserFlightSearchAndFlightViewModel
+
+<form id="flight-search-form myForm" class="form-inline mt-5" method="post" asp-action="@TempData["action"]">
+    <div class="row shadow rounded-2 p-5 justify-content-center">
+        <div class="form-group col-3">
+            <label asp-for="userFlightSearchModel.Origin" class="text-secondary fw-bold"></label>
+            <select class="form-control" id="Origin" name="Origin">
+                @foreach (var item in Model.userFlightSearchModel.AllOrigins)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+            <span asp-validation-for="userFlightSearchModel.Origin"></span>
+        </div>
+        <div class="form-group col-3 ms-2">
+            <label asp-for="userFlightSearchModel.Destination" class="text-secondary fw-bold"></label>
+            <select class="form-control" id="Destination" name="Destination">
+                @foreach (var item in Model.userFlightSearchModel.AllDestinations)
+                {
+                    <option value="@item">@item</option>
+                }
+            </select>
+            <span asp-validation-for="userFlightSearchModel.AllDestinations"></span>
+        </div>
+        <div class="form-group col-3 ms-2">
+            <label asp-for="userFlightSearchModel.Departure" class="text-secondary fw-bold">Departure</label>
+            <input type="date" class="form-control" id="Departure" name="Departure">
+        </div>
+            <button type="submit" class="btn btn-danger ms-3" style="width:150px">@TempData["button"]</button>
+    </div>
+</form>
+
