@@ -36,15 +36,11 @@ namespace AirlineReservationWebApplication.Controllers
             var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
             editUserFlight.userFlightSearchModel = allFlights;
-            TempData["button"] = "Search Flights";
             TempData["action"] = "Index";
-            return View(editUserFlight);
-            var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
-            var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
-            editUserFlight.userFlightSearchModel = allFlights;
-            TempData["action"] = "Index";
+
             return View(editUserFlight);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Index(UserFlightSearchModel obj)
@@ -99,9 +95,8 @@ namespace AirlineReservationWebApplication.Controllers
                 return View(flightResults);
             }
             return RedirectToAction("Index");
-        }
+        }        
 
-       
         public IActionResult Privacy()
         {
             return View();

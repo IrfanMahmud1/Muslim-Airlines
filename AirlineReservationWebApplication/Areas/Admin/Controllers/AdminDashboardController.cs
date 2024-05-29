@@ -3,7 +3,7 @@
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class AdminController : Controller
+    public class AdminDashboardController : Controller
     {
         public IActionResult Dashboard()
         {
@@ -13,9 +13,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View();
             }
-
-            return RedirectToAction("Index", "Home");
-
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         public IActionResult Logout()
@@ -29,8 +27,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
-
     }
 }

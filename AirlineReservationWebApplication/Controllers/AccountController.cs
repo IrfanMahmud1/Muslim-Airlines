@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,7 +29,7 @@ namespace AirlineReservationWebApplication.Controllers
         //Register POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(UserViewModel obj)
+        public IActionResult Register(UsersViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -70,7 +71,7 @@ namespace AirlineReservationWebApplication.Controllers
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
-                return RedirectToAction("Dashboard", "Admin");
+                return RedirectToAction("Dashboard", "AdminDashboard", new { area = "Admin" });
             }
             TempData["Log In"] = "activate";
             return View();
@@ -107,10 +108,12 @@ namespace AirlineReservationWebApplication.Controllers
                     {
                         TempData["AdminName"] = user.User_Name;
                         TempData["AdminEmail"] = userEmail;
-                        return RedirectToAction("Dashboard", "Admin");
+
+                        return RedirectToAction("Dashboard", "AdminDashboard", new { area = "Admin" });
                     }
                     TempData["UserName"] = user.User_Name;
                     TempData["UserEmail"] = userEmail;
+
                     return RedirectToAction("Index", "HomePage");
                 }
             }
