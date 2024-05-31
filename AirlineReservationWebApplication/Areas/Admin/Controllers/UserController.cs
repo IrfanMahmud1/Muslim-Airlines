@@ -1,9 +1,10 @@
 ﻿using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Models;
+using AirlineReservationWebApplication.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AirlineReservationWebApplication.Controllers
+namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -12,15 +13,16 @@ namespace AirlineReservationWebApplication.Controllers
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<UserViewModel> objUserList = _db.User;
-                Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                IEnumerable<UsersViewModel> objUserList = _db.User;
                 return View(objUserList);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpGet]
@@ -30,12 +32,12 @@ namespace AirlineReservationWebApplication.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateUser(UserViewModel obj)
+        public IActionResult CreateUser(UsersViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -55,7 +57,7 @@ namespace AirlineReservationWebApplication.Controllers
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "User successfully Created";
-                return RedirectToAction("Index");
+                return View("Index");
             }
             return View();
         }
@@ -63,7 +65,7 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpGet]
         public IActionResult UpdateUser(int? id)
         {
-           if (TempData.ContainsKey("AdminEmail"))
+            if (TempData.ContainsKey("AdminEmail"))
             {
                 if (id == null || id == 0)
                 {
@@ -76,12 +78,12 @@ namespace AirlineReservationWebApplication.Controllers
                 }
                 return View(userFromDb);
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateUser(UserViewModel obj)
+        public IActionResult UpdateUser(UsersViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -111,7 +113,7 @@ namespace AirlineReservationWebApplication.Controllers
                     ModelState.Clear();
                     TempData["success"] = "User successfully Updated";
                 }
-                return RedirectToAction("Index");
+                return View("Index");
             }
             return View();
         }
@@ -131,7 +133,7 @@ namespace AirlineReservationWebApplication.Controllers
                 }
                 return View(userFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -139,7 +141,7 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult DeleteUser(int id)
         {
             var user = _db.User.Find(id);
-            if (user!=null)
+            if (user != null)
             {
                 _db.User.Remove(user);
                 _db.SaveChanges();
@@ -149,7 +151,7 @@ namespace AirlineReservationWebApplication.Controllers
             else
                 TempData["error"] = "User not found.";
 
-            return RedirectToAction("Index");
+            return View("Index");
         }
     }
 }

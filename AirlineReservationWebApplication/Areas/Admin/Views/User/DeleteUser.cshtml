@@ -1,7 +1,6 @@
-﻿@model UserViewModel
+﻿@model UsersViewModel
 @{
     ViewData["Title"] = "DeleteUser";
-    Layout = "~/Views/Shared/_Layout-Admin.cshtml";
 }
 
 <form method="post" asp-action="DeleteUser" asp-route-id="@Model.User_Id">

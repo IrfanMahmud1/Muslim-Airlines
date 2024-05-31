@@ -21,7 +21,7 @@
                     <div class="d-flex">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <a class="nav-link text-light bg-danger rounded-2" asp-area="" asp-controller="Admin" asp-action="Logout">Log Out</a>
+                                <a class="nav-link text-light bg-danger rounded-2" asp-area="Admin" asp-controller="AdminDashboard" asp-action="Logout">Log Out</a>
                             </li>
                         </ul>
                     </div>
@@ -42,9 +42,7 @@
                             <hr />
                         </div>
                         <div class="my-4">
-                            <div class="list-group">
-                                <partial name="_AdminSidePanel" />
-                            </div>
+                            <partial name="_AdminSidePanel" />
                         </div>
                     </div>
                     <div class="col-10 border border-secondary rounded pb-3">

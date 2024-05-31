@@ -1,4 +1,5 @@
 ﻿using AirlineReservationWebApplication.Data;
+using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage");
+                return RedirectToAction("Index", "HomePage", new {area = string.Empty});
             }
             TempData["register"] = "activate";
             return View();
@@ -28,7 +29,7 @@ namespace AirlineReservationWebApplication.Controllers
         //Register POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(UserViewModel obj)
+        public IActionResult Register(UsersViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -54,7 +55,7 @@ namespace AirlineReservationWebApplication.Controllers
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Successfully Registered";
-                return View(obj);
+                return View("Login");
             }
             return View();
         }
@@ -66,11 +67,11 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage");
+                return RedirectToAction("Index", "HomePage", new {area = string.Empty});
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
-                return RedirectToAction("Dashboard", "Admin");
+                return Redirect("/Admin/AdminDashboard/Dashboard");
             }
             TempData["Log In"] = "activate";
             return View();
@@ -107,11 +108,11 @@ namespace AirlineReservationWebApplication.Controllers
                     {
                         TempData["AdminName"] = user.User_Name;
                         TempData["AdminEmail"] = userEmail;
-                        return RedirectToAction("Dashboard", "Admin");
+                        return RedirectToAction("Dashboard", "AdminDashboard", new {area = "Admin"});
                     }
                     TempData["UserName"] = user.User_Name;
                     TempData["UserEmail"] = userEmail;
-                    return RedirectToAction("Index", "HomePage");
+                    return Redirect("/HomePage/Index");
                 }
             }
             return View();

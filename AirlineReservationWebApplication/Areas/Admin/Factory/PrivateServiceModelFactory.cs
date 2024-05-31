@@ -2,12 +2,12 @@
 using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 
-namespace AirlineReservationWebApplication.Factory
+namespace AirlineReservationWebApplication.Areas.Admin.Factory
 {
     public class PrivateServiceModelFactory : IPrivateServiceModelFactory
     {
         public readonly ApplicationDbContext _db;
-        public PrivateServiceModelFactory(ApplicationDbContext db) 
+        public PrivateServiceModelFactory(ApplicationDbContext db)
         {
             _db = db;
         }

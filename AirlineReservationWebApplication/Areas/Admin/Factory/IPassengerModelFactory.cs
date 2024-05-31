@@ -1,7 +1,7 @@
 ﻿using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Models;
 
-namespace AirlineReservationWebApplication.Factory
+namespace AirlineReservationWebApplication.Areas.Admin.Factory
 {
     public interface IPassengerModelFactory
     {

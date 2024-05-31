@@ -1,7 +1,6 @@
-﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Factory;
+using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Factory;
-using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
@@ -26,7 +25,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objPassengerList);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpGet]
@@ -38,7 +37,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 var newPassenger = _passengerModelFactory.PreparePassengerViewModel();
                 return View(newPassenger);
             }
-            return View();
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -104,7 +103,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 passengerFromDb.AllUsers = newPassenger.AllUsers;
                 return View(passengerFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -166,7 +165,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 passengerFromDb.AllUsers = newPassenger.AllUsers;
                 return View(passengerFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]

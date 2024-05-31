@@ -1,7 +1,6 @@
-﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Factory;
+using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Factory;
-using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
@@ -41,7 +40,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(availableAircrafts);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,7 +86,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
                 return View(privateServiceFormDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -147,7 +146,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 privateServiceFormDb.AllAircrafts = availableAircrafts.AllAircrafts;
                 return View(privateServiceFormDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]

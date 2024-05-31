@@ -1,7 +1,6 @@
-﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Factory;
+using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Factory;
-using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
@@ -24,7 +23,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objFlightList);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpGet]
@@ -40,7 +39,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(availableAircrafts);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -91,7 +90,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
                 return View(flightFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -161,7 +160,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 flightFromDb.AllAircrafts = availableAircrafts.AllAircrafts;
                 return View(flightFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
