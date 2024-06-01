@@ -5,21 +5,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        public UserController(ApplicationDbContext db)
+        public UsersController(ApplicationDbContext db)
         {
             _db = db;
         }
 
         public IActionResult Index()
         {
-            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("AdminEmail"))
             {
                 IEnumerable<UsersViewModel> objUserList = _db.User;
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objUserList);
             }
             return RedirectToAction("Index", "Home", new { area = string.Empty });

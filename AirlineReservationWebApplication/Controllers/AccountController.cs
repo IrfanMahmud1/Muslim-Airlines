@@ -30,7 +30,7 @@ namespace AirlineReservationWebApplication.Controllers
         //Register POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(UsersViewModel obj)
+        public IActionResult Register(UserViewModel obj)
         {
             if (ModelState.IsValid)
             {

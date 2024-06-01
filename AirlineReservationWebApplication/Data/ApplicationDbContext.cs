@@ -13,8 +13,8 @@ namespace AirlineReservationWebApplication.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UsersViewModel>()
-                .HasData(new UsersViewModel() 
+            modelBuilder.Entity<UserViewModel>()
+                .HasData(new UserViewModel() 
                 { 
                     User_Id = 1, 
                     User_Email = "admin@sample.com", 
