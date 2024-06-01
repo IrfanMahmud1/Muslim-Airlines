@@ -1,9 +1,9 @@
 ﻿@model UsersViewModel
 @{
-    ViewData["Title"] = "CreateUser";
+    ViewData["Title"] = "CreateUser";    
 }
 
-<form method="post">
+<form method="post" asp-area="admin" asp-controller="User" asp-action="CreateUser">
     <div class="border mt-3 p-3">
         <div class="row">
             <h2>Create User</h2>

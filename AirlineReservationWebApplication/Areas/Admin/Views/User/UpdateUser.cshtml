@@ -1,9 +1,9 @@
 ﻿@model UsersViewModel
 @{
-    ViewData["Title"] = "UpdateUser";
+    ViewData["Title"] = "UpdateUser";    
 }
 
-<form method="post">
+<form method="post" asp-area="admin" asp-controller="User" asp-action="UpdateUser" asp-route-id="@Model.User_Id">
     <div class="border mt-3 p-3">
         <input asp-for="User_Id" hidden />
         <div class="row">

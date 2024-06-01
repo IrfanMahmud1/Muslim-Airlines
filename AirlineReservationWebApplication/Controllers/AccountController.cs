@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -71,7 +72,7 @@ namespace AirlineReservationWebApplication.Controllers
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
-                return Redirect("/Admin/AdminDashboard/Dashboard");
+                return RedirectToAction("Dashboard", "AdminDashboard", new { area = "Admin" });
             }
             TempData["Log In"] = "activate";
             return View();
@@ -108,11 +109,13 @@ namespace AirlineReservationWebApplication.Controllers
                     {
                         TempData["AdminName"] = user.User_Name;
                         TempData["AdminEmail"] = userEmail;
-                        return RedirectToAction("Dashboard", "AdminDashboard", new {area = "Admin"});
+
+                        return RedirectToAction("Dashboard", "AdminDashboard", new { area = "Admin" });
                     }
                     TempData["UserName"] = user.User_Name;
                     TempData["UserEmail"] = userEmail;
-                    return Redirect("/HomePage/Index");
+
+                    return RedirectToAction("Index", "HomePage");
                 }
             }
             return View();

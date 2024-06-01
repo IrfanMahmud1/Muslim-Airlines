@@ -35,10 +35,10 @@ namespace AirlineReservationWebApplication.Controllers
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
             editUserFlight.userFlightSearchModel = allFlights;
             TempData["action"] = "Index";
+
             return View(editUserFlight);
         }
 
-       
         public IActionResult Privacy()
         {
             return View();

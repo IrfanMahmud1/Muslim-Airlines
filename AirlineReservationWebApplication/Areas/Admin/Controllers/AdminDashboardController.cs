@@ -13,8 +13,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 TempData.Keep("AdminEmail");
                 return View();
             }
-
-            return RedirectToAction("Index", "Home", new {area = string.Empty});
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         public IActionResult Logout()
@@ -28,8 +27,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return RedirectToAction("Index", "Home", new {area = string.Empty});
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
-
     }
 }
