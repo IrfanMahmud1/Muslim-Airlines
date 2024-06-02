@@ -20,25 +20,7 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult Index()
         {
             return View();
-        }
-
-        [HttpPost]
-        public JsonResult Check(FlightSearchFormData data)
-        {
-            string origin = data.origin;
-            string des = data.destination;
-
-            bool success = true;
-
-            if (success)
-            {
-                return Json(new { status = "success", message = "Operation was successful." });
-            }
-            else
-            {
-                return Json(new { status = "error", message = "There was an error." });
-            }
-        }
+        }        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
