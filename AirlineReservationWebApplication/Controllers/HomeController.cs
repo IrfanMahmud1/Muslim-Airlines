@@ -11,8 +11,6 @@ namespace AirlineReservationWebApplication.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IUserFlightSearchModelFactory _userflightsearchmodelFactory;
         private readonly ILogger<HomeController> _logger;
-        private bool Search {  get; set; }
-        private bool Modify { get; set; }
 
         public HomeController(ApplicationDbContext db , IUserFlightSearchModelFactory userFlightSearchModelFactory ,ILogger<HomeController> logger)
         {
@@ -27,11 +25,11 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage");
+                return RedirectToAction("Index", "HomePage" , new {area = string.Empty});
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
-                return RedirectToAction("Dashboard", "Admin");
+                return RedirectToAction("Dashboard","AdminDashboard", new {area = "Admin"});
             }
             var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
@@ -40,62 +38,6 @@ namespace AirlineReservationWebApplication.Controllers
 
             return View(editUserFlight);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Index(UserFlightSearchModel obj)
-        {
-            var flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
-            if (ModelState.IsValid)
-            {
-                if (obj.Origin == obj.Destination)
-                {
-                    TempData["error"] = "Origin and Destination cannot be same";
-                    ModelState.AddModelError("Origin", "Origin and Destination cannot be same");
-                    if (TempData.ContainsKey("Modify"))
-                    {
-                        return View(flightResults);
-                    }
-                    return RedirectToAction("Index");
-                }
-                TempData["Modify"] = "true";
-                Check();
-                return View(flightResults);
-            }
-            return RedirectToAction("Index");
-        }
-
-        public void Check()
-        {
-            if (TempData.ContainsKey("Modify"))
-            {
-                TempData.Keep("Modify");
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Flights(UserFlightSearchModel obj)
-        {
-            var flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
-            if (ModelState.IsValid)
-            {
-                if (obj.Origin == obj.Destination)
-                {
-                    TempData["error"] = "Origin and Destination cannot be same";
-                    ModelState.AddModelError("Origin", "Origin and Destination cannot be same");
-                    if (TempData.ContainsKey("Modify"))
-                    {
-                        return View(flightResults);
-                    }
-                    return RedirectToAction("Index");
-                }
-                TempData["Modify"] = "true";
-                Check();
-                return View(flightResults);
-            }
-            return RedirectToAction("Index");
-        }        
 
         public IActionResult Privacy()
         {

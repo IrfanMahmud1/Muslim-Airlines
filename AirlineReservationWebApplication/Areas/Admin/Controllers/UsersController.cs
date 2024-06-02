@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        public UserController(ApplicationDbContext db)
+        public UsersController(ApplicationDbContext db)
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
             if (TempData.ContainsKey("AdminEmail"))
@@ -21,7 +22,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objUserList);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpGet]
@@ -31,7 +32,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -56,7 +57,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "User successfully Created";
-                return RedirectToAction("Index");
+                return View("Index");
             }
             return View();
         }
@@ -77,7 +78,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(userFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -112,7 +113,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                     ModelState.Clear();
                     TempData["success"] = "User successfully Updated";
                 }
-                return RedirectToAction("Index");
+                return View("Index");
             }
             return View();
         }
@@ -132,7 +133,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(userFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -150,7 +151,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             else
                 TempData["error"] = "User not found.";
 
-            return RedirectToAction("Index");
+            return View("Index");
         }
     }
 }

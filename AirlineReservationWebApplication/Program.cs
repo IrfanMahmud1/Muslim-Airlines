@@ -17,10 +17,12 @@ namespace AirlineReservationWebApplication
                 builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
 
+
+
             builder.Services.AddScoped<IPassengerModelFactory, PassengerModelFactory>();
             builder.Services.AddScoped<IFlightModelFactory, FlightModelFactory>();
-            builder.Services.AddScoped<IOfferModelFactory,OfferModelFactory>();
-            builder.Services.AddScoped<IPrivateServiceModelFactory,PrivateServiceModelFactory>();
+            builder.Services.AddScoped<IOfferModelFactory, OfferModelFactory>();
+            builder.Services.AddScoped<IPrivateServiceModelFactory, PrivateServiceModelFactory>();
             builder.Services.AddScoped<IUserFlightSearchModelFactory, UserFlightSearchModelFactory>();
 
             /*builder.Services.AddDistributedMemoryCache(); // Or other chosen session provider
@@ -46,13 +48,14 @@ namespace AirlineReservationWebApplication
 
             app.UseAuthorization();
 
+
             app.MapControllerRoute(
-                name: "areas",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+               name: "areas",
+               pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{irfan?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
         }

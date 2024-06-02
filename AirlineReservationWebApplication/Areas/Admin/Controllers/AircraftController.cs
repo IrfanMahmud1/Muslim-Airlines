@@ -1,6 +1,5 @@
 ﻿using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
@@ -15,6 +14,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             _db = db;
         }
         public IActionResult Index()
+        
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
@@ -22,7 +22,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objAircraftList);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -52,7 +52,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Aircraft successfully Created";
-                return RedirectToAction("Index");
+                return View("Index");
             }
             return View();
         }
@@ -74,7 +74,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(aircraftFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -126,7 +126,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(aircraftFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]

@@ -7,10 +7,10 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
     {
         public IActionResult Dashboard()
         {
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("AdminEmail"))
             {
                 TempData.Keep("AdminEmail");
-                Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View();
             }
             return RedirectToAction("Index", "Home", new { area = string.Empty });

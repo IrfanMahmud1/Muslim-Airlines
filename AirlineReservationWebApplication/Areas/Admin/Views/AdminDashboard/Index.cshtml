@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["success"] != null)
+{
+    <partial name="_Notifications" />
+}
+
+<div class="container">
+    <div class="row mt-3 justify-content-between">
+        <div class="col-2 border border-primary rounded">
+            <div class="pt-3">
+                <h2>Admin Panel</h2>
+                <hr />
+            </div>
+            <div class="my-4">
+                <partial name="" />
+            </div>
+        </div>
+        <div class="col-9 border border-secondary rounded">
+            <div class="row pt-3 text-center text-secondary">
+                <h2>Dashboard</h2>
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>

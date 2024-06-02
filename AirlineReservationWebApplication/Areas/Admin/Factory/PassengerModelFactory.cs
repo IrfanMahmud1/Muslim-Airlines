@@ -2,7 +2,7 @@
 using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 
-namespace AirlineReservationWebApplication.Factory
+namespace AirlineReservationWebApplication.Areas.Admin.Factory
 {
     public class PassengerModelFactory : IPassengerModelFactory
     {

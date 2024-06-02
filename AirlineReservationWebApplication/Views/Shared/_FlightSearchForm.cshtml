@@ -1,6 +1,6 @@
 ﻿@model EditUserFlightSearchAndFlightViewModel
 
-<form id="flight-search-form myForm" class="form-inline mt-5" method="post" asp-area="" asp-action="Flights" asp-controller="UserFlightSearch">
+<form id="flight-search-form myForm" class="form-inline mt-5" method="post" asp-area="" asp-action="Search" asp-controller="Flight">
     <div class="row shadow rounded-2 p-5 justify-content-center">
         <div class="form-group col-3">
             <label asp-for="userFlightSearchModel.Origin" class="text-secondary fw-bold"></label>
@@ -39,9 +39,10 @@
         if (origin === destination) {
             alert("Origin and Destination cannot be the same. Please choose different locations.");
             return false;
-        } else {
-            alert("Success");
-            return true;
-        }
+        } 
+        // else {
+        //     alert("Success");
+        //     return true;
+        // }
     }
 </script>

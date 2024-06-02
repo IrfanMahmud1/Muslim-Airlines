@@ -1,7 +1,5 @@
 ﻿using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Factory;
-using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
@@ -22,7 +20,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objHotelList);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpGet]
@@ -33,7 +31,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             {
                 return View();
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -73,7 +71,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(hotelFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
@@ -127,7 +125,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 }
                 return View(hotelFromDb);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
         }
 
         [HttpPost]
