@@ -27,14 +27,6 @@ namespace AirlineReservationWebApplication.Controllers
         }
 
         //Log out
-        public IActionResult Logout()
-        {
-            if (TempData.ContainsKey("UserEmail"))
-            {
-                TempData["success"] = "Successfully Logged out";
-                TempData.Remove("UserEmail");
-            }
-            return RedirectToAction("Index", "Home", new { area = string.Empty });
-        }
+       
     }
 }

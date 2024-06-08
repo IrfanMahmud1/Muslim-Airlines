@@ -1,6 +1,8 @@
-﻿@model UsersViewModel
+﻿@using AirlineReservationWebApplication.Models
+@model UserViewModel
 @{
-    ViewData["Title"] = "CreateUser";    
+    ViewData["Title"] = "CreateUser";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <form method="post" asp-area="admin" asp-controller="User" asp-action="CreateUser">

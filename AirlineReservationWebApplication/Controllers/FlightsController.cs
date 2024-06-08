@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Controllers
 {
-    public class FlightController : Controller
+    public class FlightsController : Controller
     {
         private readonly ApplicationDbContext _db;
         private readonly IUserFlightSearchModelFactory _userflightsearchmodelFactory;
 
-        public FlightController(ApplicationDbContext db, IUserFlightSearchModelFactory userFlightSearchModelFactory, ILogger<HomeController> logger)
+        public FlightsController(ApplicationDbContext db, IUserFlightSearchModelFactory userFlightSearchModelFactory, ILogger<HomeController> logger)
         {
             _db = db;
             _userflightsearchmodelFactory = userFlightSearchModelFactory;

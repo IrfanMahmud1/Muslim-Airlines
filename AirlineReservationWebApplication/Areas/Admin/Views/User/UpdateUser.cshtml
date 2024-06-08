@@ -1,6 +1,8 @@
-﻿@model UsersViewModel
+﻿@using AirlineReservationWebApplication.Models
+@model UserViewModel
 @{
-    ViewData["Title"] = "UpdateUser";    
+    ViewData["Title"] = "UpdateUser";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <form method="post" asp-area="admin" asp-controller="User" asp-action="UpdateUser" asp-route-id="@Model.User_Id">
@@ -42,3 +44,4 @@
         <partial name="_ValidationScriptsPartial" />
     }
 }
+

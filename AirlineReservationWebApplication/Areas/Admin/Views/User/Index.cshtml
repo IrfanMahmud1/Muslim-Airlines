@@ -1,6 +1,8 @@
-﻿@model IEnumerable<UsersViewModel>
+﻿@using AirlineReservationWebApplication.Models
+@model IEnumerable<UserViewModel>
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="row pt-2">
@@ -8,7 +10,7 @@
         <h2>User List</h2>
     </div>
     <div class="col-6 text-end">
-        <a asp-area="admin" asp-controller="User" asp-action="CreateUser" class="btn btn-primary"><i class="bi bi-plus-circle" style="margin-right: 5px"></i>Create new User</a>
+        <a asp-controller="User" asp-action="CreateUser" class="btn btn-primary"><i class="bi bi-plus-circle" style="margin-right: 5px"></i>Create new User</a>
     </div>
 </div>
 <table class="table table-bordered table-striped mt-3" width="100%">
@@ -29,7 +31,7 @@
                 <td>@obj.User_Email</td>
                 <td>
                     <a asp-area="admin" asp-controller="User" asp-action="UpdateUser" asp-route-id="@obj.User_Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>&nbsp Edit</a>
-                    @if (!(obj.User_Email=="admin@sample.com"))
+                    @if (!(obj.User_Email == "admin@sample.com"))
                     {
                         <a asp-area="admin" asp-controller="User" asp-action="DeleteUser" asp-route-id="@obj.User_Id" class="btn btn-danger"><i class="bi bi-trash"></i>&nbsp Delete</a>
                     }
@@ -38,3 +40,4 @@
         }
     </tbody>
 </table>
+

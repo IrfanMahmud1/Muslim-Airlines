@@ -1,6 +1,4 @@
-﻿using AirlineReservationWebApplication.Areas.Admin.Models;
-using AirlineReservationWebApplication.Data;
-using AirlineReservationWebApplication.Areas.Admin.Models;
+﻿using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -115,7 +113,7 @@ namespace AirlineReservationWebApplication.Controllers
                     TempData["UserName"] = user.User_Name;
                     TempData["UserEmail"] = userEmail;
 
-                    return RedirectToAction("Index", "HomePage");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             return View();

@@ -25,7 +25,7 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage" , new {area = string.Empty});
+                return RedirectToAction("User", "Home", new { area = "Admin" });
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
@@ -39,10 +39,34 @@ namespace AirlineReservationWebApplication.Controllers
             return View(editUserFlight);
         }
 
+        [HttpGet]
+        public IActionResult FlightSearch()
+        {
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                TempData.Keep("UserEmail");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home", new { area = string.Empty });
+            }
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            return View();
+        }
+        public IActionResult Logout()
+        {
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                TempData["success"] = "Successfully Logged out";
+                TempData.Remove("UserEmail");
+            }
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
+        }
         public IActionResult Privacy()
         {
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

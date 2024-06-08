@@ -1,6 +1,8 @@
-﻿@model UsersViewModel
+﻿@using AirlineReservationWebApplication.Models
+@model UserViewModel
 @{
-    ViewData["Title"] = "DeleteUser";    
+    ViewData["Title"] = "DeleteUser";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <form method="post" asp-area="admin" asp-controller="User" asp-action="DeleteUser" asp-route-id="@Model.User_Id">

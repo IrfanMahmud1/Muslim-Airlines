@@ -1,15 +1,15 @@
-﻿using AirlineReservationWebApplication.Areas.Admin.Models;
-using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Data;
+using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        public UsersController(ApplicationDbContext db)
+        public UserController(ApplicationDbContext db)
         {
             _db = db;
         }
@@ -18,8 +18,8 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<UsersViewModel> objUserList = _db.User;
-            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+                IEnumerable<UserViewModel> objUserList =  _db.User;
+                Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objUserList);
             }
             return RedirectToAction("Index", "Home", new { area = string.Empty });
@@ -37,7 +37,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult CreateUser(UsersViewModel obj)
+        public IActionResult CreateUser(UserViewModel obj)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateUser(UsersViewModel obj)
+        public IActionResult UpdateUser(UserViewModel obj)
         {
             if (ModelState.IsValid)
             {
