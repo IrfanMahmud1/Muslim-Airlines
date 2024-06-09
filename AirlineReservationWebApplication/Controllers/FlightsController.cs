@@ -18,7 +18,7 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult Index()
         {
             return View();
-        }
+        }        
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -18,7 +18,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
         {
             if (TempData.ContainsKey("AdminEmail"))
             {
-                IEnumerable<UserViewModel> objUserList =  _db.User;
+                IEnumerable<UserViewModel> objUserList = _db.User;
                 Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 return View(objUserList);
             }
