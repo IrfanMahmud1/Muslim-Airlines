@@ -1,14 +1,14 @@
-﻿using AirlineReservationWebApplication.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AirlineReservationWebApplication.Controllers
 {
     public class HomePageController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public HomePageController(ApplicationDbContext db)
+        private readonly ILogger<HomePageController> _logger;
+
+        public HomePageController(ILogger<HomePageController> logger)
         {
-            _db = db;
+            _logger = logger;
         }
 
         [HttpGet]

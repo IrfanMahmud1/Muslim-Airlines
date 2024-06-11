@@ -25,7 +25,7 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Flights", "Search", new { area = string.Empty });
+                return RedirectToAction("User", "Home", new { area = "Admin" });
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
@@ -34,6 +34,8 @@ namespace AirlineReservationWebApplication.Controllers
             var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
             editUserFlight.userFlightSearchModel = allFlights;
+            TempData["action"] = "Index";
+
             return View(editUserFlight);
         }
 
