@@ -1,7 +1,14 @@
 ﻿@model OfferViewModel
 @{
     ViewData["Title"] = "UpdateOffer";
-    
+
+    var startDate = DateTime.Today;
+    var endDate = startDate.AddDays(15);
+    var startTime = DateTime.Now;
+
+    var formattedStartDate = startDate.ToString("yyyy-MM-dd");
+    var formattedEndDate = endDate.ToString("yyyy-MM-dd");
+    var formattedStartTime = startTime.ToString("hh:mm");
 }
 
 <form method="post">
@@ -13,22 +20,22 @@
         </div>
         <div>
             <label asp-for="Start_Date" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Start_Date" class="form-control mt-1" />
+            <input asp-for="Start_Date" class="form-control mt-1" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate" />
             <span asp-validation-for="Start_Date" class="text-danger"></span>
         </div>
         <div class="mt-3">
             <label asp-for="End_Date" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="End_Date" class="form-control mt-1" />
+            <input asp-for="End_Date" class="form-control mt-1" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate"/>
             <span asp-validation-for="End_Date" class="text-danger"></span>
         </div>
         <div class="mt-3">
             <label asp-for="Start_Time" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Start_Time" class="form-control mt-1" />
+            <input asp-for="Start_Time" class="form-control mt-1" value="@formattedStartTime" min="@formattedStartTime"/>
             <span asp-validation-for="Start_Time" class="text-danger"></span>
         </div>
         <div class="mt-3">
             <label asp-for="End_Time" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="End_Time" class="form-control mt-1" />
+            <input asp-for="End_Time" class="form-control mt-1" value="@formattedStartTime" min="@formattedStartTime" />
             <span asp-validation-for="End_Time" class="text-danger"></span>
         </div>
         <div class="mt-3">
