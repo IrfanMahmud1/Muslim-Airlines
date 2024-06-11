@@ -1,5 +1,11 @@
 ﻿@model EditUserFlightSearchAndFlightViewModel
+@{
+    var startDate = DateTime.Today;
+    var endDate = startDate.AddDays(15);
 
+    var formattedStartDate = startDate.ToString("yyyy-MM-dd");
+    var formattedEndDate = endDate.ToString("yyyy-MM-dd");
+}
 <form id="flight-search-form myForm" class="form-inline mt-5" method="post" asp-area="" asp-action="Search" asp-controller="Flight">
     <div class="row shadow rounded-2 p-5 justify-content-center">
         <div class="form-group col-3">
@@ -24,7 +30,7 @@
         </div>
         <div class="form-group col-3 ms-2">
             <label asp-for="userFlightSearchModel.Departure" class="text-secondary fw-bold">Departure</label>
-            <input type="date" class="form-control" id="Departure" name="Departure">
+            <input type="date" class="form-control" id="Departure" name="Departure" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
         </div>
         <button type="submit" class="btn btn-danger ms-3 flightSearchButton" style="width:150px" onclick="return validateForm()">@TempData["button"]</button>
     </div>
