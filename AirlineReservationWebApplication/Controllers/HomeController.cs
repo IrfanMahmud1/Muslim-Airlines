@@ -25,45 +25,48 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage");
+                return RedirectToAction("User", "Home", new { area = "Admin" });
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
-                return RedirectToAction("Dashboard", "Admin");
+                return RedirectToAction("Dashboard","AdminDashboard", new {area = "Admin"});
             }
             var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
             editUserFlight.userFlightSearchModel = allFlights;
             TempData["action"] = "Index";
+
             return View(editUserFlight);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Flights(UserFlightSearchModel obj)
+        [HttpGet]
+        public IActionResult FlightSearch()
         {
-            var flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
-            if (ModelState.IsValid)
+            if (TempData.ContainsKey("UserEmail"))
             {
-                if (obj.Origin == obj.Destination)
-                {
-                    TempData["error"] = "Origin and Destination cannot be same";
-                    ModelState.AddModelError("Origin", "Origin and Destination cannot be same");
-                    if(TempData.ContainsKey("button") && TempData["button"]==(string)"Modify Search")
-                    {
-                        return View(flightResults);
-                    }
-                    return RedirectToAction("Index");
-                }
-                return View(flightResults);
+                TempData.Keep("UserEmail");
             }
-            return RedirectToAction("Index");
+            else
+            {
+                return RedirectToAction("Index", "Home", new { area = string.Empty });
+            }
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            return View();
         }
-
+        public IActionResult Logout()
+        {
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                TempData["success"] = "Successfully Logged out";
+                TempData.Remove("UserEmail");
+            }
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
+        }
         public IActionResult Privacy()
         {
             return View();
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -19,7 +19,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage");
+                return RedirectToAction("Index", "HomePage", new {area = string.Empty});
             }
             TempData["register"] = "activate";
             return View();
@@ -54,7 +54,7 @@ namespace AirlineReservationWebApplication.Controllers
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "Successfully Registered";
-                return View(obj);
+                return View("Login");
             }
             return View();
         }
@@ -66,11 +66,11 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage");
+                return RedirectToAction("Index", "HomePage", new {area = string.Empty});
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
-                return RedirectToAction("Dashboard", "Admin");
+                return RedirectToAction("Dashboard", "AdminDashboard", new { area = "Admin" });
             }
             TempData["Log In"] = "activate";
             return View();
@@ -107,11 +107,13 @@ namespace AirlineReservationWebApplication.Controllers
                     {
                         TempData["AdminName"] = user.User_Name;
                         TempData["AdminEmail"] = userEmail;
-                        return RedirectToAction("Dashboard", "Admin");
+
+                        return RedirectToAction("Dashboard", "AdminDashboard", new { area = "Admin" });
                     }
                     TempData["UserName"] = user.User_Name;
                     TempData["UserEmail"] = userEmail;
-                    return RedirectToAction("Index", "HomePage");
+
+                    return RedirectToAction("Index", "Home");
                 }
             }
             return View();

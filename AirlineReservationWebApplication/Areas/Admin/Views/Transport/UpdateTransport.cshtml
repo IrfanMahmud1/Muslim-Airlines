@@ -1,0 +1,74 @@
+﻿@model TransportViewModel
+@{
+    ViewData["Title"] = "CreateTransport";
+}
+
+<form method="post">
+    <div class="border mt-3 p-3">
+        <input asp-for="Transport_Id" hidden/>
+        <div class="row">
+            <h2>Edit Transport</h2>
+            <hr />
+        </div>
+        <div class="mt-3">
+            <label asp-for="Transport_Name" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Transport_Name" class="form-control mt-1" />
+            <span asp-validation-for="Transport_Name" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Transport_Category" class="text-secondary" style="font-size:20px"></label>
+            <div>
+                @Html.RadioButtonFor(x => x.Transport_Category, "Bus", new { @id = "bus" })
+                <label for="bus">Bus</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(x => x.Transport_Category, "Car", new { @id = "car" })
+                <label for="car">Car</label>
+            </div>
+            <div>
+                @Html.RadioButtonFor(x => x.Transport_Category, "Microbus", new { @id = "microbus" })
+                <label for="microbus">Microbus</label>
+            </div>
+            <span asp-validation-for="Transport_Category" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Total_Seats" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Total_Seats" class="form-control mt-1" />
+            <span asp-validation-for="Total_Seats" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Date" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Date" class="form-control mt-1" />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="PickUp_Place" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="PickUp_Place" class="form-control mt-1" />
+            <span asp-validation-for="PickUp_Place" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Arrival_Place" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Arrival_Place" class="form-control mt-1" />
+            <span asp-validation-for="Arrival_Place" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="PickUp_Time" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="PickUp_Time" class="form-control mt-1" />
+            <span asp-validation-for="PickUp_Time" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary" style="width:120px">Update</button>
+            <a asp-controller="Transport" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
+        </div>
+    </div>
+</form>
+
+
+@section scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
+
+

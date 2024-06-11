@@ -16,28 +16,17 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("UserEmail"))
             {
-                var userEmail = TempData["UserEmail"].ToString();
-                //userName = TempData["UserName"].ToString();
-                ViewBag.UserEmail = userEmail;
                 TempData.Keep("UserEmail");            
             }
             else
             {
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home", new {area = string.Empty});
             }
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             return View();
         }
 
         //Log out
-        public IActionResult Logout()
-        {
-            if (TempData.ContainsKey("UserEmail"))
-            {
-                TempData["success"] = "Successfully Logged out";
-                TempData.Remove("UserEmail");
-            }
-            return RedirectToAction("Index", "Home");
-        }
+       
     }
 }

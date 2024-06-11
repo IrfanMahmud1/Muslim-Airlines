@@ -1,4 +1,6 @@
-﻿namespace AirlineReservationWebApplication.Models
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+
+namespace AirlineReservationWebApplication.Models
 {
     public class EditUserFlightSearchAndFlightViewModel
     {

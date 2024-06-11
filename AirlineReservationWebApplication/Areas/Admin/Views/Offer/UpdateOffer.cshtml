@@ -1,0 +1,83 @@
+﻿@model OfferViewModel
+@{
+    ViewData["Title"] = "UpdateOffer";
+    
+}
+
+<form method="post">
+    <div class="border mt-3 p-3">
+        <input asp-for="Offer_Id"/>
+        <div class="row">
+            <h2>Edit Offer</h2>
+            <hr />
+        </div>
+        <div>
+            <label asp-for="Start_Date" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Start_Date" class="form-control mt-1" />
+            <span asp-validation-for="Start_Date" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="End_Date" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="End_Date" class="form-control mt-1" />
+            <span asp-validation-for="End_Date" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Start_Time" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Start_Time" class="form-control mt-1" />
+            <span asp-validation-for="Start_Time" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="End_Time" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="End_Time" class="form-control mt-1" />
+            <span asp-validation-for="End_Time" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Validity" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Validity" class="form-control mt-1" />
+            <span asp-validation-for="Validity" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Offer_Range" class="text-secondary" style="font-size:20px"></label>
+            <input asp-for="Offer_Range" class="form-control mt-1" />
+            <span asp-validation-for="Offer_Range" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Flight_Id" class="text-secondary" style="font-size:20px"></label>
+            <select id="Flight_Id" name="Aircraft_Id">
+                <option>-- Seletct Aircraft --</option>
+                @{
+                    foreach (var item in Model.AllFlights)
+                    {
+                        <option value="@item.Item2">@item.Item1</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="Flight_Id" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <label asp-for="Hotel_Id" class="text-secondary" style="font-size:20px"></label>
+            <select id="Hotel_Id" name="Aircraft_Id">
+                <option>-- Seletct Aircraft --</option>
+                @{
+                    foreach (var item in Model.AllHotels)
+                    {
+                        <option value="@item.Item2">@item.Item1</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="Hotel_Id" class="text-danger"></span>
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary" style="width:120px">Update</button>
+            <a asp-controller="Offer" asp-action="Index" class="btn btn-secondary ms-1">Back to List</a>
+        </div>
+    </div>
+</form>
+
+
+@section scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+

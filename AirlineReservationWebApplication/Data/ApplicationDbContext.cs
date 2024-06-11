@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirlineReservationWebApplication.Data
