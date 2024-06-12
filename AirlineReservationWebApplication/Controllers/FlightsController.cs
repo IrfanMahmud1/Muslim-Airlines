@@ -15,10 +15,21 @@ namespace AirlineReservationWebApplication.Controllers
             _db = db;
             _userflightsearchmodelFactory = userFlightSearchModelFactory;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Search()
         {
-            return View();
-        }        
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                TempData.Keep("UserEmail");
+                var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
+                var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
+                editUserFlight.userFlightSearchModel = allFlights;
+
+                return View("~/Views/Home/Index.cshtml", editUserFlight);
+            }
+            return RedirectToAction("Index", "Home", new { area = string.Empty });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -25,7 +25,7 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("User", "Home", new { area = "Admin" });
+                return RedirectToAction("Search", "Flights", new { area = string.Empty });
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
@@ -37,21 +37,6 @@ namespace AirlineReservationWebApplication.Controllers
             TempData["action"] = "Index";
 
             return View(editUserFlight);
-        }
-
-        [HttpGet]
-        public IActionResult FlightSearch()
-        {
-            if (TempData.ContainsKey("UserEmail"))
-            {
-                TempData.Keep("UserEmail");
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home", new { area = string.Empty });
-            }
-            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            return View();
         }
         public IActionResult Logout()
         {

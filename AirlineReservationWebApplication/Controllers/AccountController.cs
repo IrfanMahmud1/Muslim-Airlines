@@ -113,7 +113,7 @@ namespace AirlineReservationWebApplication.Controllers
                     TempData["UserName"] = user.User_Name;
                     TempData["UserEmail"] = userEmail;
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Search", "Flights");
                 }
             }
             return View();
