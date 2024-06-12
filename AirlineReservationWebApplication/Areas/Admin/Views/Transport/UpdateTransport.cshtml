@@ -44,7 +44,7 @@
         </div>
         <div class="mt-3">
             <label asp-for="Date" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="Date" class="form-control mt-1" />
+            <input asp-for="Date" class="form-control mt-1" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate" />
             <span asp-validation-for="Date" class="text-danger"></span>
         </div>
         <div class="mt-3">
@@ -59,7 +59,7 @@
         </div>
         <div class="mt-3">
             <label asp-for="PickUp_Time" class="text-secondary" style="font-size:20px"></label>
-            <input asp-for="PickUp_Time" class="form-control mt-1" />
+            <input asp-for="PickUp_Time" class="form-control mt-1" value="@formattedStartTime" min="@formattedStartTime"/>
             <span asp-validation-for="PickUp_Time" class="text-danger"></span>
         </div>
         <div class="mt-3">
