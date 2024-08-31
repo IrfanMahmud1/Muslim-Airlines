@@ -1,7 +1,7 @@
 ﻿@model EditUserFlightSearchAndFlightViewModel
 @{
     var startDate = DateTime.Today;
-    var endDate = startDate.AddDays(15);
+    var endDate = startDate.AddDays(30);
 
     var formattedStartDate = startDate.ToString("yyyy-MM-dd");
     var formattedEndDate = endDate.ToString("yyyy-MM-dd");
@@ -32,7 +32,7 @@
             <label asp-for="userFlightSearchModel.Departure" class="text-secondary fw-bold">Departure</label>
             <input type="date" class="form-control" id="Departure" name="Departure" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
         </div>
-        <button type="submit" class="btn btn-danger ms-3 flightSearchButton" style="width:150px" onclick="return validateForm()">@TempData["button"]</button>
+        <button type="submit" class="btn btn-danger ms-3 flightSearchButton" style="width:150px" asp-area="" asp-controller="Flights" asp-action="Search" onclick="return validateForm()">@TempData["button"]</button>
     </div>
 </form>
 
@@ -46,9 +46,9 @@
             alert("Origin and Destination cannot be the same. Please choose different locations.");
             return false;
         } 
-        // else {
-        //     alert("Success");
-        //     return true;
-        // }
+        else {
+            alert("Success");
+            return true;
+        }
     }
 </script>

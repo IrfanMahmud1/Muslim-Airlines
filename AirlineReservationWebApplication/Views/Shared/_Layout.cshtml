@@ -49,7 +49,7 @@
                                         <a class="nav-link text-light bg-danger p-3 rounded-2" asp-area="" asp-controller="Account" asp-action="Register">Sign up</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-light bg-danger p-3 rounded-2" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                                        <a class="nav-link text-light bg-danger p-3 rounded-2" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
                                 </li>
                             }
                             else
@@ -74,85 +74,89 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="text-muted" style="margin-top: 100px">
-        <div class="container">
-            <div class="justify-content-between d-flex" >
-                <div class="col-3">
-                    <h6><a href="" class="text-center text-danger fs-5 fw-bolder" style="text-decoration:none">Muslim Airlines</a></h6>
-                    <p class="mt-4 w-75" style="color:tomato">Flight Expert Dhaka (Main branch) 90/1 Motijheel City Centre Level 25B-1, Lift 26 Dhaka 1000, Bangladesh
-                    </p>
-                    <div class="d-flex justify-content-between w-50">
-                        <a href="#"><i class="bi bi-facebook me-2 text-danger"></i></a>
-                        <a href="#"><i class="bi bi-instagram me-2 text-danger"></i></a>
-                        <a href="#"><i class="bi bi-twitter-x me-2 text-danger"></i></a>
-                        <a href="#"><i class="bi bi-linkedin me-2 text-danger"></i></a>
-                        <a href="#"><i class="bi bi-telegram text-danger" style="font-size:17px"></i></a>
+    @if (!(TempData.ContainsKey("register") || TempData.ContainsKey("Log In")))
+    {
+        <footer id="foot" class="text-muted" style="margin-top: 100px">
+            <div class="container">
+                <div class="justify-content-between d-flex">
+                    <div class="col-3">
+                        <h6><a href="" class="text-center text-danger fs-5 fw-bolder" style="text-decoration:none">Muslim Airlines</a></h6>
+                        <p class="mt-4 w-75" style="color:tomato">
+                            Flight Expert Dhaka (Main branch) 90/1 Motijheel City Centre Level 25B-1, Lift 26 Dhaka 1000, Bangladesh
+                        </p>
+                        <div class="d-flex justify-content-between w-50">
+                            <a href="#"><i class="bi bi-facebook me-2 text-danger"></i></a>
+                            <a href="#"><i class="bi bi-instagram me-2 text-danger"></i></a>
+                            <a href="#"><i class="bi bi-twitter-x me-2 text-danger"></i></a>
+                            <a href="#"><i class="bi bi-linkedin me-2 text-danger"></i></a>
+                            <a href="#"><i class="bi bi-telegram text-danger" style="font-size:17px"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-2 foot">
+                        <h6>About</h6>
+                        <a href="#" class="d-block">About Muslim Airlines</a>
+                        <a href="#" class="d-block">Best Price Gurantee</a>
+                        <a href="#" class="d-block">Terms and Conditions</a>
+                        <a href="#" class="d-block">Privacy Policy</a>
+                        <a href="#" class="d-block">Cookie Policy</a>
+                        <a href="#" class="d-block">Blog</a>
+                    </div>
+                    <div class="col-2 foot">
+                        <h6>Help</h6>
+                        <a href="#" class="d-block">FAQS</a>
+                        <a href="#" class="d-block">Easy EMI</a>
+                        <a href="#" class="d-block">Payment Methods</a>
+                        <a href="#" class="d-block">Contact Us</a>
+                    </div>
+                    <div class="col-2">
+                        <h6>Have Questions?</h6>
+                        <a href="#" class="d-block" style="text-decoration:none;color:tomato">+88-0000-000-000</a>
+                        <a href="#" class="d-block" style="text-decoration:none;color:tomato">info@muslimairlines.com</a>
+                        <h6 class="my-2">Dedicated Customer Support</h6>
+                        <span class="d-block" style="font-size:13px;color:black">Sat-Thurs: 9AM-9PM</span>
+                        <span class="d-block" style="font-size:13px;color:black">Friday/Govt. Holidays: 10AM-6PM</span>
+                    </div>
+                    <div class="col-3">
+                        <h6>Accepted Payments</h6>
+                        <img src="/Images/bank-logo.a775fd7b.webp" class="w-100 h-75" />
                     </div>
                 </div>
-                <div class="col-2 foot">
-                    <h6>About</h6>
-                    <a href="#" class="d-block">About Mulim Airlines</a>
-                    <a href="#" class="d-block">Best Price Gurantee</a>
-                    <a href="#" class="d-block">Terms and Conditions</a>
-                    <a href="#" class="d-block">Privacy Policy</a>
-                    <a href="#" class="d-block">Cookie Policy</a>
-                    <a href="#" class="d-block">Blog</a>
+                <hr />
+                <div style="display:flex;justify-content:space-around">
+                    <div>
+                        <h6 class="text-center mb-4">Accredited Member</h6>
+                        <img src="/Images/basis.png" style="width:130px" alt="Alternate Text" />
+                        <img src="/Images/e-cab.png" style="width:80px" alt="Alternate Text" />
+                    </div>
+                    <div>
+                        <h6 class="text-center mb-4">Registered at</h6>
+                        <img src="/Images/duns.png" style="width:80px" alt="Alternate Text" />
+
+                    </div>
+                    <div>
+                        <h6 class="text-center mb-4">Authorised by</h6>
+                        <img src="/Images/iata.png" style="width:80px" alt="Alternate Text" />
+
+                    </div>
+                    <div>
+                        <h6 class="text-center mb-4">Our Partners</h6>
+                        <img src="/Images/google-logo.svg" style="width:100px" alt="Alternate Text" />
+
+                    </div>
+                    <div>
+                        <h6 class="text-center mb-4">Verified By</h6>
+                        <img src="/Images/pci-dss.webp" style="width:100px" alt="Alternate Text" />
+
+                    </div>
                 </div>
-                <div class="col-2 foot">
-                    <h6>Help</h6>
-                    <a href="#" class="d-block">FAQS</a>
-                    <a href="#" class="d-block">Easy EMI</a>
-                    <a href="#" class="d-block">Payment Methods</a>
-                    <a href="#" class="d-block">Contact Us</a>
-                </div>
-                <div class="col-2">
-                    <h6>Have Questions?</h6>
-                    <a href="#" class="d-block" style="text-decoration:none;color:tomato">+88-0000-000-000</a>
-                    <a href="#" class="d-block" style="text-decoration:none;color:tomato">info@muslimairlines.com</a>
-                    <h6 class="my-2">Dedicated Customer Support</h6>
-                    <span class="d-block" style="font-size:13px;color:black">Sat-Thurs: 9AM-9PM</span>
-                    <span class="d-block" style="font-size:13px;color:black">Friday/Govt. Holidays: 10AM-6PM</span>
-                </div>
-                <div class="col-3">
-                    <h6>Accepted Payments</h6>
-                    <img src="/Images/bank-logo.a775fd7b.webp" class="w-100 h-75" />
+                <hr />
+                <div class="text-center mt-5" style="color:grey">
+                    &copy; 2024 - AirlineReservationWebApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy" style="color:tomato;text-decoration:none">Privacy</a>
                 </div>
             </div>
-             <hr />
-             <div style="display:flex;justify-content:space-around">
-                <div>
-                    <h6 class="text-center mb-4">Accredited Member</h6>
-                    <img src="/Images/basis.png" style="width:130px" alt="Alternate Text" />
-                    <img src="/Images/e-cab.png" style="width:80px" alt="Alternate Text" />
-                 </div>
-                 <div>
-                    <h6 class="text-center mb-4">Registered at</h6>
-                    <img src="/Images/duns.png" style="width:80px" alt="Alternate Text" />
-
-                 </div>
-                <div>
-                    <h6 class="text-center mb-4">Authorised by</h6>
-                    <img src="/Images/iata.png" style="width:80px" alt="Alternate Text" />
-
-                 </div>
-                <div>
-                    <h6 class="text-center mb-4">Our Partners</h6>
-                    <img src="/Images/google-logo.svg" style="width:100px" alt="Alternate Text" />
-
-                 </div>
-                 <div>
-                    <h6 class="text-center mb-4">Verified By</h6>
-                    <img src="/Images/pci-dss.webp" style="width:100px" alt="Alternate Text" />
-
-                 </div>
-             </div>
-             <hr />
-            <div class="text-center mt-5" style="color:grey">
-                &copy; 2024 - AirlineReservationWebApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy" style="color:tomato;text-decoration:none">Privacy</a>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    }
+  
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
