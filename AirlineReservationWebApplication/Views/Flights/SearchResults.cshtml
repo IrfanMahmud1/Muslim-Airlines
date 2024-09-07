@@ -19,7 +19,7 @@
         <div class="mt-5">
             @foreach(var flights in Model.flightViewModel)
             {
-                <div class="row shadow-sm rounded-2 ps-5" style="box-shadow:">
+                <div class="row shadow-sm rounded-2 ps-5 mt-5">
                     <div class="col-2">
                     </div>
                     <div class="col-2">
@@ -43,7 +43,7 @@
                         <h6 class="text-secondary mb-3 fw-light">Price</h6>
                     </div>
                     <div class="col-2 p-0">
-                        <a asp-controller="Flight" asp-action="Review" asp-route-id="@flights.Flight_Id" class="btn btn-danger">Book Now</a>
+                        <a asp-controller="Flights" asp-action="Review" asp-route-id="@flights.Flight_Id" class="btn btn-danger">Book Now</a>
                     </div>
                 </div>
             }

@@ -25,11 +25,14 @@ namespace AirlineReservationWebApplication
             builder.Services.AddScoped<IPrivateServiceModelFactory, PrivateServiceModelFactory>();
             builder.Services.AddScoped<IUserFlightSearchModelFactory, UserFlightSearchModelFactory>();
 
-            /*builder.Services.AddDistributedMemoryCache(); // Or other chosen session provider
+            builder.Services.AddDistributedMemoryCache();
+
             builder.Services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(20); // Adjust timeout as needed
-            });*/
+                options.IdleTimeout = TimeSpan.FromSeconds(100);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             var app = builder.Build();
 
@@ -48,7 +51,7 @@ namespace AirlineReservationWebApplication
 
             app.UseAuthorization();
 
-
+            app.UseSession();
             app.MapControllerRoute(
                name: "areas",
                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

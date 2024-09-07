@@ -23,21 +23,27 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult Index()
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (TempData.ContainsKey("UserEmail"))
-            {
-                return RedirectToAction("Search", "Flights", new { area = string.Empty });
-            }
+            /* if (TempData.ContainsKey("UserEmail"))
+             {
+                 return RedirectToAction("Search", "Flights", new { area = string.Empty });
+             }*/
             if (TempData.ContainsKey("AdminEmail"))
             {
-                return RedirectToAction("Dashboard","AdminDashboard", new {area = "Admin"});
+                return RedirectToAction("Dashboard", "AdminDashboard", new { area = "Admin" });
             }
             var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
             var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
             editUserFlight.userFlightSearchModel = allFlights;
-            TempData["action"] = "Index";
 
             return View(editUserFlight);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Index(UserFlightSearchModel model)
+        //{
+        //    return View(model);
+        //}
         public IActionResult Logout()
         {
             if (TempData.ContainsKey("UserEmail"))

@@ -2,6 +2,7 @@
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace AirlineReservationWebApplication.Controllers
 {
@@ -15,35 +16,42 @@ namespace AirlineReservationWebApplication.Controllers
             _db = db;
             _userflightsearchmodelFactory = userFlightSearchModelFactory;
         }
-        [HttpGet]
-        public IActionResult Search()
-        {
-            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            if (TempData.ContainsKey("UserEmail"))
-            {
-                TempData.Keep("UserEmail");
-                var allFlights = _userflightsearchmodelFactory.PreapreUserFlightSearchModel();
-                var editUserFlight = new EditUserFlightSearchAndFlightViewModel();
-                editUserFlight.userFlightSearchModel = allFlights;
-
-                return View("~/Views/Home/Index.cshtml", editUserFlight);
-            }
-            return RedirectToAction("Index", "Home", new { area = string.Empty });
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Search(UserFlightSearchModel obj)
         {
-            var flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
+
+            Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (ModelState.IsValid)
             {
-                return View(flightResults);
+                EditUserFlightSearchAndFlightViewModel flightResults = _userflightsearchmodelFactory.PrepareUserFlightResults(obj);
+                HttpContext.Session.SetString("FlightResults", JsonConvert.SerializeObject(flightResults));
+                TempData["flights"] = "active";
+                return RedirectToAction("SearchResults");
             }
             return Redirect("/Home/Index");
         }
 
         [HttpGet]
+        public IActionResult SearchResults()
+        {
+            var flightResultsJson = HttpContext.Session.GetString("FlightResults");
+
+            if (flightResultsJson == null)
+            {
+                //if(TempData.ContainsKey("flights"))
+                //{
+
+                //}
+                return Redirect("/Home/Index");
+            }
+
+
+            var flightResults = JsonConvert.DeserializeObject<EditUserFlightSearchAndFlightViewModel>(flightResultsJson);
+            return View(flightResults);
+
+        }
         public IActionResult Review(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
