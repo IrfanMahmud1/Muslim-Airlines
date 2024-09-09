@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +41,6 @@ namespace AirlineReservationWebApplication.Controllers
 
             if (flightResultsJson == null)
             {
-                //if(TempData.ContainsKey("flights"))
-                //{
-
-                //}
                 return Redirect("/Home/Index");
             }
 
@@ -52,9 +49,25 @@ namespace AirlineReservationWebApplication.Controllers
             return View(flightResults);
 
         }
+
+        [HttpGet]
         public IActionResult Review(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Review(PassengerViewModel obj)
+        {
+            return RedirectToAction("Confirm");
+        }
+
+        [HttpGet]
+        public IActionResult Confirm()
+        {
             return View();
         }
     }
