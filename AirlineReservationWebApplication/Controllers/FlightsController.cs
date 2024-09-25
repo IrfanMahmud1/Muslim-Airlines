@@ -60,13 +60,7 @@ namespace AirlineReservationWebApplication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public IActionResult Review(PassengerViewModel obj)
-        {
-            return RedirectToAction("Confirm");
-        }
-
-        [HttpGet]
-        public IActionResult Confirm()
+        public IActionResult Confirm(PassengerViewModel obj)
         {
             return View();
         }
