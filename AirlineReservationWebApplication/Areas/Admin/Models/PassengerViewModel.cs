@@ -15,6 +15,8 @@ namespace AirlineReservationWebApplication.Areas.Admin.Models
         public string Last_Name { get; set;}
 
         [Required]
+        public string Title { get; set; }
+
         public string Gender { get; set; }
 
         [Required]
@@ -22,12 +24,19 @@ namespace AirlineReservationWebApplication.Areas.Admin.Models
         [MaxLength(9)]
         public string Passport {  get; set; }
 
+        [Required]
+        public DateOnly Date_of_Birth { get; set; }
+        public DateOnly PassportExpiryDate { get; set; }
+
         [DataType(DataType.PhoneNumber)]
         [Required]
         public string Mobile { get; set; }
 
         [Required]
         public string Nid { get; set; }
+
+        [Required]
+        public string Country { get; set; } = "Bangladesh";
 
         [EmailAddress]
         [Required]
@@ -38,9 +47,8 @@ namespace AirlineReservationWebApplication.Areas.Admin.Models
 
         [Required]
         public int User_Id { get; set; }
-        /* public virtual RegisterViewModel registerViewModel { get; set; }*/
 
-        public bool Is_Approved { get; set; }
+        //public bool Is_Approved { get; set; }
         
         [NotMapped]
         public List<(string,int)>? AllUsers { get; set; }

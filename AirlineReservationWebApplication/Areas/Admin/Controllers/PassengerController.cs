@@ -135,7 +135,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                     passenger.Email = obj.Email;
                     passenger.Address = obj.Address;
                     passenger.User_Id = obj.User_Id;
-                    passenger.Is_Approved = obj.Is_Approved;
+                    //passenger.Is_Approved = obj.Is_Approved;
                     passenger.AllUsers = obj.AllUsers;
                     _db.Passenger.Update(passenger);
                     _db.SaveChanges();
