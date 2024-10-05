@@ -1,0 +1,36 @@
+﻿@using AirlineReservationWebApplication.Areas.Admin.Models
+@model PassengerViewModel
+
+<div class="w-50">
+    <h2 class="text-danger">Traveller Details</h2>
+    <div class="row shadow-lg rounded-3 my-4 p-3">
+        <h3 class="m-1 py-1 bg-danger text-white rounded-2">Traveller 1</h3>
+        <div class="d-flex justify-content-between px-3 my-3 text-secondary">
+            <div class="d-flex">
+                <div>
+                    <p>Name:</p>
+                    <p>Date of Birth:</p>
+                    <p>Email:</p>
+                </div>
+                <div class="mx-4">
+                    <p>@Model.First_Name @Model.Last_Name</p>
+                    <p>@Model.Date_of_Birth</p>
+                    <p>@Model.Email</p>
+                </div>
+            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p>Gender:</p>
+                    <p>Country:</p>
+                    <p>Phone Number:</p>
+                </div>
+                <div class="mx-4">
+                    <p>@Model.Gender</p>
+                    <p>@Model.Country</p>
+                    <p>@Model.Mobile</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a asp-area="" asp-action="Payment" asp-controller="Flights">Confirm & Pay</a>
+</div>
