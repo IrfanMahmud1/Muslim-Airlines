@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+﻿using AirlineReservationWebApplication.Areas.Admin.Factory;
+using AirlineReservationWebApplication.Areas.Admin.Models;
 using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
 using AirlineReservationWebApplication.Models;
@@ -11,11 +12,13 @@ namespace AirlineReservationWebApplication.Controllers
     {
         private readonly ApplicationDbContext _db;
         private readonly IUserFlightSearchModelFactory _userflightsearchmodelFactory;
+        private readonly IPassengerModelFactory _passengermodelFactory;
 
-        public FlightsController(ApplicationDbContext db, IUserFlightSearchModelFactory userFlightSearchModelFactory, ILogger<HomeController> logger)
+        public FlightsController(ApplicationDbContext db, IUserFlightSearchModelFactory userFlightSearchModelFactory, IPassengerModelFactory passengerModelFactory)
         {
             _db = db;
             _userflightsearchmodelFactory = userFlightSearchModelFactory;
+            _passengermodelFactory = passengerModelFactory;
         }
 
         [HttpPost]
@@ -51,14 +54,32 @@ namespace AirlineReservationWebApplication.Controllers
         }
 
         [HttpGet]
-        public IActionResult Review(int? id)
+        public IActionResult Book(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            return View();
+            var users = _passengermodelFactory.PreparePassengerViewModel();
+            return View(users);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        public IActionResult Review(PassengerViewModel obj)
+        {
+            if(ModelState.IsValid)
+            {
+                if (obj.Title.Contains("Mr"))
+                {
+                    obj.Gender = "Male";
+                }
+                else
+                {
+                    obj.Gender = "Female";
+                }
+                return RedirectToAction("Confirm",obj);
+            }
+            return NotFound();
+        }
 
         public IActionResult Confirm(PassengerViewModel obj)
         {

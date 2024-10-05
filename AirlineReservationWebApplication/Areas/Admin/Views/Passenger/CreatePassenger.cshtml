@@ -6,27 +6,31 @@
 
 <form method="post">
     <div class="row shadow-sm border-3 rounded-2 px-3 py-4">
+        <input asp-for="Gender" value="" hidden/>
         <div class="row">
             <h2>Create Passengers</h2>
             <hr />
         </div>
         <div class="mt-2">
             <label asp-for="Title">Select Title <span style="color:red">*</span></label>
-            <select class="form-control" id="title">
+            <select class="form-control" id="Title">
                 <option value="Mr">Mr.</option>
                 <option value="Mrs">Mrs.</option>
                 <option value="Ms">Ms.</option>
             </select>
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="row justify-content-between mt-3">
             <div class="col-6">
                 <label asp-for="First_Name"> <span style="color:red">*</span></label>
                 <input type="text" class="form-control" asp-for="First_Name" placeholder="First Name">
+                <span asp-validation-for="First_Name" class="text-danger"></span>
             </div>
 
             <div class="col-6">
                 <label asp-for="Last_Name">Last Name <span style="color:red">*</span></label>
                 <input type="text" class="form-control" asp-for="Last_Name" placeholder="Last Name">
+                <span asp-validation-for="Last_Name" class="text-danger"></span>
             </div>
         </div>
 
@@ -34,10 +38,12 @@
             <div class="col-6">
                 <label asp-for="Date_of_Birth">Date of Birth <span style="color:red">*</span></label>
                 <input type="date" class="form-control" asp-for="Date_of_Birth">
+                <span asp-validation-for="Date_of_Birth" class="text-danger"></span>
             </div>
             <div class="col-6">
                 <label asp-for="Passport">Passport Number</label>
                 <input type="text" class="form-control" asp-for="Passport" placeholder="Passport Number">
+                <span asp-validation-for="Passport" class="text-danger"></span>
             </div>
 
         </div>
@@ -45,6 +51,7 @@
             <div class="col-6">
                 <label asp-for="PassportExpiryDate">Passport Expiry Date (Optional)</label>
                 <input type="date" class="form-control" asp-for="PassportExpiryDate">
+                <span asp-validation-for="PassportExpiryDate" class="text-danger"></span>
             </div>
 
             <div class="col-6">
@@ -52,28 +59,33 @@
                 <select class="form-control" asp-for="Country">
                     <option value="Bangladesh">Bangladesh</option>
                 </select>
+                <span asp-validation-for="Country" class="text-danger"></span>
             </div>
         </div>
         <div class="row justify-content-between mt-3">
             <div class="col-6">
                 <label asp-for="Email"></label>
-                <input type="date" class="form-control" asp-for="Email">
+                <input type="email" class="form-control" asp-for="Email">
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="col-6">
                 <label asp-for="Address"></label>
-                <input type="type" class="form-control" asp-for="Address" />
+                <input type="text" class="form-control" asp-for="Address" />
+                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
         </div>
         <div class="row justify-content-between mt-3">
             <div class="col-6">
                 <label asp-for="Mobile">Contact No.</label>
-                <input type="date" class="form-control" id="passportExpiryDate">
+                <input type="number" class="form-control" asp-for="Mobile">
+                <span asp-validation-for="Mobile" class="text-danger"></span>
             </div>
 
             <div class="col-6">
                 <label asp-for="Nid"></label>
                 <input class="form-control" asp-for="Nid" />
+                <span asp-validation-for="Nid" class="text-danger"></span>
             </div>
         </div>
         <div class="row justify-content-between mt-3">

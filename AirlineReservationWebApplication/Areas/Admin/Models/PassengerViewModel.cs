@@ -14,7 +14,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Models
         [Required]
         public string Last_Name { get; set;}
 
-        [Required]
+        //[Required]
         public string Title { get; set; }
 
         public string Gender { get; set; }
