@@ -7,6 +7,7 @@ namespace AirlineReservationWebApplication.Models
     {
         [Key]
         public int Reservation_Id { get; set; }
+        //public string Way { get; set; }
 
         [Required]
         public int Passenger_Id { get; set; }
