@@ -20,3 +20,15 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.custom{
+    border:1px solid grey;
+    background:none;
+    background-color: none;
+    color: grey;
+    display:block;
+    cursor:pointer;
+}
+.custom:focus{
+    outline:none;
+}
