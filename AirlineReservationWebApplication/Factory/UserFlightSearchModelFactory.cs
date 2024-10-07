@@ -1,4 +1,5 @@
-﻿using AirlineReservationWebApplication.Data;
+﻿using AirlineReservationWebApplication.Areas.Admin.Models;
+using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 
 namespace AirlineReservationWebApplication.Factory
@@ -37,18 +38,24 @@ namespace AirlineReservationWebApplication.Factory
         public EditUserFlightSearchAndFlightViewModel PrepareUserFlightResults(UserFlightSearchModel obj)
         {
             var flights = _db.Flight.Where(x => x.Departure_Place == obj.Origin && x.Arrival_Place == obj.Destination && x.Departure_Date == obj.Departure).ToList();
-            
+            var flights2 = new List<FlightViewModel>();
+            if (obj.Way == "roundtrip")
+            {
+                flights2 = _db.Flight.Where(x => x.Departure_Place == obj.Destination && x.Arrival_Place == obj.Origin && x.Departure_Date == obj.Return).ToList();
+            }
             var flightResults = new EditUserFlightSearchAndFlightViewModel();
-            flightResults.flightViewModel =flights;
 
-            var allflights = PreapreUserFlightSearchModel();
-            var userFlightSearchModel = new UserFlightSearchModel();
-            userFlightSearchModel.AllOrigins = allflights.AllOrigins;
-            userFlightSearchModel.AllDestinations = allflights.AllDestinations;
-            userFlightSearchModel.Departure = obj.Departure;
-            userFlightSearchModel.Origin = obj.Origin;
-            userFlightSearchModel.Destination = obj.Destination;
-            flightResults.userFlightSearchModel = userFlightSearchModel;
+            flightResults.Flights.Add(flights);
+            flightResults.Flights.Add(flights2);
+
+            //var allflights = ;
+            //var userFlightSearchModel = new UserFlightSearchModel();
+            //userFlightSearchModel.AllOrigins = allflights.AllOrigins;
+            //userFlightSearchModel.AllDestinations = allflights.AllDestinations;
+            //userFlightSearchModel.Departure = obj.Departure;
+            //userFlightSearchModel.Origin = obj.Origin;
+            //userFlightSearchModel.Destination = obj.Destination;
+            flightResults.userFlightSearchModel = PreapreUserFlightSearchModel();
             
             return flightResults;
         }

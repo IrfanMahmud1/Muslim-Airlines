@@ -7,15 +7,15 @@
     var formattedEndDate = endDate.ToString("yyyy-MM-dd");
 }
 <form id="flight-search-form myForm" class="form-inline mt-5" method="post" asp-area="" asp-action="Search" asp-controller="Flights">
-    <div class="shadow rounded-2 p-5">
-        <div class="ms-5 mb-5 ps-2">
+    <div class="shadow rounded-2">
+        <div class="m-5 pt-3">
             <input class="form-check-input" name="myRadio" id="oneway" type="radio" value="oneway" checked/>
             <label asp-for="@Model.userFlightSearchModel.Way">One Way</label>
             <input class="form-check-input ms-3" name="myRadio" id="roundtrip" type="radio" value="roundtrip" />
             <label asp-for="@Model.userFlightSearchModel.Way">Round Trip</label>
         </div>
-        <div class="row mt-3 justify-content-center">
-            <div class="form-group col-3">
+        <div class="d-flex px-5 pb-5 justify-content-between">
+            <div class="form-group">
                 <label asp-for="userFlightSearchModel.Origin" class="text-secondary fw-bold"></label>
                 <select class="form-control" id="Origin" name="Origin">
                     @foreach (var item in Model.userFlightSearchModel.AllOrigins)
@@ -25,7 +25,7 @@
                 </select>
                 <span asp-validation-for="userFlightSearchModel.Origin"></span>
             </div>
-            <div class="form-group col-3 ms-2">
+            <div class="form-group">
                 <label asp-for="userFlightSearchModel.Destination" class="text-secondary fw-bold"></label>
                 <select class="form-control" id="Destination" name="Destination">
                     @foreach (var item in Model.userFlightSearchModel.AllDestinations)
@@ -35,9 +35,17 @@
                 </select>
                 <span asp-validation-for="userFlightSearchModel.AllDestinations"></span>
             </div>
-            <div class="form-group col-3 ms-2">
+            <div class="form-group">
                 <label asp-for="userFlightSearchModel.Departure" class="text-secondary fw-bold">Departure</label>
                 <input type="date" class="form-control" id="Departure" name="Departure" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
+            </div>
+            <div class="form-group">
+                <label asp-for="userFlightSearchModel.Return" class="text-secondary fw-bold">Return</label>
+                <input type="date" class="form-control" id="Return" name="Return" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
+            </div>
+            <div class="form-group">
+                <label asp-for="userFlightSearchModel.Return" class="text-secondary fw-bold">Return</label>
+                <input type="date" class="form-control" id="Return" name="Return" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
             </div>
             <button type="submit" class="btn btn-danger ms-3 flightSearchButton" style="width:150px" onclick="return validateForm()">@TempData["button"]</button>
         </div>
