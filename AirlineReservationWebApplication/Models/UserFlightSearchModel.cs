@@ -20,6 +20,10 @@ namespace AirlineReservationWebApplication.Models
         [NotMapped]
         public DateOnly Return { get; set; }
 
+        public int Travelers {  get; set; }
+
+        public string BookingClass { get; set; }
+
         public string Way { get; set; }
 
         [NotMapped]

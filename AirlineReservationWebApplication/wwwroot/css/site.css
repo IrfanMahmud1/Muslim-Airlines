@@ -25,10 +25,15 @@ body {
     border:1px solid grey;
     background:none;
     background-color: none;
-    color: grey;
-    display:block;
-    cursor:pointer;
+    color: dimgrey;
 }
-.custom:focus{
-    outline:none;
+.traveler-class-options {
+    height: 0; /* Initially hidden */
+    overflow: hidden; /* Hide overflowing content */
+    transition: height 0.3s ease; /* Smooth transition */
 }
+
+    .traveler-class-options.show {
+        max-height: 100px; /* Set a maximum height when expanded (adjust as needed) */
+        overflow: visible;
+    }

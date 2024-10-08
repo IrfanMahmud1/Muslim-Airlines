@@ -37,32 +37,32 @@
             </div>
             <div class="form-group">
                 <label asp-for="userFlightSearchModel.Departure" class="text-secondary fw-bold">Departure</label>
-                <input type="date" class="form-control" id="Departure" name="Departure" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
+                <input asp-for="@Model.userFlightSearchModel.Departure" type="date" class="form-control" id="Departure" name="Departure" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
             </div>
             <div class="form-group">
                 <label asp-for="userFlightSearchModel.Return" class="text-secondary fw-bold">Return</label>
-                <input type="date" class="form-control" id="Return" name="Return" value="@formattedStartDate" min="@formattedStartDate" max="@formattedEndDate">
+                <input asp-for="@Model.userFlightSearchModel.Return" type="date" class="form-control" id="Return" name="Return" value=" " min="@formattedStartDate" max="@formattedEndDate">
             </div>
             <div class="traveler-class-container">
                 <button type="button" class="btn btn-primary custom traveler-class-toggle">Travelers & Booking Class<div class="selected-values">1 traveler, Economy</div></button>
                 <div class="collapse traveler-class-options">
                     <div class="input-group">
-                        <label for="numTravelers" class="input-group-text">Number of Travelers:</label>
-                        <input type="number" id="numTravelers" name="numTravelers" class="form-control" min="1" value="1">
+                        <label asp-for="@Model.userFlightSearchModel.Travelers" class="input-group-text">Number of Travelers:</label>
+                        <input type="number" asp-for="@Model.userFlightSearchModel.Travelers" id="numTravelers" name="numTravelers" class="form-control" min="1" value="1">
                         <button type="button" class="btn btn-secondary increment">+</button>
                         <button type="button" class="btn btn-secondary decrement">-</button>
                     </div>
                     <div class="form-check">
                         <input type="radio" id="economy" name="bookingClass" class="form-check-input" value="Economy" checked>
-                        <label for="economy" class="form-check-label">Economy</label>
+                        <label asp-for="BookingClass" class="form-check-label">Economy</label>
                     </div>
                     <div class="form-check">
                         <input type="radio" id="business" name="bookingClass" class="form-check-input" value="Business">
-                        <label for="business" class="form-check-label">Business</label>
+                        <label asp-for="BookingClass" class="form-check-label">Business</label>
                     </div>
                     <div class="form-check">
                         <input type="radio" id="firstClass" name="bookingClass" class="form-check-input" value="FirstClass">
-                        <label for="firstClass" class="form-check-label">First Class</label>
+                        <label asp-for="BookingClass" class="form-check-label">First Class</label>
                     </div>
                 </div>
             </div>
@@ -92,8 +92,10 @@
         });
 
         decrementButton.addEventListener('click', function () {
-            numTravelersInput.value = parseInt(numTravelersInput.value) - 1;
-            updateSelectedValues();
+            if (parseInt(numTravelersInput.value) > 1) {
+                numTravelersInput.value = parseInt(numTravelersInput.value) - 1;
+                updateSelectedValues();
+            }
         });
 
         function updateSelectedValues() {
@@ -104,17 +106,25 @@
     });
 
 
-    // function validateForm() {
-    //     var origin = document.getElementById('Origin').value;
-    //     var destination = document.getElementById('Destination').value;
+    function validateForm() {
+        var origin = document.getElementById('Origin').value;
+        var destination = document.getElementById('Destination').value;
 
-    //     if (origin === destination) {
-    //         alert("Origin and Destination cannot be the same. Please choose different locations.");
-    //         return false;
-    //     }
-    //     else {
-    //         alert("Success");
-    //         return true;
-    //     }
-    // }
+        var Return = document.getElementById('Return').value;
+        var way = document.getElementById('roundtrip').value;
+
+        if (origin === destination) {
+            alert("Origin and Destination cannot be the same. Please choose different locations.");
+            return false;
+        }
+        else {
+            alert("Success");
+            return true;
+        }
+
+        if(Return == null && way != null)
+        {
+            alert("Please enter your return date.");
+        }
+    }
 </script>
