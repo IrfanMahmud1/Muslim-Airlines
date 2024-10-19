@@ -51,10 +51,10 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 obj.AllAircrafts = availableAircrafts.AllAircrafts;
                 var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
                 obj.Total_Seats = aircraft.Seat_Capacity;
-                int seatPerClass = obj.Total_Seats / 3;
-                obj.Business = seatPerClass;
-                obj.FirstClass = seatPerClass;
-                obj.Economy = seatPerClass + obj.Total_Seats % 3;
+                int seatPerClass = obj.Total_Seats;
+                obj.Business = seatPerClass * 20/100;
+                obj.FirstClass = seatPerClass * 10/100;
+                obj.Economy = seatPerClass - (obj.Business + obj.FirstClass);
 
                 bool FlightExist = _db.Flight.Any(x => x.Flight_Name == obj.Flight_Name);
                 if (FlightExist)
@@ -124,10 +124,10 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                     flight.Aircraft_Id = obj.Aircraft_Id;
                     var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
                     obj.Total_Seats = aircraft.Seat_Capacity;
-                    int seatPerClass = obj.Total_Seats / 3;
-                    obj.Business = seatPerClass;
-                    obj.FirstClass = seatPerClass;
-                    obj.Economy = seatPerClass + obj.Total_Seats % 3;
+                    int seatPerClass = obj.Total_Seats;
+                    obj.Business = seatPerClass * 20 / 100;
+                    obj.FirstClass = seatPerClass * 10 / 100;
+                    obj.Economy = seatPerClass - (obj.Business + obj.FirstClass);
                     flight.Flight_Status = obj.Flight_Status;
                     flight.Flight_Type = obj.Flight_Type;
                     flight.AllAircrafts = obj.AllAircrafts;

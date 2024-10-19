@@ -18,7 +18,7 @@ namespace AirlineReservationWebApplication.Models
         public DateOnly Departure { get; set; }
 
         [NotMapped]
-        public DateOnly Return { get; set; }
+        public DateOnly? Return { get; set; }
 
         public int Travelers {  get; set; }
 

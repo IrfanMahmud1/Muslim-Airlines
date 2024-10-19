@@ -32,5 +32,24 @@
             </div>
         </div>
     </div>
-    <a asp-area="" asp-action="Payment" asp-controller="Flights">Confirm & Pay</a>
+
+  @*   <form asp-controller="Payment" asp-action="Checkout" method="post">
+        <input asp-for="Passenger_ID" value="@Model.Passenger_ID" hidden/>
+        <input asp-for="First_Name" value="@Model.First_Name" hidden />
+        <input asp-for="Last_Name" value="@Model.Last_Name" hidden />
+        <input asp-for="Title" value="@Model.Title" hidden />
+        <input asp-for="Gender" value="@Model.Gender" hidden />
+        <input asp-for="PassportExpiryDate" value="@Model.PassportExpiryDate" hidden />
+        <input asp-for="Passport" value="@Model.Passport" hidden />
+        <input asp-for="Date_of_Birth" value="@Model.Date_of_Birth" hidden />
+        <input asp-for="Mobile" value="@Model.Mobile" hidden />
+        <input asp-for="Nid" value="@Model.Nid" hidden />
+        <input asp-for="Country" value="@Model.Country" hidden />
+        <input asp-for="Email" value="@Model.Email" hidden />
+        <input asp-for="Address" value="@Model.Address" hidden />
+        <input asp-for="User_Id" value="@Model.User_Id" hidden />
+        <button class="text-white bg-danger">Pay with SSL Commerz</button>
+    </form> *@
+     <a class="btn btn-primary" href="/Payment/checkout"> <i class="fa fa-check"></i> Checkout</a>
+
 </div>

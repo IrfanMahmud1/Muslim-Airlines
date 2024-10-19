@@ -42,6 +42,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Models
         [Required]
         public string Flight_Status { get; set; } = "Not scheduled"; 
 
+        public double Price { get; set; }
         public int Business {  get; set; }
 
         public int Economy { get; set; }

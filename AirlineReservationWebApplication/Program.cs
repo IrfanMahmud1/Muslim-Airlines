@@ -1,6 +1,7 @@
 using AirlineReservationWebApplication.Areas.Admin.Factory;
 using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Factory;
+using AirlineReservationWebApplication.PaymentGateway;
 using Microsoft.EntityFrameworkCore;
 
 namespace AirlineReservationWebApplication

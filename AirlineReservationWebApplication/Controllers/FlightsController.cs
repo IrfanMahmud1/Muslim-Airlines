@@ -76,25 +76,9 @@ namespace AirlineReservationWebApplication.Controllers
                 {
                     obj.Gender = "Female";
                 }
-                return RedirectToAction("Confirm", obj);
+                return RedirectToAction("Index","Payment", obj);
             }
             return NotFound();
-        }
-
-        public IActionResult Confirm(PassengerViewModel obj)
-        {
-            HttpContext.Session.SetString("Passenger", JsonConvert.SerializeObject(obj));
-            return View(obj);
-        }
-        public IActionResult Payment()
-        {
-            var objectString = HttpContext.Session.GetString("Passenger");
-            if (objectString == null)
-            {
-                return NotFound();
-            }
-            var passenger = JsonConvert.DeserializeObject<PassengerViewModel>(objectString);
-            return View(passenger);
         }
     }
 }

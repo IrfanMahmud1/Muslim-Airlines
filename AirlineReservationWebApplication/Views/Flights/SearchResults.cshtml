@@ -4,25 +4,46 @@
     ViewData["Title"] = "Search";
     TempData["button"] = "Modify Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int listSize = Model.Flights.Count;
+    
+    if(listSize > 1)
+    {
+        TempData["Style"] = "d-flex justify-content-between shadow-sm rounded-2";
+    }
+    else
+    {
+        TempData["Style"] = "shadow-sm rounded-2";
+    }
 }
 
 
- <div class="container">
+<div class="container">
     <div>
         <partial name="_FlightSearchForm" />
     </div>
     <div class="mt-5 w-75 mx-auto ">
-        <div class="d-flex justify-content-between" w-100">
-            <a href="#"><i class="bi bi-caret-left-fill fs-1 text-danger"></i></a>
-            <h2 class="text-center" >Flights from @Model.userFlightSearchModel.Origin to @Model.userFlightSearchModel.Destination</h2>
-            <a href="#"><i class="bi bi-caret-right-fill fs-1 text-danger"></i></a>
-        </div>
-        <div class="mt-5">
-            @foreach(var flights in Model.Flights)
+        <div class="@TempData["Style"]" w-100">
+            <div class="d-flex justify-content-between @TempData["Style"]">
+                <a href="#"><i class="bi bi-caret-left-fill fs-1 text-danger"></i></a>
+                <h2 class="text-center">@Model.Flights[0][0].Departure_Place to @Model.Flights[0][0].Arrival_Place</h2>
+                <a href="#"><i class="bi bi-caret-right-fill fs-1 text-danger"></i></a>
+            </div>
+            @if(listSize > 1)
             {
-                foreach(var f in flights)
+            <div class="d-flex justify-content-between">
+                <a href="#"><i class="bi bi-caret-left-fill fs-1 text-danger"></i></a>
+                <h2 class="text-center">@Model.Flights[1][0].Departure_Place to @Model.Flights[1][0].Arrival_Place</h2>
+                <a href="#"><i class="bi bi-caret-right-fill fs-1 text-danger"></i></a>
+            </div>
+            }
+
+        </div>
+        <div class="shadow-sm rounded-2 ps-5 mt-5">
+            @foreach (var flights in Model.Flights)
+            {
+                foreach (var f in flights)
                 {
-                    <div class="row shadow-sm rounded-2 ps-5 mt-5">
+                    <div class="row mt-5">
                         <div class="col-2">
                         </div>
                         <div class="col-2">
@@ -42,14 +63,24 @@
                             <p class="m-0 p-0">@f.Arrival_Date</p>
                             <p class="mt-3">@f.Arrival_Place</p>
                         </div>
-                        <div class="col-2">
-                            <h6 class="text-secondary mb-3 fw-light">Price</h6>
-                        </div>
-                        <div class="col-2 p-0">
-                            <a asp-area="" asp-action="Book" asp-controller="Flights" asp-route-id="@f.Flight_Id" class="btn btn-danger">Book Now</a>
-                        </div>
+                        @if (listSize > 1)
+                        {
+                            <div class="col-2">
+                                <h6 class="text-secondary mb-3 fw-light">Price</h6>
+                                <p>BDT 8,000</p>
+                            </div>
+                            listSize--;
+                            continue;
+                        }
+                        @if(listSize >= 1)
+                        {
+                            <div class="col-2 p-0">
+                                <a asp-area="" asp-action="Book" asp-controller="Flights" asp-route-id="@f.Flight_Id" class="btn btn-danger">Book Now</a>
+                            </div>
+                        }
                     </div>
                 }
+
             }
         </div>
     </div>

@@ -1,0 +1,133 @@
+﻿@using System.Text;
+@model List<FAQCategory>
+<div class="faq-page">
+    <h1 class="text-danger text-center">Frequently Asked Questions (FAQ)</h1>
+    <h3 class="text-secondary">Categories</h3>
+    <div class="faq-categories">
+        <ul>
+            @foreach (var category in Model)
+            {
+                StringBuilder st = new StringBuilder(category.CategoryName);
+                st = st.Replace(' ', 'x');
+                <li>
+                    <button class="btn-category" onclick="showCategory('@Html.Raw(st.ToString())')">
+                        @Html.Raw(category.CategoryName)
+                    </button>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div id="faq-list">
+        @{
+            @foreach (var category in Model)
+            {
+                StringBuilder st = new StringBuilder(category.CategoryName);
+                st = st.Replace(' ', 'x');
+                <div class="faq-section" id="faq-@st.ToString()" style="display:none;">
+                    @foreach (var faq in category.FAQs)
+                    {
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleAnswer('@faq.Id','@st.ToString()')">
+                                <span class="faq-number">@faq.Id.</span> @faq.Question
+                                <span class="faq-toggle" id="@st.ToString()-toggle-@faq.Id">+</span>
+                            </div>
+                            <div class="faq-answer" id="@st.ToString()-answer-@faq.Id" style="display:none;">
+                                @faq.Answer
+                                <button class="close-btn" onclick="toggleAnswer('@faq.Id')">x</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    function showCategory(category) {
+        document.querySelectorAll('.faq-section').forEach(section => {
+            section.style.display = 'none';
+        });
+        document.getElementById('faq-' + category).style.display = 'block';
+    }
+
+    function toggleAnswer(id, Name) {
+        var answer = document.getElementById(Name + 'answer-' + id);
+        var toggle = document.getElementById(Name + 'toggle-' + id);
+        if (answer.style.display === 'none') {
+            answer.style.display = 'block';
+            toggle.innerHTML = 'x';
+        } else {
+            answer.style.display = 'none';
+            toggle.innerHTML = '+';
+        }
+    }
+</script>
+
+<style>
+    .faq-categories ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-category {
+        padding: 10px 20px;
+        border: 2px solid red;
+        background-color: white;
+        color: red;
+        font-size: 16px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+
+        .btn-category:hover {
+            background-color: red;
+            color: white;
+        }
+
+    .faq-item {
+        margin: 10px 0;
+        padding: 15px;
+        background-color: #fbe3e3;
+        border-radius: 10px;
+    }
+
+    .faq-question {
+        font-size: 18px;
+        font-weight: bold;
+        color: black;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .faq-answer {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .faq-toggle {
+        font-size: 24px;
+        color: red;
+        cursor: pointer;
+    }
+
+    .close-btn {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        margin-top: 10px;
+    }
+</style>
+
+

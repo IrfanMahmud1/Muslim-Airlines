@@ -46,31 +46,27 @@ namespace AirlineReservationWebApplication.Factory
              (obj.BookingClass == "FirstClass" ? x.FirstClass >= obj.Travelers : false)))
                                         ).ToList();
 
-            var flights2 = new List<FlightViewModel>();
             var flightResults = new EditUserFlightSearchAndFlightViewModel();
+            flightResults.Flights = new List<List<FlightViewModel>> { flights };
 
-            flightResults.Flights.Add(flights);
-            
             if (obj.Way == "roundtrip")
             {
-                flights2 = _db.Flight.Where(
-      x => x.Departure_Place == obj.Destination &&
-           x.Arrival_Place == obj.Origin &&
-           x.Departure_Date == obj.Return &&
-           (obj.BookingClass == "Economy" ? x.Economy >= obj.Travelers :
-            (obj.BookingClass == "Business" ? x.Business >= obj.Travelers :
-             (obj.BookingClass == "FirstClass" ? x.FirstClass >= obj.Travelers : false)))
-                                        ).ToList();
+                var flights2 = _db.Flight.Where(
+               x => x.Departure_Place == obj.Destination &&
+              x.Arrival_Place == obj.Origin &&
+              x.Departure_Date == obj.Return &&
+              (obj.BookingClass == "Economy" ? x.Economy >= obj.Travelers :
+               (obj.BookingClass == "Business" ? x.Business >= obj.Travelers :
+                (obj.BookingClass == "FirstClass" ? x.FirstClass >= obj.Travelers : false)))
+                                           ).ToList();
+
+                flightResults.Flights.Add(flights2 );
             }
 
-            //var allflights = ;
-            //var userFlightSearchModel = new UserFlightSearchModel();
-            //userFlightSearchModel.AllOrigins = allflights.AllOrigins;
-            //userFlightSearchModel.AllDestinations = allflights.AllDestinations;
-            //userFlightSearchModel.Departure = obj.Departure;
-            //userFlightSearchModel.Origin = obj.Origin;
-            //userFlightSearchModel.Destination = obj.Destination;
             flightResults.userFlightSearchModel = PreapreUserFlightSearchModel();
+            flightResults.userFlightSearchModel.Return = obj.Return;
+            flightResults.userFlightSearchModel.Way = obj.Way;
+            flightResults.userFlightSearchModel.Departure = obj.Departure;
 
             return flightResults;
         }

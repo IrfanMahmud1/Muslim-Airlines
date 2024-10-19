@@ -82,7 +82,7 @@
         </div>
         <div class="mt-3">
             <label asp-for="Aircraft_Id" class="text-secondary" style="font-size:20px"></label>
-            <select id="Aircraft_Id" name="Aircraft_Id">
+            <select id="Aircraft_Id" name="Aircraft_Id" disabled>
                 <option>-- Seletct Aircraft --</option>
                 @{
                     foreach (var item in Model.AllAircrafts)
