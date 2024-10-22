@@ -24,8 +24,9 @@ namespace AirlineReservationWebApplication.Areas.Admin.Models
         [MaxLength(9)]
         public string Passport {  get; set; }
 
-        [Required]
         public DateOnly Date_of_Birth { get; set; }
+
+        [Required]
         public DateOnly PassportExpiryDate { get; set; }
 
         [DataType(DataType.PhoneNumber)]

@@ -57,7 +57,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                 _db.SaveChanges();
                 ModelState.Clear();
                 TempData["success"] = "User successfully Created";
-                return View("Index");
+                return RedirectToAction("Index");
             }
             return View();
         }
@@ -113,7 +113,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                     ModelState.Clear();
                     TempData["success"] = "User successfully Updated";
                 }
-                return View("Index");
+                return RedirectToAction("Index");
             }
             return View();
         }
@@ -151,7 +151,7 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
             else
                 TempData["error"] = "User not found.";
 
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

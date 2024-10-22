@@ -14,26 +14,20 @@ namespace AirlineReservationWebApplication.Controllers
                 CategoryName = "Flights",
                 FAQs = new List<FAQ>
                 {
-                    new FAQ { Id = 1, Question = "How do I request a special meal for my flight?", Answer = "Most Low-cost carrier (LCC) airlines now charge for in-flight meals or no longer offer a meal service except for full-service airlines. You may have an option to place a meal request when you purchase tickets online or call the airline directly. Special meal requests must be made at least 24-hours before the scheduled departure. These requests are not guaranteed and are at the discretion of the airline." },
+                    new FAQ { Id = 1, Question = "How do I search flights?", Answer = "Go to the home page of our website and fill out the flight search form including origin and destination and other details based on your preference" },
 
-                    new FAQ { Id = 2,Question="How do I book an infant fare?", Answer = "Only one infant (Up to 24 months) is allowed to travel as a lap child per adult (over 18 years). Infants traveling internationally will be required to pay a percentage of the adult fare (in most circumstances), plus taxes and carry a paper ticket even though they are traveling on the adult's lap. Please contact our Customer Service team at+88-09617-111-***" },
+                    new FAQ { Id = 2,Question="How do I book a flight?", Answer = "The available flights will be shown after filling out the flight search form.You will see the details of that flight with a book now button. Click on the button and you will be redirect to a traveler form page.Fill out the form with necessary details and press continue.Review your output and press review & book in the review page.Finally confirm your payment in the SSL Commerz payment interface.You can also book flights manually through out dedicated customer service team.For this, please contact our Customer Service team at+88-09617-111-***" },
 
                     new FAQ { Id = 3,Question="How do I select my seats?", Answer = "You can request seat assignments at the time of booking. When submitting traveler details during booking process, please select \"Seat Preference\" in the additional requests area." },
 
 
-                    new FAQ { Id = 4, Question = "Why did the fare increase when I tried to book my flight?", Answer = "Infant fares are available..." },
+                    new FAQ { Id = 4, Question = "Can I call Muslim Airline directly to make a booking?", Answer = "Yes. Muslim Airline offers phone assistance are ready to meet your travel needs. Please contact our Customer Service team at +88-09617-111-***" },
 
-                    new FAQ { Id = 5, Question = "Can I call Muslim Airline directly to make a booking?", Answer = "Yes. Muslim Airline offers phone assistance are ready to meet your travel needs. Please contact our Customer Service team at +88-09617-111-***" },
+                    new FAQ { Id = 5, Question = "Can I make reservations for last minute travel?", Answer = "Yes you can book last minute travel using our website. However, Some bookings may require up to three business days to process, therefore you may not be able to book last minute travel online. However, you may contact our Customer Service team+88-09617-111-***" },
 
-                    new FAQ { Id = 6, Question = "Can I make reservations for last minute travel?", Answer = "Yes you can book last minute travel using our website. However, Some bookings may require up to three business days to process, therefore you may not be able to book last minute travel online. However, you may contact our Customer Service team+88-09617-111-***" },
+                    new FAQ { Id = 6, Question = "Are the airfares guaranteed?", Answer = "All airfares are subject to change without prior notice and are not guaranteed until payment has been received and tickets have been issued. In the unlikely event of a technical error causing an incorrect fare to be displayed, we reserve the right to advise you of the correct fare within three business days of your booking. You may choose to accept the new fare or cancel your booking. Please read more detailed information in the Terms and Conditions Agreement." },
 
-                    new FAQ { Id = 7, Question = "Can I make a reservation arriving into one city and returning from another?", Answer = "Yes. This is a multi-city option. Our booking engine allows you to search fares in many different ways such as flying into one city and returning from another. Please click on the \"Multiple Cities\" tab on the \"Flight Search\" screen to book your itinerary." },
-
-                    new FAQ { Id = 8, Question = "What is the maximum number of travelers that I can book online in one reservation?", Answer = "You may book up to a total of nine passengers on a single reservation. If you have more than nine travelers, then you can book multiple reservation or call our Customer Service team at+88-09617-111-***" },
-
-                    new FAQ { Id = 9, Question = "Are the airfares guaranteed?", Answer = "All airfares are subject to change without prior notice and are not guaranteed until payment has been received and tickets have been issued. In the unlikely event of a technical error causing an incorrect fare to be displayed, we reserve the right to advise you of the correct fare within three business days of your booking. You may choose to accept the new fare or cancel your booking. Please read more detailed information in the Terms and Conditions Agreement." },
-
-                    new FAQ { Id = 10, Question = "How do I change an existing reservation?", Answer = "Please contact our Customer Service team at +88-09617-111-***. Please note that airlines charge a change fee per ticket, plus any difference in fare, depending on the flights you choose." }
+                    new FAQ { Id = 7, Question = "How do I change an existing reservation?", Answer = "Please contact our Customer Service team at +88-09617-111-***. Please note that airlines charge a change fee per ticket, plus any difference in fare, depending on the flights you choose." }
                 }
             },
             new FAQCategory

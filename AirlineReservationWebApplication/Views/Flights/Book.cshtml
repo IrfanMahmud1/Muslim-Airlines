@@ -5,6 +5,7 @@
     <h2 class="" style="color:red">Enter Traveler details</h2>
     <div class="border-2 border-black">
         <form method="post" asp-area="" asp-action="Review" asp-controller="Flights">
+            <input asp-for="User_Id" value="@TempData["UserId"]" />
             <div class="row shadow-sm rounded-2 px-3 py-4">
                 <input asp-for="Gender" value="Male" hidden />
                 <div class="row">
@@ -50,7 +51,7 @@
                 <div class="row justify-content-between mt-3">
                     <div class="col-6">
                         <label asp-for="PassportExpiryDate">Passport Expiry Date (Optional)</label>
-                        <input asp-for="PassportExpiryDate" class="form-control">
+                        <input type="date" asp-for="PassportExpiryDate" class="form-control">
                         <span asp-validation-for="PassportExpiryDate" class="text-danger"></span>
                     </div>
 
@@ -86,20 +87,6 @@
                         <label asp-for="Nid">Nid <span style="color:red">*</span></label>
                         <input asp-for="Nid" class="form-control" />
                         <span asp-validation-for="Nid" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="row justify-content-between mt-3">
-                    <div class="col-6">
-                        <label asp-for="User_Id">User Name <span style="color:red">*</span></label>
-                        <select class="form-control" id="User_Id" name="User_Id">
-                            <option value="">  Select User  </option>
-                            @foreach (var user in Model.AllUsers)
-
-                            {
-                                <option value="@user.Item2">@user.Item1</option>
-                            }
-                        </select>
-                        <span asp-validation-for="User_Id" class="text-danger"></span>
                     </div>
                 </div>
             </div>

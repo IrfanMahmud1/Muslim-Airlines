@@ -57,8 +57,13 @@ namespace AirlineReservationWebApplication.Controllers
         public IActionResult Book(int? id)
         {
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
-            var users = _passengermodelFactory.PreparePassengerViewModel();
-            return View(users);
+            if (TempData.ContainsKey("UserEmail"))
+            {
+                TempData.Keep("UserId");
+                return View();
+            }
+            TempData["book"] = "";
+            return RedirectToAction("Login", "Account", new { area = string.Empty });
         }
 
         [HttpPost]

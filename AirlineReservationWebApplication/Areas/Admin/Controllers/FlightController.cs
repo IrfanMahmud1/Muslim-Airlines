@@ -122,6 +122,9 @@ namespace AirlineReservationWebApplication.Areas.Admin.Controllers
                     flight.Departure_Place = obj.Departure_Place;
                     flight.Arrival_Place = obj.Arrival_Place;
                     flight.Aircraft_Id = obj.Aircraft_Id;
+                    flight.E_Price = obj.E_Price;
+                    flight.B_Price = obj.B_Price;
+                    flight.FC_Price = obj.FC_Price;
                     var aircraft = _db.Aircraft.Find(obj.Aircraft_Id);
                     obj.Total_Seats = aircraft.Seat_Capacity;
                     int seatPerClass = obj.Total_Seats;

@@ -6,14 +6,14 @@
 
 <form method="post">
     <div class="row shadow-sm border-3 rounded-2 px-3 py-4">
-        <input asp-for="Gender" value="" hidden/>
+        <input asp-for="Gender" id="Gender" value="" hidden/>
         <div class="row">
             <h2>Create Passengers</h2>
             <hr />
         </div>
         <div class="mt-2">
             <label asp-for="Title">Select Title <span style="color:red">*</span></label>
-            <select class="form-control" id="Title">
+            <select class="form-control" id="Title" asp-for="Title">
                 <option value="Mr">Mr.</option>
                 <option value="Mrs">Mrs.</option>
                 <option value="Ms">Ms.</option>
@@ -22,7 +22,7 @@
         </div>
         <div class="row justify-content-between mt-3">
             <div class="col-6">
-                <label asp-for="First_Name"> <span style="color:red">*</span></label>
+                <label asp-for="First_Name">First Name <span style="color:red">*</span></label>
                 <input type="text" class="form-control" asp-for="First_Name" placeholder="First Name">
                 <span asp-validation-for="First_Name" class="text-danger"></span>
             </div>
@@ -94,7 +94,6 @@
                 <select class="form-control" id="User_Id" name="User_Id">
                     <option value="">  Select User  </option>
                     @foreach (var user in Model.AllUsers)
-
                     {
                         <option value="@user.Item2">@user.Item1</option>
                     }
@@ -116,3 +115,21 @@
         <partial name="_ValidationScriptsPartial" />
     }
 }
+
+<script>
+    var title = document.getElementById('Title');
+    var gender = document.getElementById('Gender');
+    if(title === "Mr.")
+    {
+        title.value = "Male";
+    }
+    else if(title.Is == null || title.Is == " ")
+    {
+
+    }
+    else
+    {
+        title.value = "Female";
+    }
+    
+</script>

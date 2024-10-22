@@ -10,7 +10,7 @@
                 StringBuilder st = new StringBuilder(category.CategoryName);
                 st = st.Replace(' ', 'x');
                 <li>
-                    <button class="btn-category" onclick="showCategory('@Html.Raw(st.ToString())')">
+                    <button class="btn-category" onclick="showCategory('@Html.Raw(category.CategoryName)')">
                         @Html.Raw(category.CategoryName)
                     </button>
                 </li>
@@ -24,17 +24,17 @@
             {
                 StringBuilder st = new StringBuilder(category.CategoryName);
                 st = st.Replace(' ', 'x');
-                <div class="faq-section" id="faq-@st.ToString()" style="display:none;">
+                <div class="faq-section" id="faq-@category.CategoryName" style="display:none;">
                     @foreach (var faq in category.FAQs)
                     {
                         <div class="faq-item">
-                            <div class="faq-question" onclick="toggleAnswer('@faq.Id','@st.ToString()')">
+                            <div class="faq-question">
                                 <span class="faq-number">@faq.Id.</span> @faq.Question
-                                <span class="faq-toggle" id="@st.ToString()-toggle-@faq.Id">+</span>
+                                <span class="faq-toggle" id="toggle-@faq.Id" onclick="toggleAnswer('@faq.Id')">+</span>
                             </div>
-                            <div class="faq-answer" id="@st.ToString()-answer-@faq.Id" style="display:none;">
+                            <div class="faq-answer" id="answer-@faq.Id" style="display:none;">
                                 @faq.Answer
-                                <button class="close-btn" onclick="toggleAnswer('@faq.Id')">x</button>
+
                             </div>
                         </div>
                     }
@@ -52,9 +52,9 @@
         document.getElementById('faq-' + category).style.display = 'block';
     }
 
-    function toggleAnswer(id, Name) {
-        var answer = document.getElementById(Name + 'answer-' + id);
-        var toggle = document.getElementById(Name + 'toggle-' + id);
+    function toggleAnswer(id) {
+        var answer = document.getElementById('answer-' + id);
+        var toggle = document.getElementById('toggle-' + id);
         if (answer.style.display === 'none') {
             answer.style.display = 'block';
             toggle.innerHTML = 'x';

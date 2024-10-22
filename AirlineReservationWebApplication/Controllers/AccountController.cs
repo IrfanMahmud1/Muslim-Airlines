@@ -1,6 +1,7 @@
 ﻿using AirlineReservationWebApplication.Data;
 using AirlineReservationWebApplication.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AirlineReservationWebApplication.Controllers
 {
@@ -19,7 +20,7 @@ namespace AirlineReservationWebApplication.Controllers
         {
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage", new {area = string.Empty});
+                return RedirectToAction("Index", "Home", new {area = string.Empty});
             }
             TempData["register"] = "activate";
             return View();
@@ -66,7 +67,7 @@ namespace AirlineReservationWebApplication.Controllers
             Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
             if (TempData.ContainsKey("UserEmail"))
             {
-                return RedirectToAction("Index", "HomePage", new {area = string.Empty});
+                return RedirectToAction("Index", "Home", new {area = string.Empty});
             }
             if (TempData.ContainsKey("AdminEmail"))
             {
@@ -112,8 +113,12 @@ namespace AirlineReservationWebApplication.Controllers
                     }
                     TempData["UserName"] = user.User_Name;
                     TempData["UserEmail"] = userEmail;
-
-                    return RedirectToAction("Search", "Flights");
+                    if (TempData.ContainsKey("book"))
+                    {
+                        TempData["UserId"] = user.User_Id;
+                        return RedirectToAction("Book", "Flights", new {area = string.Empty});
+                    }
+                    return RedirectToAction("Index", "Home", new { area = string.Empty });
                 }
             }
             return View();

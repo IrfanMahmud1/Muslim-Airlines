@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "contact-us";
+}
+
+<div class="container-fluid">
+    <div class="row contact">
+        <!-- Sidebar Section -->
+        <div class="col-md-4 bg-danger text-white p-4">
+            <h3>Get in touch</h3>
+            <p>We would love to hear from you. Our friendly team is always here to talk.</p>
+            <ul class="list-unstyled">
+                <li><strong>Chat with us</strong><br>Our team is here to help.<br><a href="#" class="text-white">m.me/muslimairlinebd</a></li>
+                <li><strong>Email us</strong><br>Let us know how we can help.<br><a href="mailto:sales@muslimeairline.com" class="text-white">sales@flightexpert.com</a></li>
+                <li><strong>Call Center Support</strong><br>Sat-Thurs: 9AM-9PM &amp; Govt. Holidays 10AM-6PM<br><a href="tel:+8809617111***" class="text-white">+88-09617-111-888</a></li>
+                <li><strong>Phone Number</strong><br>Can't reach us over the call center?<br><a href="tel:+880184*******" class="text-white">+880 184*******</a></li>
+                <li>
+                    <strong>Address</strong><br>Come say hello at our HQ.<br>
+                    Muslim Airline Dhaka (Main branch), Dhaka, Bangladesh
+                </li>
+            </ul>
+        </div>
+
+        <!-- Form Section -->
+        <div class="col-md-6 p-4">
+            <h3>Contact Us</h3>
+            <p>You can reach us anytime via <a class="text-danger" href="mailto:sales@muslimeairline.com">sales@MuslimAirline.com</a></p>
+            <form method="post" action="@Url.Action("SubmitContact", "Home")">
+                <div class="form-group">
+                    <label for="Name">Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="Name" name="Name" required>
+                </div>
+                <div class="form-group mt-4">
+                    <label for="Email">Email address <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="Email" name="Email" required>
+                </div>
+                <div class="form-group mt-4">
+                    <label for="Message">Message <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="Message" name="Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-danger width-100 mt-2">Send</button>
+
+            </form>
+            <div class="justify-content-center text-center mt-4">
+                <span><i class="bi bi-facebook text-danger"></i></span>
+                <span><i class="bi bi-twitter text-danger"></i></span>
+                <span><i class="bi bi-linkedin text-danger"></i></span>
+                <span><i class="bi bi-instagram text-danger"></i></span>
+            </div>
+        </div>
+    </div>
+</div>
